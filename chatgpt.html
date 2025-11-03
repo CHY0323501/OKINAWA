@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>2026 沖繩五天四夜 - 行程總覽</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --card:#fff; --muted:#667085; --accent:#0077cc;
+    --glass: rgba(255,255,255,0.6);
+  }
+  [data-theme="dark"]{ --bg:#0b1220; --card:#0f1622; --muted:#96a0b5; --accent:#4fb3ff; --glass: rgba(255,255,255,0.03);}
+  *{box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Helvetica Neue",Arial,sans-serif;margin:0;background:linear-gradient(180deg,var(--bg),#ffffff);color: #0b1020;line-height:1.45;padding:16px;}
+  header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#34c38f);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+  h1{font-size:1.2rem;margin:0}
+  .meta{font-size:0.9rem;color:var(--muted)}
+  .controls{display:flex;gap:8px;align-items:center}
+  button, .btn{background:var(--accent);color:#fff;border:0;padding:8px 12px;border-radius:8px;font-weight:600}
+  .btn.secondary{background:transparent;color:var(--accent);border:1px solid rgba(0,0,0,0.06)}
+  main{max-width:980px;margin:0 auto}
+  .hero{display:grid;grid-template-columns:1fr 320px;gap:16px;margin-bottom:18px}
+  @media(max-width:800px){ .hero{grid-template-columns:1fr;}}
+  .card{background:var(--card);border-radius:14px;padding:14px;box-shadow:0 6px 18px rgba(16,24,40,0.06); }
+  .itins{display:flex;flex-direction:column;gap:12px}
+  .day{border-radius:10px;padding:10px;background:linear-gradient(180deg,var(--glass),transparent);border:1px solid rgba(15,23,42,0.04)}
+  .day-header{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .pill{background:rgba(0,118,204,0.08);color:var(--accent);padding:6px 8px;border-radius:999px;font-weight:700;font-size:0.85rem}
+  .places{margin-top:8px;display:flex;flex-direction:column;gap:8px}
+  .place{display:flex;gap:10px;align-items:flex-start}
+  .place h4{margin:0 0 6px 0;font-size:0.98rem}
+  .small{font-size:0.88rem;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:700px){ .grid{grid-template-columns:1fr} }
+  .maplink{font-size:0.86rem;color:var(--accent);text-decoration:none}
+  .packing{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .check{display:flex;gap:8px;align-items:center;padding:8px;border-radius:8px;background:linear-gradient(180deg,rgba(0,0,0,0.01),transparent)}
+  input[type="checkbox"]{width:18px;height:18px}
+  footer{margin-top:16px;text-align:center;color:var(--muted);font-size:0.85rem}
+  .toolbar{display:flex;gap:8px;align-items:center}
+  .countdown{font-weight:700;color:var(--accent)}
+  /* accordion */
+  .accordion .content{max-height:0;overflow:hidden;transition:max-height .35s ease;padding:0 0}
+  .accordion.open .content{padding:8px 0;max-height:800px}
+  /* responsive image */
+  .hero-img{width:100%;height:220px;border-radius:10px;object-fit:cover;display:block}
+  @media(max-width:420px){ .hero-img{height:160px} }
+  .costs{display:flex;gap:10px;flex-wrap:wrap}
+  .chip{background:rgba(0,0,0,0.04);padding:6px 10px;border-radius:999px;font-weight:700}
+  .note{background:linear-gradient(90deg,#fff6e6,#fff);padding:10px;border-radius:8px;color:#664400}
+  .link{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body data-theme="light">
+<header>
+  <div class="brand">
+    <div class="logo">OK</div>
+    <div>
+      <h1>2026 沖繩五天四夜 — 行程總表</h1>
+      <div class="meta">出發：2026/04/09 — 回程：2026/04/13 · 5天4夜 · 單一 HTML 檔</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="toolbar">
+      <div class="meta">倒數： <span id="countdown" class="countdown">-- 天 --:--:--</span></div>
+      <button id="toggleTheme" class="btn" title="切換深色模式">切換模式</button>
+      <button id="printBtn" class="btn">下載 / 列印行程 (PDF)</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="card">
+      <img class="hero-img" src="data:image/svg+xml;utf8,
+      <svg xmlns='http://www.w3.org/2000/svg' width='1200' height='600'>
+        <defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='%230077cc'/><stop offset='1' stop-color='%2334c38f'/></linearGradient></defs>
+        <rect width='100%' height='100%' fill='url(%23g)'/>
+        <text x='60' y='120' font-size='48' fill='white' font-family='Arial'>2026 沖繩五天四夜</text>
+        <text x='60' y='180' font-size='20' fill='white' font-family='Arial'>4/9 - 4/13 · 名護、北谷、那霸、海洋博公園</text>
+      </svg>" alt="Okinawa">
+      <div style="margin-top:10px">
+        <div class="grid">
+          <div class="card" style="padding:10px">
+            <div class="small">主要交通</div>
+            <div style="margin-top:6px">到達：沖繩 那霸機場 (Naha Airport) → 取車（OTS 臨空豐崎）</div>
+          </div>
+          <div class="card" style="padding:10px">
+            <div class="small">住宿（概覽）</div>
+            <div style="margin-top:6px">美國村 / La'gent Hotel Okinawa Naha / Hewitt Resort Naha</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="card">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="small">花費預估（粗略）</div>
+        <div class="costs">
+          <div class="chip">租車+保險：約 NT2,689 / 人（4天份）</div>
+          <div class="chip">住宿平均：NT~2,500 / 晚</div>
+          <div class="chip">門票合計：使用 FunPASS 三合一 NT1080（範例）</div>
+        </div>
+
+        <div style="margin-top:6px">
+          <div class="small">注意</div>
+          <div class="note">4月天氣早晚溫差較大，夜間風較強；若參加海上活動，注意潮汐與防曬。</div>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- 行程手風琴 -->
+  <section class="card itins">
+    <!-- Day 1 -->
+    <div class="day accordion" id="day1">
+      <div class="day-header">
+        <div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="pill">D1 · 4/9 (四)</div>
+            <div class="small">抵達那霸 → 取車 → 瀨長島 → PARCO CITY → 美國村（入住：北谷）</div>
+          </div>
+          <div class="small" style="margin-top:6px">飯店：沖繩北谷柔婕閣酒店（建議確認停車規則：每日停車費 ¥550）</div>
+        </div>
+        <div><button class="btn toggle">展開</button></div>
+      </div>
+      <div class="content">
+        <div class="places">
+          <div class="place">
+            <div style="flex:1">
+              <h4>瀨長島 — 幸福鬆餅（需事前訂位）</h4>
+              <div class="small">建議：若要吃鬆餅請提前 1~2 天訂位（你備註為 15 天前 23:00 訂位）。海邊散步拍照很適合夕陽。</div>
+              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Senagajima" target="_blank">Google 地圖</a>
+            </div>
+          </div>
+
+          <div class="place">
+            <div style="flex:1">
+              <h4>美國村（晚間逛街、購物、晚餐）</h4>
+              <div class="small">商店營業時間視店家而定，建議以 18:00-22:00 為主。</div>
+              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=American+Village+Chatan" target="_blank">Google 地圖</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="day accordion" id="day2">
+      <div class="day-header">
+        <div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="pill">D2 · 4/10 (五)</div>
+            <div class="small">北谷 → 古宇利大橋 & 古宇利海灘 → 海洋博公園（美ら海水族館）→ 東南植物樂園夜間燈光秀（那霸入住）</div>
+          </div>
+          <div class="small" style="margin-top:6px">早餐建議：豬排蛋飯糰 北谷店；午餐：蝦蝦飯 / A&W 名護店</div>
+        </div>
+        <div><button class="btn toggle">展開</button></div>
+      </div>
+      <div class="content">
+        <div class="places">
+          <div class="place">
+            <div style="flex:1">
+              <h4>古宇利大橋 / 古宇利島</h4>
+              <div class="small">景觀道路，全天開放；建議停靠南側觀景台（有免費停車）拍照、散步。</div>
+              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Kouri+Bridge" target="_blank">Google 地圖</a>
+            </div>
+          </div>
+
+          <div class="place">
+            <div style="flex:1">
+              <h4>海洋博公園 & 美ら海水族館（Churaumi Aquarium）</h4>
+              <div class="small">建議預留 3–4 小時，鯨鯊餵食與海豚表演時間會變動，請以官網公告為主。</div>
+              <div class="small">備註：你在 PDF 註記鯨鯊餵食 15:00 / 17:00，請以當日公告為準。</div>
+              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Okinawa+Churaumi+Aquarium" target="_blank">Google 地圖</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="day accordion" id="day3">
+      <div class="day-header">
+        <div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="pill">D3 · 4/11 (六)</div>
+            <div class="small">波上宮 → 波之上海灘 → 沖繩琉球海炎祭（煙火）→ 那霸住宿</div>
+          </div>
+          <div class="small" style="margin-top:6px">海炎祭：19:00-20:00（你備註），建議 15:00 開始入場，若買不到停車券可搭接駁車或提早到場。</div>
+        </div>
+        <div><button class="btn toggle">展開</button></div>
+      </div>
+      <div class="content">
+        <div class="places">
+          <div class="place">
+            <div style="flex:1">
+              <h4>波上宮 & 波之上海灘</h4>
+              <div class="small">波上宮參拜、海灘散步；附近有小吃與海邊拍照點。</div>
+              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Naminoue+Gu Shrine" target="_blank">Google 地圖</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 4 -->
+    <div class="day accordion" id="day4">
+      <div class="day-header">
+        <div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="pill">D4 · 4/12 (日)</div>
+            <div class="small">玉泉洞（沖繩世界）→ 奧武島天婦羅 → Outlet Mall ASHIBINAA → DFS 還車 → 國際通自由逛</div>
+          </div>
+          <div class="small" style="margin-top:6px">玉泉洞與沖繩文化王國建議預留 2–3 小時；購物安排 16:00 前出發至還車處確認還車時間。</div>
+        </div>
+        <div><button class="btn toggle">展開</button></div>
+      </div>
+      <div class="content">
+        <div class="places">
+          <div class="place">
+            <div style="flex:1">
+              <h4>玉泉洞（Gyokusendo）— 沖繩世界文化王國</h4>
+              <div class="small">建議抵達時間 9:00 起參觀；園區營業時間通常為 09:00–17:30（最終入場 16:00）。</div>
+              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Gyokusendo+Okinawa+World" target="_blank">Google 地圖</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 5 -->
+    <div class="day accordion" id="day5">
+      <div class="day-header">
+        <div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="pill">D5 · 4/13 (一)</div>
+            <div class="small">飯店早餐 → 首里城、散步 → 單軌前往那霸機場，建議 3 小時前抵達機場</div>
+          </div>
+          <div class="small" style="margin-top:6px">首里城若有修復或臨時開放限制，以當地公告為準。</div>
+        </div>
+        <div><button class="btn toggle">展開</button></div>
+      </div>
+      <div class="content">
+        <div class="places">
+          <div class="place">
+            <div style="flex:1">
+              <h4>首里城（Shurijo）</h4>
+              <div class="small">文化遺址，參觀前請確認營業/開放狀態與入場規定。</div>
+              <a class="maplink" href="https://www.google.com/maps/search/?api=1&query=Shurijo+Castle" target="_blank">Google 地圖</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- 補充景點資訊 -->
+  <section style="margin-top:14px" class="card">
+    <h3>景點速覽（補充資訊）</h3>
+    <div class="grid" style="margin-top:10px">
+      <div>
+        <h4>海洋博公園 / 美ら海水族館</h4>
+        <div class="small">通常開放時段 8:30–18:30（最晚入館 17:30），旺季時會延長至晚間。建議先查官網當日公告以免遇特殊閉館或臨時調整。 [oai_citation:0‡沖縄美ら海水族館](https://churaumi.okinawa/sp/en/guide/hour/?utm_source=chatgpt.com)</div>
+        <div style="margin-top:6px"><a class="link" href="https://www.google.com/maps/search/?api=1&query=Okinawa+Churaumi+Aquarium" target="_blank">Google 地圖 / 導航</a></div>
+      </div>
+
+      <div>
+        <h4>玉泉洞（沖繩世界）</h4>
+        <div class="small">園區營業時間常見為 09:00–17:30，最終入場約 16:00。入場票價在官網有明確公告（成人約 ¥2,000）。參觀洞內請穿著好走的鞋。 [oai_citation:1‡gyokusendo.co.jp](https://www.gyokusendo.co.jp/okinawaworld/fee/?utm_source=chatgpt.com)</div>
+        <div style="margin-top:6px"><a class="link" href="https://www.google.com/maps/search/?api=1&query=Gyokusendo+Okinawa+World" target="_blank">Google 地圖 / 導航</a></div>
+      </div>
+
+      <div>
+        <h4>古宇利大橋 / 古宇利島</h4>
+        <div class="small">古宇利大橋為免費道路，全年開放。古宇利海灘與周邊設施（如古宇利海洋塔）各有營業時間，請事先確認。建議早上或傍晚拍照能避開人潮。 [oai_citation:2‡DiGJAPAN!](https://digjapan.travel/en/spot/id%3D8483?utm_source=chatgpt.com)</div>
+        <div style="margin-top:6px"><a class="link" href="https://www.google.com/maps/search/?api=1&query=Kouri+Bridge" target="_blank">Google 地圖 / 導航</a></div>
+      </div>
+
+      <div>
+        <h4>美國村（American Village）</h4>
+        <div class="small">整個商圈無統一關閉時間，不同店家營業時間不同，多數店家傍晚至晚間活動密集。夜晚氛圍佳，適合逛街與晚餐。 [oai_citation:3‡okinawa-americanvillage.com](https://www.okinawa-americanvillage.com/?utm_source=chatgpt.com)</div>
+        <div style="margin-top:6px"><a class="link" href="https://www.google.com/maps/search/?api=1&query=American+Village+Chatan" target="_blank">Google 地圖 / 導航</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 打包清單 -->
+  <section class="card" style="margin-top:14px">
+    <h3>出國打包清單（可勾選，會保留）</h3>
+    <div style="margin-top:8px" class="packing" id="packingList">
+      <div>
+        <div style="font-weight:700;margin-bottom:6px">證件與金錢</div>
+        <label class="check"><input type="checkbox" data-key="passport"> 護照（有效期 ≥ 6 個月）</label>
+        <label class="check"><input type="checkbox" data-key="airticket"> 機票 / 電子登機證</label>
+        <label class="check"><input type="checkbox" data-key="intlLicense"> 國際駕照或日文翻譯（租車用）</label>
+        <label class="check"><input type="checkbox" data-key="cards"> 信用卡 / 日幣現金</label>
+        <label class="check"><input type="checkbox" data-key="insurance"> 旅平險證明</label>
+      </div>
+
+      <div>
+        <div style="font-weight:700;margin-bottom:6px">3C 與用品</div>
+        <label class="check"><input type="checkbox" data-key="phone"> 手機 + 充電器 + 行動電源</label>
+        <label class="check"><input type="checkbox" data-key="adapter"> 日本轉接頭 (Type A)</label>
+        <label class="check"><input type="checkbox" data-key="camera"> 相機與備用電池/記憶卡</label>
+        <label class="check"><input type="checkbox" data-key="sim"> eSIM / Pocket Wi-Fi / SIM 卡</label>
+        <label class="check"><input type="checkbox" data-key="meds"> 常用藥（暈車、止痛、腸胃藥）</label>
+      </div>
+
+      <div>
+        <div style="font-weight:700;margin-bottom:6px">衣物／盥洗</div>
+        <label class="check"><input type="checkbox" data-key="jacket"> 輕薄外套（早晚溫差）</label>
+        <label class="check"><input type="checkbox" data-key="swim"> 泳衣（若要下海）</label>
+        <label class="check"><input type="checkbox" data-key="sunscreen"> 防曬乳</label>
+        <label class="check"><input type="checkbox" data-key="umbrella"> 小型折疊傘 / 風衣</label>
+      </div>
+
+      <div>
+        <div style="font-weight:700;margin-bottom:6px">其他</div>
+        <label class="check"><input type="checkbox" data-key="confirmations"> 飯店 & 租車確認信列印或截圖</label>
+        <label class="check"><input type="checkbox" data-key="cards2"> 銀行告知海外刷卡（避免被鎖卡）</label>
+        <label class="check"><input type="checkbox" data-key="maps"> 行程地圖離線下載 (Google Maps)</label>
+      </div>
+    </div>
+
+    <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+      <button id="clearChecklist" class="btn secondary">清除打勾狀態</button>
+      <div class="small" style="margin-left:auto;color:var(--muted)">勾選會自動儲存於此裝置 (localStorage)</div>
+    </div>
+  </section>
+
+  <!-- 注意事項 -->
+  <section class="card" style="margin-top:14px">
+    <h3>出國注意事項與小提醒</h3>
+    <ul>
+      <li>護照有效期：通常建議「入境時剩餘至少 6 個月」。出發前確認護照有效期與簽證規定（若適用）。</li>
+      <li>駕車：日本靠左行駛，租車需有國際駕照或日文翻譯件並確認保險內容。行車與停車規定各縣不同，夜間停取車注意停車場提領時間（PDF 有註記）。</li>
+      <li>交通卡：PDF 建議使用 Suica/ICOCA 或地方交通卡；單軌可用 Suica/ICOCA，普通巴士部分路線可能不支援 IC 卡，建議事先查路線或備零錢。</li>
+      <li>天氣：4 月為春季，早晚涼；遇上雨天備用行程（例如 teamLab Future Park / 博物館）。海邊活動請注意潮汐與天候預警。</li>
+      <li>醫療與保險：常備藥請攜帶英文藥單或藥名，有特別藥品請備醫生證明。</li>
+      <li>語言：多數觀光地點有英文標示，但地方小店可能只有日文，Google 翻譯可即時幫忙。</li>
+    </ul>
+  </section>
+
+  <footer>
+    建議：出發前 7 天再次確認景點官網公告（營業時間、特殊活動、停車/接駁），以免行程受影響。
+  </footer>
+</main>
+
+<script>
+  // 初始化手風琴
+  document.querySelectorAll('.accordion').forEach(function(node){
+    const btn = node.querySelector('.toggle');
+    btn.addEventListener('click', function(){
+      const open = node.classList.toggle('open');
+      btn.textContent = open ? '收合' : '展開';
+      // smooth expand via max-height handled by CSS
+    });
+  });
+
+  // 主題切換
+  const body = document.body;
+  const toggleTheme = document.getElementById('toggleTheme');
+  toggleTheme.addEventListener('click', function(){
+    const cur = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    body.setAttribute('data-theme', cur);
+    localStorage.setItem('ok_theme', cur);
+  });
+  const savedTheme = localStorage.getItem('ok_theme');
+  if(savedTheme) body.setAttribute('data-theme', savedTheme);
+
+  // 打包清單保存
+  const checks = Array.from(document.querySelectorAll('#packingList input[type="checkbox"]'));
+  function loadChecks(){
+    checks.forEach(ch=>{
+      const key = 'packing_' + ch.dataset.key;
+      ch.checked = localStorage.getItem(key) === 'true';
+      ch.addEventListener('change', function(){
+        localStorage.setItem(key, ch.checked);
+      });
+    });
+  }
+  loadChecks();
+  document.getElementById('clearChecklist').addEventListener('click', function(){
+    checks.forEach(ch=>{
+      ch.checked = false;
+      localStorage.setItem('packing_' + ch.dataset.key, 'false');
+    });
+  });
+
+  // 列印
+  document.getElementById('printBtn').addEventListener('click', function(){ window.print(); });
+
+  // 倒數計時（以行程第一天 2026-04-09 09:00 為預設起算）
+  const target = new Date('2026-04-09T09:00:00+09:00');
+  function updateCountdown(){
+    const now = new Date();
+    let diff = Math.max(0, target - now);
+    const days = Math.floor(diff / (1000*60*60*24));
+    diff -= days*(1000*60*60*24);
+    const hrs = String(Math.floor(diff/(1000*60*60))).padStart(2,'0');
+    diff -= hrs*(1000*60*60);
+    const mins = String(Math.floor(diff/(1000*60))).padStart(2,'0');
+    diff -= mins*(1000*60);
+    const secs = String(Math.floor(diff/1000)).padStart(2,'0');
+    document.getElementById('countdown').textContent = days + ' 天 ' + hrs + ':' + mins + ':' + secs;
+  }
+  updateCountdown(); setInterval(updateCountdown, 1000);
+
+  // 簡單手機優化：點擊地圖連結先確認是否在手機上（無操作只提供連結）
+  // (無需額外權限)
+</script>
+</body>
+</html>
