@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的沖繩之旅 (2026)</title>
+    <style>
+        :root {
+            --primary-color: #0060b8;
+            --secondary-color: #ff9a15;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --bg-light: #f4f8ff;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            margin: 0;
+            background-color: var(--bg-light);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #00a8c5);
+            color: white;
+            text-align: center;
+            padding: 2.5rem 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .alert-box {
+            background-color: #fffbe6;
+            border: 1px solid #ffe58f;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            color: #8a6d3b;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .alert-box strong {
+            color: #d9534f;
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .day-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .day-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .day-header h2 {
+            margin: 0;
+            font-size: 1.75rem;
+        }
+
+        .day-header .date {
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .content-wrapper {
+            padding: 1.5rem;
+        }
+
+        .itinerary-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .item {
+            display: flex;
+            align-items: flex-start;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item .icon {
+            font-size: 1.5rem;
+            margin-right: 1.25rem;
+            margin-top: 5px;
+            width: 30px;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .item .details {
+            flex: 1;
+        }
+
+        .item h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 0.25rem 0;
+        }
+        
+        .item .description {
+            margin: 0 0 0.5rem 0;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .item .user-note {
+            background-color: #fdfdea;
+            border: 1px solid #f9f0c0;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #726638;
+            margin-top: 0.5rem;
+        }
+
+        .item.hotel .icon {
+            color: var(--secondary-color);
+        }
+
+        .item.hotel h4 {
+            color: var(--secondary-color);
+        }
+        
+        .item-details p {
+            margin: 0.25rem 0;
+            font-size: 0.9rem;
+            color: #444;
+        }
+        
+        .item-details a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .item-details a:hover {
+            text-decoration: underline;
+        }
+
+        .summary-card {
+            background-color: #e6f3ff;
+            border: 1px solid #b3d9ff;
+        }
+        
+        .summary-card .day-header {
+             background-color: #004a8d;
+        }
+
+        .summary-card ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        
+        .summary-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            .day-header h2 {
+                font-size: 1.5rem;
+            }
+            .content-wrapper {
+                padding: 1rem;
+            }
+            .item {
+                padding: 1rem 0;
+            }
+            .item .icon {
+                margin-right: 0.75rem;
+                font-size: 1.25rem;
+            }
+            .item h4 {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>我的沖繩之旅</h1>
+        <p>2026 年 4 月 • 5 天 4 夜自駕遊</p>
+    </header>
+
+    <main>
+
+        <div class="alert-box">
+            <strong>重要日期提醒：關於「琉球海炎祭」</strong>
+            您的行程規劃 D3 (4/11 或 4/18) 為「沖繩琉球海炎祭」。煙火節的日期**每年都會變動**，通常在 4 月的某個週六舉行。
+            <br><br>
+            2026 年的日期 (第 23 屆) 尚未公布。**請務必在 2026 年初查詢確切的舉辦日期**，並確認是否需要調整 D3  和 D4 [cite: 29] 的行程。
+        </div>
+
+        <div class="day-card">
+            <div class="day-header">
+                <h2>Day 1：抵達那霸 & 美國村</h2>
+                <span class="date">4/9 (四) 或 4/16 (四) [cite: 1]</span>
+            </div>
+            <div class="content-wrapper">
+                <ul class="itinerary-list">
+                    <li class="item">
+                        <span class="icon">✈️</span>
+                        <div class="details">
+                            <h4>飛機 - 沖繩那霸機場 (OKA) [cite: 2, 3]</h4>
+                            <div class="item-details">
+                                <p>航班資訊 (參考)：虎航 TPE 06:35 -> OKA 08:55 [cite: 49, 50, 51]</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🚗</span>
+                        <div class="details">
+                            <h4>OTS 臨空豐崎營業所取車 [cite: 4]</h4>
+                            <div class="item-details">
+                                <p>地址：〒901-0225 沖縄県豊見城市豊崎3-37</p>
+                                <p>資訊：抵達那霸機場後，可搭乘免費接駁巴士前往營業所。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🥞</span>
+                        <div class="details">
+                            <h4>瀨長島 - 幸福鬆餅 (幸せのパンケーキ) [cite: 5]</h4>
+                            <div class="item-details">
+                                <p>地址：〒901-0233 沖縄県豊見城市瀬長174-6 (Umikaji Terrace 32號)</p>
+                                <p>訂位：<a href="https://magia.tokyo/reserve/" target="_blank">官方預約網站</a></p>
+                                <div class="user-note">
+                                    筆記：15天前晚上11點 (台灣時間) 準時訂位 [cite: 5]。
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🛍️</span>
+                        <div class="details">
+                            <h4>沖繩 PARCO CITY [cite: 6]</h4>
+                            <div class="item-details">
+                                <p>地址：〒901-2123 沖縄県浦添市西洲3-1-1</p>
+                                <p>資訊：大型購物中心，超市、商場、美食街一應俱全。</p>
+                                <div class="user-note">
+                                    筆記：預計逛到 22:00 [cite: 6]。
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🎡</span>
+                        <div class="details">
+                            <h4>美國村 [cite: 7]</h4>
+                            <div class="item-details">
+                                <p>地址：〒904-0115 沖縄県中頭郡北谷町美浜</p>
+                                <p>資訊：感受異國風情、逛特色小店、看海濱夜景。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item hotel">
+                        <span class="icon">🏨</span>
+                        <div class="details">
+                            <h4>住宿：沖繩北谷柔婕閣酒店 [cite: 8]</h4>
+                            <div class="item-details">
+                                <p>地址：〒904-0115 沖縄県中頭郡北谷町字美浜9-22</p>
+                                <p>入住/退房：14:00 後入住 [cite: 8]</p>
+                                <p>費用：約 NT$2500/晚 | 每日停車費: ¥550 [cite: 8]</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="day-card">
+            <div class="day-header">
+                <h2>Day 2：美麗海 & 植物園</h2>
+                <span class="date">4/10 (五) 或 4/17 (五) [cite: 9]</span>
+            </div>
+            <div class="content-wrapper">
+                <ul class="itinerary-list">
+                    <li class="item">
+                        <span class="icon">🍙</span>
+                        <div class="details">
+                            <h4>早餐：豬排蛋飯糰 北谷店 [cite: 10]</h4>
+                            <div class="item-details">
+                                <p>地址：〒904-0115 沖縄県中頭郡北谷町字美浜9-21</p>
+                                <p>營業時間：07:00 開始 [cite: 10]</p>
+                                <div class="user-note">
+                                    筆記：09:00 出發 [cite: 9]。從飯店走路 10 分鐘 [cite: 10]。
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🌊</span>
+                        <div class="details">
+                            <h4>古宇利大橋、古宇利海灘 [cite: 11]</h4>
+                            <div class="item-details">
+                                <p>資訊：跨越美麗海洋的跨海大橋，橋下有清澈的海灘。(車程約 1hr) [cite: 11]</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🦐</span>
+                        <div class="details">
+                            <h4>午餐：蝦蝦飯 [cite: 12]</h4>
+                            <div class="item-details">
+                                <p>地址：〒905-0406 沖縄県国頭郡今帰仁村古宇利436-1</p>
+                                <p>營業時間：11:00 - 16:00 [cite: 12]</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🐋</span>
+                        <div class="details">
+                            <h4>海洋博公園 (美麗海水族館) [cite: 13]</h4>
+                            <div class="item-details">
+                                <p>地址：〒905-0206 沖縄県国頭郡本部町石川424</p>
+                                <p>營業時間：08:30 - 18:30 [cite: 13]</p>
+                                <p>官網：<a href="https://oki-park.jp/kaiyohaku/" target="_blank">海洋博公園</a></p>
+                                <div class="user-note">
+                                    筆記：<br>
+                                    - 離水族館最近停車場: P7 [cite: 18]<br>
+                                    - 水族館 - 鯨鯊餵食: 15:00 / 17:00 [cite: 19]<br>
+                                    - 海洋博公園 - 海豚劇場: 13:00 / 15:00 / 17:00 (約 20 分鐘) [cite: 20]<br>
+                                    - 黑潮探險 (水上觀覽區): 17:30 - 閉館前 15 分止 [cite: 21]
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                     <li class="item">
+                        <span class="icon">🍔</span>
+                        <div class="details">
+                            <h4>A&W 名護店 (晚餐備案) [cite: 14]</h4>
+                            <div class="item-details">
+                                <p>地址：〒905-0012 沖縄県名護市名護451-1</p>
+                                <p>資訊：沖繩限定的美式連鎖速食店。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">💡</span>
+                        <div class="details">
+                            <h4>東南植物樂園 (夜間燈光秀) </h4>
+                            <div class="item-details">
+                                <p>地址：〒904-2143 沖縄県沖縄市知花2146</p>
+                                <p>資訊：夜間燈光秀 (例如「沖繩南國燈飾秀」) 通常在冬季至春季舉行 。**請查詢 2025-2026 年度的活動確切舉辦期間。**</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item hotel">
+                        <span class="icon">🏨</span>
+                        <div class="details">
+                            <h4>住宿：La'gent Hotel Okinawa Naha (那霸拉根特飯店) [cite: 16]</h4>
+                            <div class="item-details">
+                                <p>地址：〒900-0016 沖縄県那覇市前島2丁目12-5</p>
+                                <p>入住/退房：15:00 - 00:00 入住 [cite: 16] / 10:00 前退房 [cite: 27]</p>
+                                <p>費用：約 NT$2300/晚 [cite: 16] | 停車費: ¥1500 (機械停車場) [cite: 17]</p>
+                                <div class="user-note">
+                                    注意：晚上 11 點至早上 7 點無法取車 [cite: 17]。
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="day-card">
+            <div class="day-header">
+                <h2>Day 3：海炎祭 & 那霸市區</h2>
+                <span class="date">4/11 (六) 或 4/18 (六) </span>
+            </div>
+            <div class="content-wrapper">
+                 <div class="alert-box" style="margin-bottom: 1.5rem;">
+                    <strong>日期確認：</strong>
+                    如置頂提醒，海炎祭日期每年不同 。請務必在 2026 年初查詢正確日期。您的 D3 剛好是週六 ，很有可能是活動日，但也可能在 D4 (4/12 或 4/19) [cite: 29] 舉行，請務必確認。
+                </div>
+                <ul class="itinerary-list">
+                    <li class="item">
+                        <span class="icon">⛩️</span>
+                        <div class="details">
+                            <h4>波上宮、波之上海灘 [cite: 23]</h4>
+                            <div class="item-details">
+                                <p>地址：〒900-0031 沖縄県那覇市若狭1-25-11</p>
+                                <p>資訊：建在懸崖上的神社，旁有那霸市區唯一的海灘。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🍣</span>
+                        <div class="details">
+                            <h4>午餐：泊港漁市場 (大國海產) [cite: 24]</h4>
+                            <div class="item-details">
+                                <p>地址：〒900-0016 沖縄県那覇市港町1-1-18</p>
+                                <p>資訊：可購買新鮮生魚片和海鮮丼飯。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🎆</span>
+                        <div class="details">
+                            <h4>沖繩琉球海炎祭 </h4>
+                            <div class="item-details">
+                                <p>地點：宜野灣海濱公園 [cite: 25]</p>
+                                <p>時間：15:00 開始入場 / 19:00 - 20:00 煙火施放 (參考時間) [cite: 26]</p>
+                                <div class="user-note">
+                                    筆記：若買不到停車券，可搭乘接駁車。從停車場步行約需 30-40 分鐘 [cite: 25]。
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🍢</span>
+                        <div class="details">
+                            <h4>晚餐：鳥貴族 (備案) [cite: 28]</h4>
+                            <div class="item-details">
+                                <p>資訊：日本知名的平價連鎖串燒店。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item hotel">
+                        <span class="icon">🏨</span>
+                        <div class="details">
+                            <h4>住宿：La'gent Hotel Okinawa Naha (那霸拉根特飯店) [cite: 27]</h4>
+                            <div class="item-details">
+                                <p>費用：約 NT$2300/晚 | 停車費: ¥1500 [cite: 27]</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="day-card">
+            <div class="day-header">
+                <h2>Day 4：文化王國 & Outlet</h2>
+                <span class="date">4/12 (日) 或 4/19 (日) [cite: 29]</span>
+            </div>
+            <div class="content-wrapper">
+                 <div class="alert-box" style="margin-bottom: 1.5rem;">
+                    <strong>行程彈性：</strong>
+                    如果 2026 年的海炎祭  日期剛好是這天 (4/12 或 4/19) [cite: 29]，請記得將 D3  和 D4 [cite: 29] 的行程對調。
+                </div>
+                <ul class="itinerary-list">
+                    <li class="item">
+                        <span class="icon">🏯</span>
+                        <div class="details">
+                            <h4>沖繩世界文化王國 - 玉泉洞 [cite: 30]</h4>
+                            <div class="item-details">
+                                <p>地址：〒901-0616 沖縄県南城市玉城字前川1336</p>
+                                <p>營業時間：09:00 - 17:30 [cite: 30]</p>
+                                <p>資訊：日本第二大鐘乳洞，結合琉球文化村的主題樂園。</p>
+                                <div class="user-note">
+                                    筆記：09:00 出發 (車程 0.5hr) [cite: 29, 30]。
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🍤</span>
+                        <div class="details">
+                            <h4>奧武島 (中本鮮魚天婦羅店) [cite: 31]</h4>
+                            <div class="item-details">
+                                <p>地址：〒901-0614 沖縄県南城市玉城奥武193</p>
+                                <p>資訊：知名的貓島，必吃現炸天婦羅。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🍜</span>
+                        <div class="details">
+                            <h4>午餐：蕎蕎蕎 / 暖暮系滿店 [cite: 32]</h4>
+                            <div class="item-details">
+                                <p>蕎蕎蕎 (すばじょーぐー)：〒901-0305 沖縄県糸満市西崎6-11-1</p>
+                                <p>營業時間：11:30 - 16:00 [cite: 32]</p>
+                                <p>暖暮拉麵 (系滿店)：〒901-0305 沖縄県糸満市西崎6-12-5</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🛍️</span>
+                        <div class="details">
+                            <h4>沖繩 Outlet Mall ASHIBINAA [cite: 33]</h4>
+                            <div class="item-details">
+                                <p>地址：〒901-0225 沖縄県豊見城市豊崎1-188</p>
+                                <p>營業時間：10:00 - 20:00</p>
+                                <div class="user-note">
+                                    筆記：預計 16:00 離開 [cite: 33]。
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🚗</span>
+                        <div class="details">
+                            <h4>DFS 營業所還車 [cite: 34]</h4>
+                            <div class="item-details">
+                                <p>地址：〒900-0006 沖縄県那覇市おもろまち4-1 (T Galleria 內)</p>
+                                <div class="user-note">
+                                    筆記：(車程 0.5hr) [cite: 34]。DFS 營業所還車時間 09:00 - 17:00 [cite: 34]。
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🏬</span>
+                        <div class="details">
+                            <h4>自由時間 (國際通、沖繩DFS免稅店) [cite: 35]</h4>
+                            <div class="item-details">
+                                <p>資訊：還車後可搭乘單軌電車 (おもろまち駅) 前往國際通 (県庁前駅/牧志駅) 或飯店。</p>
+
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item hotel">
+                        <span class="icon">🏨</span>
+                        <div class="details">
+                            <h4>住宿：Hewitt Resort Naha (那霸休伊特度假村) [cite: 36]</h4>
+                            <div class="item-details">
+                                <p>地址：〒902-0067 沖縄県那覇市安里2-5-16</p>
+                                <p>入住/退房：15:00 入住 / 11:00 退房 [cite: 36]</p>
+                                <p>費用：約 NT$2630/晚 (有早餐) | 停車費: ¥1800 [cite: 36]</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="day-card">
+            <div class="day-header">
+                <h2>Day 5：首里城 & 歸途</h2>
+                <span class="date">4/13 (一) 或 4/20 (一) [cite: 37]</span>
+            </div>
+            <div class="content-wrapper">
+                <ul class="itinerary-list">
+                    <li class="item">
+                        <span class="icon">モノ</span>
+                        <div class="details">
+                            <h4>單軌電車日 [cite: 38]</h4>
+                            <div class="item-details">
+                                <p>資訊：本日使用單軌電車移動。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🥐</span>
+                        <div class="details">
+                            <h4>飯店早餐 [cite: 39]</h4>
+                            <div class="item-details">
+                                <p>時間：06:30 - 10:00 [cite: 39]</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🏯</span>
+                        <div class="details">
+                            <h4>首里城 & 西來院達摩寺 [cite: 40]</h4>
+                            <div class="item-details">
+                                <p>首里城：〒903-0815 沖縄県那覇市首里金城町1-2 (單軌「首里站」)</p>
+                                <p>達摩寺：〒903-0813 沖縄県那覇市首里赤田町1-5-1 (首里站步行約 5 分鐘)</p>
+                                <div class="user-note">
+                                    筆記：首里城門票 NT$80 [cite: 45]。
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">🍱</span>
+                        <div class="details">
+                            <h4>午餐 (待定) [cite: 41]</h4>
+                            <div class="item-details">
+                                <p>可於首里城周邊或返回國際通/機場用餐。</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="item">
+                        <span class="icon">✈️</span>
+                        <div class="details">
+                            <h4>那霸機場 (OKA) -> 台灣 (TPE) [cite: 42, 53, 55]</h4>
+                            <div class="item-details">
+                                <p>航班資訊 (參考)：虎航 OKA 21:30 -> TPE 22:05 [cite: 49, 53, 56, 57, 60]</p>
+                                <div class="user-note">
+                                    筆記：17:30 出發 (單軌 30 分鐘)。18:00 抵達機場 (3 小時前) [cite: 42]。
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="day-card summary-card">
+            <div class="day-header">
+                <h2>旅程筆記 & 預估花費 [cite: 43]</h2>
+                <span class="date">Summary</span>
+            </div>
+            <div class="content-wrapper">
+                <h4>預估花費 (每人) [cite: 43]</h4>
+                <ul>
+                    <li><strong>門票 (FunPASS)：</strong>海洋博公園 + 東南植物樂園 + 文化王國 = NT$1,080 [cite: 44]</li>
+                    <li><strong>門票 (首里城)：</strong>NT$80 [cite: 45]</li>
+                    <li><strong>租車：</strong>4 天 (含保險) 約 ¥13,447 (NT$2,689) [cite: 46]</li>
+                    <li><strong>房間：</strong>4 晚 (雙人分攤) (2500+2300+2300+2630)/2 = NT$4,865 [cite: 47]</li>
+                    <li><strong>停車費 (總計)：</strong>¥550(D1) [cite: 8] + ¥1500(D2) [cite: 17] + ¥1500(D3) [cite: 27] + ¥1800(D4) [cite: 36] = ¥5350</li>
+                </ul>
+                <h4>交通卡</h4>
+                <ul>
+                    <li>西瓜卡 (Suica) 或 ICOCA：單軌電車可以使用，但普通巴士不支援 [cite: 75]。</li>
+                </ul>
+                <h4>雨天備案 [cite: 75]</h4>
+                <ul>
+                    <li>teamLab Future Park 沖繩 [cite: 75]</li>
+                    <li>沖繩縣立博物館・美術館 [cite: 75]</li>
+                </ul>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>祝您有趟愉快平安的旅程！</p>
+    </footer>
+
+</body>
+</html>
