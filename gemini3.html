@@ -54,12 +54,15 @@
         }
 
         .countdown {
-            font-size: 0.9rem;
-            background: rgba(255,255,255,0.2);
-            padding: 4px 12px;
+            font-size: 0.95rem;
+            background: rgba(255,255,255,0.25);
+            padding: 6px 16px;
             border-radius: 20px;
             display: inline-block;
-            margin-top: 8px;
+            margin-top: 10px;
+            backdrop-filter: blur(5px);
+            font-weight: 500;
+            letter-spacing: 1px;
         }
 
         /* Navigation Tabs */
@@ -353,7 +356,7 @@
 
 <header>
     <h1><i class="fa-solid fa-plane-departure"></i> 沖繩 2026</h1>
-    <div class="countdown" id="countdown">倒數計時中...</div>
+    <div class="countdown" id="countdown">讀取中...</div>
 </header>
 
 <nav class="nav-container">
@@ -825,75 +828,78 @@
 </div>
 
 <script>
-    // Tab Switching Logic
-    function switchTab(tabId) {
-        // Hide all content
-        const contents = document.querySelectorAll('.tab-content');
-        contents.forEach(content => {
-            content.classList.remove('active');
-        });
-
-        // Remove active class from all buttons
-        const buttons = document.querySelectorAll('.tab-btn');
-        buttons.forEach(btn => {
-            btn.classList.remove('active');
-        });
-
-        // Show selected content
-        document.getElementById(tabId).classList.add('active');
+    // Wait for HTML to fully load
+    document.addEventListener('DOMContentLoaded', function() {
         
-        // Add active class to clicked button
-        // Find the button that calls this function with this ID
-        const activeBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(tabId));
-        if(activeBtn) activeBtn.classList.add('active');
-
-        window.scrollTo({top:0, behavior: 'smooth'});
-    }
-
-    // Countdown Timer Logic (Target: April 9, 2026)
-    function updateCountdown() {
-        const targetDate = new Date("April 9, 2026 00:00:00").getTime();
-        const now = new Date().getTime();
-        const distance = targetDate - now;
-
-        if (distance < 0) {
-            document.getElementById("countdown").innerHTML = "旅程已開始！享受沖繩！";
-            return;
-        }
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        document.getElementById("countdown").innerHTML = `距離出發還有  天`;
-    }
-    
-    // Initial call and interval
-    updateCountdown();
-    setInterval(updateCountdown, 86400000); // Update daily is enough
-
-    // Checklist LocalStorage Logic
-    function saveChecklist() {
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        const state = [];
-        checkboxes.forEach((box, index) => {
-            state.push(box.checked);
-        });
-        localStorage.setItem('okinawa2026_checklist', JSON.stringify(state));
-    }
-
-    function loadChecklist() {
-        const savedState = JSON.parse(localStorage.getItem('okinawa2026_checklist'));
-        if (savedState) {
+        // --- Checklist Logic ---
+        function saveChecklist() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach((box, index) => {
-                if (savedState[index]) {
-                    box.checked = true;
-                }
+            const state = [];
+            checkboxes.forEach((box) => {
+                state.push(box.checked);
             });
+            localStorage.setItem('okinawa2026_checklist', JSON.stringify(state));
         }
-    }
 
-    // Load checklist on startup
-    document.addEventListener('DOMContentLoaded', loadChecklist);
+        function loadChecklist() {
+            const savedState = JSON.parse(localStorage.getItem('okinawa2026_checklist'));
+            if (savedState) {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach((box, index) => {
+                    if (savedState[index]) {
+                        box.checked = true;
+                    }
+                });
+            }
+        }
+        
+        // Expose to global scope for onchange events in HTML
+        window.saveChecklist = saveChecklist;
+        loadChecklist();
 
+
+        // --- Countdown Logic ---
+        function updateCountdown() {
+            // Fix: Use robust Date constructor (Year, MonthIndex, Day)
+            // Month is 0-indexed (0=Jan, 3=April)
+            const targetDate = new Date(2026, 3, 9, 0, 0, 0); 
+            const now = new Date();
+            const distance = targetDate.getTime() - now.getTime();
+
+            const el = document.getElementById("countdown");
+            if (!el) return;
+
+            if (distance < 0) {
+                el.innerHTML = "旅程已開始！享受沖繩！";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            el.innerHTML = `距離出發還有 <b></b> 天`;
+        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 60000); // Update every minute
+
+        
+        // --- Tab Logic ---
+        window.switchTab = function(tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            
+            // Highlight button
+            const allButtons = Array.from(document.querySelectorAll('.tab-btn'));
+            const activeBtn = allButtons.find(btn => btn.getAttribute('onclick').includes(tabId));
+            if(activeBtn) activeBtn.classList.add('active');
+
+            window.scrollTo({top:0, behavior: 'smooth'});
+        }
+    });
 </script>
 
 </body>
