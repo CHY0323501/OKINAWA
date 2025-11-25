@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今天吃什麼？(即時搜)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #f8fafc; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* 動畫特效 */
+        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1); }
+        
+        .gradient-btn {
+            background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+            transition: all 0.3s;
+        }
+        .gradient-btn:hover { filter: brightness(110%); transform: scale(1.02); }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #F97316;
+            border-radius: 50%;
+            width: 40px; height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .modal-enter { animation: modalIn 0.3s ease-out forwards; }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        /* 骨架屏載入動畫 */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    </style>
+</head>
+<body class="text-gray-800 pb-20">
+
+    <!-- 導航列 -->
+    <nav class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-40">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex justify-between items-center">
+            <div class="flex items-center gap-2" onclick="window.location.reload()">
+                <div class="bg-orange-100 p-2 rounded-full text-orange-600"><i class="fa-solid fa-location-dot"></i></div>
+                <h1 class="font-bold text-lg tracking-tight cursor-pointer">附近吃什麼 <span class="text-xs font-normal text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">Real-time</span></h1>
+            </div>
+            <button onclick="getUserLocation()" class="text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-full transition flex items-center gap-1">
+                <i class="fa-solid fa-crosshairs text-orange-500"></i> <span id="loc-status">更新位置</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 主要內容 -->
+    <main class="max-w-4xl mx-auto px-4 py-6">
+        
+        <!-- 隨機按鈕區 -->
+        <div class="text-center mb-8 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h2 class="text-2xl font-bold mb-2 text-gray-800">今天吃什麼？</h2>
+            <p class="text-gray-500 mb-6 text-sm">搜尋範圍：<span id="range-display">1</span> 公里內的真實店家</p>
+            
+            <div class="flex gap-2 justify-center mb-4">
+                 <!-- 範圍選擇 -->
+                <select id="radius-select" class="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-orange-500" onchange="fetchData()">
+                    <option value="500">走路去 (500m)</option>
+                    <option value="1000" selected>附近 (1km)</option>
+                    <option value="2000">騎車去 (2km)</option>
+                    <option value="5000">開車去 (5km)</option>
+                </select>
+                <!-- 類型選擇 -->
+                <select id="type-select" class="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-orange-500" onchange="applyFilters()">
+                    <option value="all">所有類型</option>
+                    <option value="asian">🍜 亞洲/台日韓</option>
+                    <option value="western">🍔 西式/速食</option>
+                    <option value="cafe">☕ 咖啡/甜點</option>
+                    <option value="bar">🍺 酒吧/宵夜</option>
+                </select>
+            </div>
+
+            <button onclick="spinTheWheel()" id="random-btn" class="gradient-btn w-full sm:w-auto text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-orange-200 flex items-center justify-center gap-2 mx-auto disabled:opacity-50 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-dice text-xl"></i> 幫我選一家！
+            </button>
+        </div>
+
+        <!-- 狀態提示 -->
+        <div id="status-msg" class="text-center text-sm text-gray-500 mb-4 h-6"></div>
+
+        <!-- 列表區 -->
+        <div class="flex justify-between items-end mb-4 px-1">
+            <h3 class="font-bold text-lg">附近店家 <span id="count-badge" class="text-sm font-normal text-gray-400 ml-1">(0)</span></h3>
+            <div class="text-xs text-gray-400">資料來源: OpenStreetMap</div>
+        </div>
+
+        <div id="cards-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- 這裡會動態插入卡片 -->
+            <!-- 預設顯示骨架屏 -->
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 h-32 flex gap-4">
+                <div class="w-24 h-24 rounded-lg skeleton flex-shrink-0"></div>
+                <div class="flex-1 space-y-2 py-1">
+                    <div class="h-4 w-3/4 skeleton rounded"></div>
+                    <div class="h-3 w-1/2 skeleton rounded"></div>
+                    <div class="h-8 w-full skeleton rounded mt-2"></div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 h-32 flex gap-4">
+                <div class="w-24 h-24 rounded-lg skeleton flex-shrink-0"></div>
+                <div class="flex-1 space-y-2 py-1">
+                    <div class="h-4 w-3/4 skeleton rounded"></div>
+                    <div class="h-3 w-1/2 skeleton rounded"></div>
+                    <div class="h-8 w-full skeleton rounded mt-2"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal: 結果視窗 -->
+    <div id="result-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm" onclick="closeModal(event)">
+        <div class="bg-white rounded-2xl w-full max-w-sm overflow-hidden modal-enter relative shadow-2xl" onclick="event.stopPropagation()">
+            <button onclick="closeModal()" class="absolute top-3 right-3 z-10 bg-black/20 hover:bg-black/40 text-white rounded-full w-8 h-8 flex items-center justify-center backdrop-blur-md transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <div class="relative h-56">
+                <img id="modal-img" src="" class="w-full h-full object-cover">
+                <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 text-white">
+                    <div class="bg-orange-500 text-xs font-bold px-2 py-0.5 rounded inline-block mb-1" id="modal-tag">類型</div>
+                    <h2 class="text-2xl font-bold leading-tight" id="modal-name">店名</h2>
+                    <p class="text-sm opacity-90 mt-1"><i class="fa-solid fa-location-arrow mr-1"></i>距離 <span id="modal-dist"></span></p>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <div class="bg-orange-50 border border-orange-100 rounded-lg p-3 mb-4 text-sm text-gray-700 flex gap-3 items-start">
+                    <i class="fa-solid fa-circle-info text-orange-500 mt-0.5"></i>
+                    <div>
+                        <p class="font-bold">小提示</p>
+                        <p class="text-xs text-gray-500">因為沒有付費 API，我們無法直接顯示評分。請點擊下方按鈕查看 Google 真實評價！</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <a id="modal-google-link" href="#" target="_blank" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-200 transition">
+                        <i class="fa-brands fa-google mr-1"></i> 查看 Google 評分與菜單
+                    </a>
+                    <div class="grid grid-cols-2 gap-3">
+                         <a id="modal-map-link" href="#" target="_blank" class="block w-full text-center border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2.5 rounded-xl transition">
+                            <i class="fa-solid fa-diamond-turn-right mr-1"></i> 導航
+                        </a>
+                        <button onclick="spinTheWheel()" class="block w-full text-center border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2.5 rounded-xl transition">
+                            <i class="fa-solid fa-rotate mr-1"></i> 換一家
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 核心邏輯區 ---
+
+        let allRestaurants = [];
+        let filteredRestaurants = [];
+        let userLat = 25.0478; // 預設台北車站
+        let userLon = 121.5170;
+        let isLocating = false;
+
+        // 圖片關鍵字映射 (因為 OSM 沒有圖片，我們用 Unsplash/LoremFlickr 根據關鍵字配圖)
+        const cuisineImages = {
+            'asian': 'noodle,rice,sushi',
+            'western': 'burger,pizza,steak',
+            'cafe': 'coffee,cake,bread',
+            'bar': 'beer,cocktail,pub',
+            'default': 'food,restaurant'
+        };
+
+        // 初始化
+        window.onload = function() {
+            getUserLocation();
+        };
+
+        // 1. 獲取使用者位置
+        function getUserLocation() {
+            const status = document.getElementById('status-msg');
+            const btnText = document.getElementById('loc-status');
+            
+            if (!navigator.geolocation) {
+                status.innerText = "您的裝置不支援地理定位";
+                fetchData(); // 使用預設位置
+                return;
+            }
+
+            status.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> 正在定位中...';
+            btnText.innerText = "定位中...";
+            isLocating = true;
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    userLat = position.coords.latitude;
+                    userLon = position.coords.longitude;
+                    status.innerText = "已鎖定您的位置";
+                    btnText.innerText = "當前位置";
+                    isLocating = false;
+                    fetchData(); // 取得位置後馬上抓資料
+                },
+                (error) => {
+                    console.error(error);
+                    status.innerText = "無法獲取位置，將搜尋台北車站周邊";
+                    btnText.innerText = "預設位置";
+                    isLocating = false;
+                    fetchData(); // 失敗則使用預設
+                },
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            );
+        }
+
+        // 2. 從 OpenStreetMap (Overpass API) 抓取真實資料
+        async function fetchData() {
+            const radius = document.getElementById('radius-select').value;
+            const container = document.getElementById('cards-container');
+            const status = document.getElementById('status-msg');
+            const randomBtn = document.getElementById('random-btn');
+
+            // Loading State
+            randomBtn.disabled = true;
+            status.innerHTML = `<i class="fa-solid fa-satellite-dish fa-fade mr-1"></i> 正在掃描周邊 m 的美食資料...`;
+            container.innerHTML = `
+                <div class="col-span-full py-10 text-center">
+                    <div class="spinner mx-auto mb-4"></div>
+                    <p class="text-gray-400">正在連線至 OpenStreetMap...</p>
+                </div>
+            `;
+
+            // Overpass QL 查詢語句 (查詢附近的餐廳、咖啡廳、速食、酒吧)
+            const query = `
+                [out:json][timeout:25];
+                (
+                  node["amenity"~"restaurant|cafe|fast_food|bar|pub"](around:,,);
+                  way["amenity"~"restaurant|cafe|fast_food|bar|pub"](around:,,);
+                );
+                out center 50;
+            `; 
+            // 限制最多 50 筆以加快速度
+
+            try {
+                const response = await fetch('https://overpass-api.de/api/interpreter', {
+                    method: 'POST',
+                    body: query
+                });
+                
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.json();
+                processData(data.elements);
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-10 text-red-400">
+                        <i class="fa-solid fa-triangle-exclamation text-3xl mb-2"></i>
+                        <p>資料讀取失敗，請檢查網路或稍後再試</p>
+                        <button onclick="fetchData()" class="mt-4 px-4 py-2 bg-gray-200 rounded-lg text-sm">重試</button>
+                    </div>
+                `;
+                status.innerText = "連線錯誤";
+            } finally {
+                randomBtn.disabled = false;
+            }
+        }
+
+        // 3. 處理資料
+        function processData(elements) {
+            allRestaurants = elements.map(item => {
+                // 處理 Way (多邊形) 類型的中心點
+                const lat = item.lat || item.center.lat;
+                const lon = item.lon || item.center.lon;
+                const tags = item.tags || {};
+                
+                // 忽略沒有名字的點
+                if (!tags.name) return null;
+
+                // 計算距離
+                const dist = calculateDistance(userLat, userLon, lat, lon);
+
+                // 判斷類型 (簡單分類)
+                let category = 'asian'; // default
+                let rawType = tags.cuisine || tags.amenity;
+                
+                if (tags.amenity === 'cafe') category = 'cafe';
+                else if (tags.amenity === 'bar' || tags.amenity === 'pub') category = 'bar';
+                else if (['burger', 'pizza', 'sandwich', 'american', 'italian'].some(x => (tags.cuisine || '').includes(x))) category = 'western';
+                else if (tags.cuisine === 'japanese' || tags.cuisine === 'korean' || tags.cuisine === 'chinese') category = 'asian';
+
+                return {
+                    id: item.id,
+                    name: tags.name,
+                    lat: lat,
+                    lon: lon,
+                    dist: dist,
+                    type: category,
+                    rawType: rawType,
+                    // 隨機產生一個關鍵字來找圖
+                    imgKeyword: getImageKeyword(category) 
+                };
+            }).filter(item => item !== null);
+
+            // 依距離排序
+            allRestaurants.sort((a, b) => a.dist - b.dist);
+
+            applyFilters();
+        }
+
+        // 4. 篩選與渲染
+        function applyFilters() {
+            const typeFilter = document.getElementById('type-select').value;
+            const container = document.getElementById('cards-container');
+            const countBadge = document.getElementById('count-badge');
+            const status = document.getElementById('status-msg');
+
+            filteredRestaurants = allRestaurants.filter(item => {
+                if (typeFilter === 'all') return true;
+                return item.type === typeFilter;
+            });
+
+            countBadge.innerText = `()`;
+            status.innerText = `找到  家店家`;
+
+            container.innerHTML = '';
+            
+            if (filteredRestaurants.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-10 text-gray-400">
+                        <i class="fa-solid fa-wind text-4xl mb-3"></i>
+                        <p>這附近似乎沒有符合條件的店家...</p>
+                        <p class="text-xs mt-1">試試看擴大範圍？</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredRestaurants.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl p-3 shadow-sm border border-gray-100 flex gap-3 card-hover cursor-pointer';
+                card.onclick = () => showModal(item);
+
+                // 使用 LoremFlickr 或類似服務取得圖片 (Unsplash Source 已不穩定，這裡用 Picsum 或 fakeimg 作為示範，或使用隨機顏色)
+                // 為了美觀，這裡使用一個基於類型的隨機顏色背景+圖標，解決免費圖片 API 不穩定的問題
+                const iconMap = {
+                    'asian': 'fa-bowl-food', 'western': 'fa-burger', 'cafe': 'fa-mug-hot', 'bar': 'fa-wine-glass'
+                };
+                const colorMap = {
+                    'asian': 'bg-orange-100 text-orange-500', 
+                    'western': 'bg-red-100 text-red-500', 
+                    'cafe': 'bg-amber-100 text-amber-600', 
+                    'bar': 'bg-purple-100 text-purple-500'
+                };
+
+                card.innerHTML = `
+                    <div class="w-20 h-20 rounded-lg  flex items-center justify-center flex-shrink-0 text-2xl">
+                        <i class="fa-solid "></i>
+                    </div>
+                    <div class="flex-1 flex flex-col justify-center overflow-hidden">
+                        <div class="flex justify-between items-start">
+                            <h4 class="font-bold text-gray-800 truncate pr-2"></h4>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-1 mb-2">
+                            <span class="bg-gray-100 px-1.5 py-0.5 rounded mr-1"></span>
+                            <span><i class="fa-solid fa-location-arrow fa-xs"></i>  km</span>
+                        </div>
+                        <div class="mt-auto">
+                            <span class="text-xs text-blue-600 font-medium flex items-center gap-1">
+                                查看詳情 <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                            </span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // 5. 隨機選擇邏輯
+        function spinTheWheel() {
+            if (filteredRestaurants.length === 0) {
+                alert("列表是空的，無法隨機選擇！請調整範圍或篩選條件。");
+                return;
+            }
+
+            // 關閉 Modal 如果它是開著的
+            document.getElementById('result-modal').classList.add('hidden');
+
+            const btn = document.getElementById('random-btn');
+            const originalText = btn.innerHTML;
+            
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> 選擇中...`;
+
+            // 簡單的特效
+            let count = 0;
+            const maxCount = 10;
+            const interval = setInterval(() => {
+                count++;
+                // 隨機高亮一個卡片 (視覺效果可選，這裡簡化)
+                if (count >= maxCount) {
+                    clearInterval(interval);
+                    const finalChoice = filteredRestaurants[Math.floor(Math.random() * filteredRestaurants.length)];
+                    showModal(finalChoice);
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                }
+            }, 100);
+        }
+
+        // 6. 顯示 Modal (包含 Google 連結)
+        function showModal(item) {
+            const modal = document.getElementById('result-modal');
+            const img = document.getElementById('modal-img');
+            const name = document.getElementById('modal-name');
+            const tag = document.getElementById('modal-tag');
+            const dist = document.getElementById('modal-dist');
+            const googleLink = document.getElementById('modal-google-link');
+            const mapLink = document.getElementById('modal-map-link');
+
+            // 構建 Google Maps 搜尋連結
+            // 這是最關鍵的一步：因為我們沒有 API，我們讓使用者跳轉去 Google 看詳細
+            const query = encodeURIComponent(``); // 搜尋店名
+            // 也可以加上城市名增強準確度，但 OSM 不一定有城市欄位
+            
+            googleLink.href = `https://www.google.com/search?q=`; // 搜尋頁面 (看評分最快)
+            mapLink.href = `https://www.google.com/maps/dir/?api=1&destination=,&destination_place_id=`; // 導航
+
+            name.innerText = item.name;
+            tag.innerText = item.rawType || '美食';
+            dist.innerText = ` km`;
+            
+            // 使用 Picsum 作為美觀的背景圖 (隨機)
+            img.src = `https://picsum.photos/400/300?random=`;
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal(e) {
+            if (e && e.target.id !== 'result-modal') return; // 如果點擊的是 modal 內部則不關閉 (除非有點擊事件冒泡處理)
+            document.getElementById('result-modal').classList.add('hidden');
+        }
+        
+        // 點擊 Modal 內部的關閉按鈕
+        document.querySelector('#result-modal button').addEventListener('click', () => {
+             document.getElementById('result-modal').classList.add('hidden');
+        });
+
+        // 輔助函式：計算距離 (Haversine Formula)
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return (R * c).toFixed(1);
+        }
+
+        function getImageKeyword(type) {
+            const keywords = cuisineImages[type] || cuisineImages['default'];
+            const arr = keywords.split(',');
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+    </script>
+</body>
+</html>
