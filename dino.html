@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>侏羅紀突圍：深夜狩獵</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+        }
+
+        body {
+            background-color: #000;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+            color: #0f0;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        #ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .hud-top {
+            display: flex;
+            justify-content: space-between;
+            text-shadow: 0 0 5px #0f0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #radar {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #0f0;
+            border-radius: 50%;
+            background: rgba(0, 20, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #radar::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50%;
+            height: 50%;
+            background: linear-gradient(45deg, rgba(0,255,0,0.5) 0%, transparent 50%);
+            transform-origin: 0 0;
+            animation: radar-spin 2s infinite linear;
+        }
+
+        @keyframes radar-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #startScreen, #gameOverScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            pointer-events: auto;
+            text-align: center;
+        }
+
+        h1 {
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px red;
+            font-size: 3rem;
+        }
+
+        p {
+            color: #aaa;
+            margin-bottom: 30px;
+            max-width: 600px;
+            line-height: 1.5;
+        }
+
+        button {
+            background: transparent;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px 40px;
+            font-size: 24px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            background: #0f0;
+            color: #000;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Virtual Joystick for Mobile */
+        #joystick-zone {
+            position: absolute;
+            bottom: 50px;
+            left: 50px;
+            width: 120px;
+            height: 120px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            pointer-events: auto;
+            display: none; /* Shown by JS on mobile */
+        }
+
+        #joystick-knob {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        #shoot-hint {
+            position: absolute;
+            bottom: 80px;
+            right: 50px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- UI Layer -->
+        <div id="ui-layer">
+            <div class="hud-top">
+                <div id="scoreBoard">SURVIVAL TIME: 0s</div>
+                <div id="healthBoard">HEALTH: 100%</div>
+            </div>
+            <div id="joystick-zone">
+                <div id="joystick-knob"></div>
+            </div>
+            <div id="shoot-hint">TAP RIGHT SIDE TO SHOOT</div>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="startScreen">
+            <h1>Jurassic Breakout</h1>
+            <p>深夜暴雨，電力系統失效。恐龍已突破圍欄。<br>
+               利用手電筒照明，麻醉槍自衛。<br>
+               活下去。</p>
+            <p style="font-size: 14px; color: #0f0;">
+                電腦: WASD 移動 / 滑鼠瞄準射擊<br>
+                手機: 左側搖桿移動 / 右側點擊射擊
+            </p>
+            <button id="startBtn">進入禁區</button>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="gameOverScreen" class="hidden">
+            <h1 style="color: red; text-shadow: 0 0 10px #fff;">YOU DIED</h1>
+            <p id="finalScore">存活時間: 0秒</p>
+            <button id="restartBtn">再次嘗試</button>
+        </div>
+    </div>
+
+<script>
+    /**
+     * Game Engine and Logic
+     */
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Game State
+    let isPlaying = false;
+    let score = 0; // Time survived
+    let lastTime = 0;
+    let difficultyMultiplier = 1;
+
+    // Inputs
+    const keys = { w: false, a: false, s: false, d: false };
+    const mouse = { x: 0, y: 0 };
+    const joystick = { active: false, x: 0, y: 0, dx: 0, dy: 0 };
+
+    // Entities
+    let player;
+    let bullets = [];
+    let enemies = [];
+    let particles = [];
+
+    // Audio Context (Mocking sound with visuals mostly, but setup for future)
+    // To keep it simple and one file, we focus on visuals.
+
+    class Player {
+        constructor() {
+            this.x = canvas.width / 2;
+            this.y = canvas.height / 2;
+            this.radius = 15;
+            this.speed = 4;
+            this.angle = 0;
+            this.health = 100;
+            this.color = '#fff';
+        }
+
+        update() {
+            // Movement
+            let dx = 0;
+            let dy = 0;
+
+            if (joystick.active) {
+                dx = joystick.dx * this.speed;
+                dy = joystick.dy * this.speed;
+            } else {
+                if (keys.w) dy -= this.speed;
+                if (keys.s) dy += this.speed;
+                if (keys.a) dx -= this.speed;
+                if (keys.d) dx += this.speed;
+            }
+
+            // Normalize diagonal movement
+            if (!joystick.active && dx !== 0 && dy !== 0) {
+                const length = Math.sqrt(dx*dx + dy*dy);
+                dx = (dx / length) * this.speed;
+                dy = (dy / length) * this.speed;
+            }
+
+            this.x += dx;
+            this.y += dy;
+
+            // Boundaries
+            this.x = Math.max(this.radius, Math.min(canvas.width - this.radius, this.x));
+            this.y = Math.max(this.radius, Math.min(canvas.height - this.radius, this.y));
+
+            // Rotation (Look at mouse or movement direction on mobile if not shooting)
+            if (!isMobile) {
+                const angle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
+                this.angle = angle;
+            } else if (joystick.active) {
+                // On mobile, if moving, face movement, unless specific aim logic added
+                // For this simple version, mobile players face movement direction usually
+                // But let's make them auto-face nearest enemy or just movement for now
+                // Improved: Tap screen to shoot towards tap, so angle updates on touch
+            }
+        }
+
+        draw() {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.angle);
+
+            // Body (Survivor)
+            ctx.fillStyle = '#2c3e50';
+            ctx.beginPath();
+            ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Helmet/Head
+            ctx.fillStyle = '#f1c40f';
+            ctx.beginPath();
+            ctx.arc(0, 0, this.radius * 0.6, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Arms holding gun
+            ctx.fillStyle = '#2c3e50';
+            ctx.fillRect(0, -this.radius + 5, this.radius + 10, 8); // Right arm
+            ctx.fillStyle = '#95a5a6'; // Gun
+            ctx.fillRect(this.radius, -this.radius + 4, 15, 6); 
+
+            ctx.restore();
+        }
+    }
+
+    class Bullet {
+        constructor(x, y, angle) {
+            this.x = x;
+            this.y = y;
+            this.speed = 12;
+            this.vx = Math.cos(angle) * this.speed;
+            this.vy = Math.sin(angle) * this.speed;
+            this.radius = 3;
+            this.life = 100;
+        }
+
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            this.life--;
+        }
+
+        draw() {
+            ctx.fillStyle = '#ffff00';
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fill();
+            // Trail
+            ctx.fillStyle = 'rgba(255, 255, 0, 0.3)';
+            ctx.beginPath();
+            ctx.arc(this.x - this.vx*0.5, this.y - this.vy*0.5, this.radius+1, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+
+    class Enemy {
+        constructor(type) {
+            // Spawn at edge
+            const side = Math.floor(Math.random() * 4);
+            if (side === 0) { this.x = Math.random() * canvas.width; this.y = -50; } // Top
+            if (side === 1) { this.x = canvas.width + 50; this.y = Math.random() * canvas.height; } // Right
+            if (side === 2) { this.x = Math.random() * canvas.width; this.y = canvas.height + 50; } // Bottom
+            if (side === 3) { this.x = -50; this.y = Math.random() * canvas.height; } // Left
+
+            this.type = type; // 'raptor' or 'trex'
+            
+            if (type === 'raptor') {
+                this.speed = 3 + Math.random();
+                this.radius = 18;
+                this.hp = 2;
+                this.color = '#5d4037';
+                this.damage = 10;
+            } else { // TRex
+                this.speed = 1.5 + Math.random() * 0.5;
+                this.radius = 40;
+                this.hp = 20;
+                this.color = '#1b5e20';
+                this.damage = 100; // Insta kill mostly
+            }
+            
+            this.angle = 0;
+            this.animationFrame = 0;
+        }
+
+        update(target) {
+            const dx = target.x - this.x;
+            const dy = target.y - this.y;
+            this.angle = Math.atan2(dy, dx);
+
+            this.x += Math.cos(this.angle) * this.speed;
+            this.y += Math.sin(this.angle) * this.speed;
+
+            this.animationFrame++;
+        }
+
+        draw() {
+            ctx.save();
+            ctx.translate(this.x, this.y);
+            ctx.rotate(this.angle);
+
+            // Realistic-ish drawing using canvas shapes
+            
+            if (this.type === 'raptor') {
+                // Tail
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.moveTo(-10, 0);
+                ctx.lineTo(-30, Math.sin(this.animationFrame * 0.2) * 5);
+                ctx.lineTo(-10, 0);
+                ctx.stroke();
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = this.color;
+                ctx.stroke();
+
+                // Body
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, 20, 10, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Head
+                ctx.beginPath();
+                ctx.ellipse(15, 0, 10, 6, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Eyes (Glowing Red)
+                ctx.fillStyle = '#f00';
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#f00';
+                ctx.fillRect(15, -3, 2, 2);
+                ctx.fillRect(15, 3, 2, 2);
+                ctx.shadowBlur = 0;
+
+            } else { // TREX
+                // Tail
+                ctx.strokeStyle = '#2e7d32';
+                ctx.lineWidth = 10;
+                ctx.beginPath();
+                ctx.moveTo(-10, 0);
+                ctx.lineTo(-60, Math.sin(this.animationFrame * 0.1) * 10);
+                ctx.stroke();
+
+                // Body
+                ctx.fillStyle = '#2e7d32';
+                ctx.beginPath();
+                ctx.ellipse(0, 0, 45, 25, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Head
+                ctx.fillStyle = '#1b5e20';
+                ctx.beginPath();
+                ctx.ellipse(35, 0, 25, 18, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Eyes
+                ctx.fillStyle = '#ffcc00';
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#ffcc00';
+                ctx.beginPath();
+                ctx.arc(40, -8, 3, 0, Math.PI*2);
+                ctx.arc(40, 8, 3, 0, Math.PI*2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                
+                // Teeth
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.moveTo(50, -10);
+                ctx.lineTo(60, 0);
+                ctx.lineTo(50, 10);
+                ctx.fill();
+            }
+
+            ctx.restore();
+        }
+    }
+
+    class Particle {
+        constructor(isRain) {
+            this.isRain = isRain;
+            if (isRain) {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.length = Math.random() * 20 + 10;
+                this.speed = Math.random() * 10 + 10;
+            } else {
+                // Blood/Hit effect
+                this.x = 0;
+                this.y = 0;
+                this.vx = (Math.random() - 0.5) * 5;
+                this.vy = (Math.random() - 0.5) * 5;
+                this.life = 30;
+                this.color = '#f00';
+            }
+        }
+    }
+
+    // --- Core Functions ---
+
+    function init() {
+        resize();
+        window.addEventListener('resize', resize);
+        
+        // Desktop Controls
+        window.addEventListener('keydown', e => {
+            if(e.key === 'w' || e.key === 'ArrowUp') keys.w = true;
+            if(e.key === 'a' || e.key === 'ArrowLeft') keys.a = true;
+            if(e.key === 's' || e.key === 'ArrowDown') keys.s = true;
+            if(e.key === 'd' || e.key === 'ArrowRight') keys.d = true;
+        });
+        window.addEventListener('keyup', e => {
+            if(e.key === 'w' || e.key === 'ArrowUp') keys.w = false;
+            if(e.key === 'a' || e.key === 'ArrowLeft') keys.a = false;
+            if(e.key === 's' || e.key === 'ArrowDown') keys.s = false;
+            if(e.key === 'd' || e.key === 'ArrowRight') keys.d = false;
+        });
+        window.addEventListener('mousemove', e => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        window.addEventListener('mousedown', () => {
+            if (isPlaying && !isMobile) shoot();
+        });
+
+        // Mobile Controls setup
+        setupMobileControls();
+
+        // UI Buttons
+        document.getElementById('startBtn').addEventListener('click', startGame);
+        document.getElementById('restartBtn').addEventListener('click', startGame);
+    }
+
+    let isMobile = false;
+    function setupMobileControls() {
+        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+            isMobile = true;
+            document.getElementById('joystick-zone').style.display = 'block';
+            document.getElementById('shoot-hint').style.display = 'block';
+
+            const zone = document.getElementById('joystick-zone');
+            const knob = document.getElementById('joystick-knob');
+            let rect = zone.getBoundingClientRect();
+            let center = { x: rect.left + rect.width/2, y: rect.top + rect.height/2 };
+            let touchId = null;
+
+            zone.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                const touch = e.changedTouches[0];
+                touchId = touch.identifier;
+                joystick.active = true;
+                updateJoystick(touch.clientX, touch.clientY, center, knob);
+            }, {passive: false});
+
+            zone.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                for (let i=0; i<e.changedTouches.length; i++) {
+                    if (e.changedTouches[i].identifier === touchId) {
+                        updateJoystick(e.changedTouches[i].clientX, e.changedTouches[i].clientY, center, knob);
+                    }
+                }
+            }, {passive: false});
+
+            const endJoystick = (e) => {
+                 for (let i=0; i<e.changedTouches.length; i++) {
+                    if (e.changedTouches[i].identifier === touchId) {
+                        joystick.active = false;
+                        joystick.dx = 0;
+                        joystick.dy = 0;
+                        knob.style.transform = `translate(-50%, -50%)`;
+                        touchId = null;
+                    }
+                }
+            };
+
+            zone.addEventListener('touchend', endJoystick);
+            zone.addEventListener('touchcancel', endJoystick);
+
+            // Shooting on mobile (tap right side)
+            canvas.addEventListener('touchstart', (e) => {
+                if (!isPlaying) return;
+                // Avoid joystick area
+                const t = e.changedTouches[0];
+                if (t.clientX > window.innerWidth / 2) {
+                    mouse.x = t.clientX;
+                    mouse.y = t.clientY;
+                    // Aim player at touch
+                    if(player) {
+                        player.angle = Math.atan2(mouse.y - player.y, mouse.x - player.x);
+                    }
+                    shoot();
+                }
+            });
+        }
+    }
+
+    function updateJoystick(x, y, center, knob) {
+        let dx = x - center.x;
+        let dy = y - center.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        const maxDist = 35; // knob movement radius
+
+        if (dist > maxDist) {
+            dx = (dx / dist) * maxDist;
+            dy = (dy / dist) * maxDist;
+        }
+
+        knob.style.transform = `translate(calc(-50% + px), calc(-50% + px))`;
+
+        // Normalize output -1 to 1
+        joystick.dx = dx / maxDist;
+        joystick.dy = dy / maxDist;
+    }
+
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    function startGame() {
+        document.getElementById('startScreen').classList.add('hidden');
+        document.getElementById('gameOverScreen').classList.add('hidden');
+        
+        player = new Player();
+        bullets = [];
+        enemies = [];
+        score = 0;
+        difficultyMultiplier = 1;
+        isPlaying = true;
+        
+        // Reset timestamp for loop
+        startTime = Date.now();
+        gameLoop();
+    }
+
+    function shoot() {
+        bullets.push(new Bullet(player.x, player.y, player.angle));
+    }
+
+    function spawnEnemy() {
+        // Difficulty curve
+        const spawnChance = 0.02 * difficultyMultiplier;
+        if (Math.random() < spawnChance) {
+            const type = (Math.random() > 0.9) ? 'trex' : 'raptor';
+            enemies.push(new Enemy(type));
+        }
+    }
+
+    function drawLighting() {
+        // The "Realistic" Atmosphere Hack
+        // 1. Fill screen with darkness
+        // 2. Cut out flashlight hole
+        
+        // Create an offscreen canvas or just draw over
+        ctx.save();
+        
+        // Gradient for Flashlight
+        const grad = ctx.createRadialGradient(player.x, player.y, 20, player.x, player.y, 300);
+        grad.addColorStop(0, 'rgba(0,0,0,0)'); // Transparent at center
+        grad.addColorStop(0.8, 'rgba(0,0,0,0.5)'); 
+        grad.addColorStop(1, 'rgba(0,0,0,0.98)'); // Pitch black outside
+
+        // We fill the whole screen with the gradient centered on player
+        // But for a true flashlight "cone" effect combined with ambient darkness:
+        
+        // Let's do a simpler "Vision Circle" approach which is performant
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Flashlight Cone (Triangle shape)
+        // To make it look like a flashlight beam, we need to clear darkness in a cone
+        // This is tricky in 2D canvas without complex masking. 
+        // The radial gradient above is a "Lantern" effect which is good for survival games.
+        
+        ctx.restore();
+    }
+
+    function drawRain() {
+        ctx.strokeStyle = 'rgba(174, 194, 224, 0.3)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let i = 0; i < 50; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            const len = Math.random() * 20;
+            ctx.moveTo(x, y);
+            ctx.lineTo(x - 2, y + len);
+        }
+        ctx.stroke();
+    }
+
+    function gameOver() {
+        isPlaying = false;
+        document.getElementById('gameOverScreen').classList.remove('hidden');
+        document.getElementById('finalScore').innerText = `你在侏羅紀公園存活了:  秒`;
+    }
+
+    function gameLoop() {
+        if (!isPlaying) return;
+
+        // Clear
+        // Draw Ground (Muddy)
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Grid pattern (faint) to show movement
+        ctx.strokeStyle = '#222';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for(let i=0; i<canvas.width; i+=100) { ctx.moveTo(i,0); ctx.lineTo(i,canvas.height); }
+        for(let i=0; i<canvas.height; i+=100) { ctx.moveTo(0,i); ctx.lineTo(canvas.width,i); }
+        ctx.stroke();
+
+        // Update Score/Time
+        let now = Date.now();
+        score = (now - startTime) / 1000;
+        document.getElementById('scoreBoard').innerText = `SURVIVAL: s`;
+        document.getElementById('healthBoard').innerText = `HEALTH: %`;
+        
+        // Difficulty increase
+        difficultyMultiplier = 1 + (score / 30);
+
+        // Update & Draw Player
+        player.update();
+        player.draw();
+
+        // Spawner
+        spawnEnemy();
+
+        // Bullets
+        bullets.forEach((b, index) => {
+            b.update();
+            b.draw();
+            if (b.life <= 0) bullets.splice(index, 1);
+        });
+
+        // Enemies
+        enemies.forEach((e, eIndex) => {
+            e.update(player);
+            e.draw();
+
+            // Collision: Bullet -> Enemy
+            bullets.forEach((b, bIndex) => {
+                const dist = Math.hypot(e.x - b.x, e.y - b.y);
+                if (dist < e.radius + b.radius) {
+                    // Hit
+                    e.hp--;
+                    bullets.splice(bIndex, 1);
+                    // Add blood particle logic here (omitted for brevity)
+                    if (e.hp <= 0) {
+                        enemies.splice(eIndex, 1);
+                    }
+                }
+            });
+
+            // Collision: Enemy -> Player
+            const distP = Math.hypot(e.x - player.x, e.y - player.y);
+            if (distP < e.radius + player.radius) {
+                player.health -= 1; // Drain health fast on contact
+                // Screen shake effect setup could go here
+            }
+        });
+
+        if (player.health <= 0) {
+            gameOver();
+            return;
+        }
+
+        // Lighting System (The "Realistic" Layer)
+        drawLighting();
+        
+        // Weather
+        drawRain();
+
+        requestAnimationFrame(gameLoop);
+    }
+
+    // Initialize
+    let startTime;
+    init();
+
+</script>
+</body>
+</html>
