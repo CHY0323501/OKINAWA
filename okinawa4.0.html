@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labubu's 2026 沖繩大冒險</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Labubu Theme Colors */
+            --fur-green: #7A9B76; /* 經典綠 */
+            --fur-brown: #8B5E3C; /* 咖啡色 */
+            --cheek-pink: #FFB7B2; /* 腮紅粉 */
+            --tooth-white: #FFFDF5; /* 牙齒白 */
+            --monster-bg: #F4F1EA; /* 復古米底 */
+            --accent-purple: #9B89B3; /*  Zimomo 紫 */
+            --text-dark: #4A4A4A;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Zen Maru Gothic', 'Fredoka', sans-serif; /* 圓潤可愛字體 */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--monster-bg);
+            color: var(--text-dark);
+            padding-bottom: 100px;
+            background-image: radial-gradient(var(--cheek-pink) 1px, transparent 1px);
+            background-size: 20px 20px; /* 點點背景 */
+        }
+
+        /* --- Header: Labubu Style --- */
+        header {
+            background-color: var(--fur-green);
+            color: var(--tooth-white);
+            padding: 2rem 1rem 3rem 1rem; /* 多留底部給牙齒 */
+            text-align: center;
+            position: relative;
+            border-radius: 0 0 0 0;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 0px var(--fur-brown);
+        }
+
+        header p {
+            font-size: 1rem;
+            background: rgba(255,255,255,0.2);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        /* 鋸齒狀牙齒裝飾 */
+        .teeth-border {
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(135deg, var(--fur-green) 25%, transparent 25%) -10px 0,
+                        linear-gradient(225deg, var(--fur-green) 25%, transparent 25%) -10px 0,
+                        linear-gradient(315deg, var(--fur-green) 25%, transparent 25%),
+                        linear-gradient(45deg, var(--fur-green) 25%, transparent 25%);
+            background-size: 20px 20px;
+            background-color: transparent;
+        }
+
+        /* --- Avatar / Branding --- */
+        .mascot-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* --- Navigation --- */
+        .nav-container {
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            padding: 0 10px;
+            margin-top: 10px;
+        }
+
+        .nav-scroller {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(139, 94, 60, 0.15);
+            gap: 8px;
+            border: 2px solid var(--fur-brown);
+        }
+
+        .nav-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            white-space: nowrap;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--fur-brown);
+            transition: all 0.2s;
+        }
+
+        .nav-btn.active {
+            background: var(--fur-brown);
+            color: var(--tooth-white);
+            transform: scale(1.05);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* --- Main Content --- */
+        .section {
+            display: none;
+            padding: 1.5rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .day-header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--fur-brown);
+            border-bottom: 3px dashed var(--cheek-pink);
+            padding-bottom: 10px;
+        }
+
+        /* --- Timeline Cards --- */
+        .timeline-item {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--cheek-pink);
+            border-radius: 2px;
+        }
+
+        .time-badge {
+            display: inline-block;
+            background: var(--accent-purple);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.2rem;
+            box-shadow: 0 5px 15px rgba(122, 155, 118, 0.15);
+            border: 2px solid transparent;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: var(--fur-green);
+        }
+
+        .card h3 {
+            color: var(--fur-brown);
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-content {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Labubu Tips Box */
+        .monster-tips {
+            background: #FFF9C4;
+            border: 2px solid #FBC02D;
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 10px;
+            position: relative;
+        }
+        
+        .monster-tips::before {
+            content: '😈 TIPS';
+            position: absolute;
+            top: -12px;
+            left: 10px;
+            background: #FBC02D;
+            color: var(--text-dark);
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        /* Buttons */
+        .btn-map {
+            display: block;
+            margin-top: 12px;
+            padding: 10px;
+            background: var(--fur-green);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+            border-bottom: 4px solid #5E7A5A; /* 3D effect */
+            transition: all 0.1s;
+        }
+
+        .btn-map:active {
+            transform: translateY(2px);
+            border-bottom: 0px solid;
+        }
+
+        /* Hotel Special Card */
+        .hotel-card {
+            background: #F0F8FF;
+            border: 2px solid var(--accent-purple);
+        }
+
+        /* Checklist */
+        .checklist-container {
+            background: white;
+            border-radius: 20px;
+            padding: 1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .check-item input {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            accent-color: var(--fur-green);
+            margin-top: 4px;
+        }
+
+        /* Budget */
+        .budget-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--fur-brown);
+        }
+        
+        .budget-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .budget-row:last-child {
+            background: var(--fur-brown);
+            color: white;
+            font-weight: bold;
+            border-bottom: none;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--fur-brown);
+            font-size: 0.8rem;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="mascot-icon">😈✈️</div>
+    <h1>Labubu's<br>沖繩大冒險</h1>
+    <p>2026.04 自駕攻略 🚗</p>
+    <div class="teeth-border"></div>
+</header>
+
+<!-- Navigation -->
+<div class="nav-container">
+    <div class="nav-scroller">
+        <button class="nav-btn active" onclick="showTab('d1')">Day 1</button>
+        <button class="nav-btn" onclick="showTab('d2')">Day 2</button>
+        <button class="nav-btn" onclick="showTab('d3')">Day 3</button>
+        <button class="nav-btn" onclick="showTab('d4')">Day 4</button>
+        <button class="nav-btn" onclick="showTab('d5')">Day 5</button>
+        <button class="nav-btn" onclick="showTab('check')">檢查表</button>
+        <button class="nav-btn" onclick="showTab('money')">預算</button>
+    </div>
+</div>
+
+<main>
+    <!-- Day 1 -->
+    <section id="d1" class="section active">
+        <div class="day-header">
+            <h2>Day 1: 抵達 & 美國村</h2>
+            <small>4/9 or 4/16 (四) | 帶著 Labubu 出發囉！</small>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">11:00</span>
+            <div class="card">
+                <h3><i class="fas fa-car-side"></i> OTS 租車 (臨空豐崎)</h3>
+                <div class="card-content">
+                    <p>抵達那霸機場，搭乘 OTS 接駁車前往取車。</p>
+                    <div class="monster-tips">
+                        <p>😈 <b>新手提醒：</b> 右駕靠左！雨刷在左邊！取車請預留 2 小時。</p>
+                    </div>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=OTS+Rent-a-car+Rinku+Toyosaki" target="_blank" class="btn-map">Go! 導航去租車</a>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">午餐</span>
+            <div class="card">
+                <h3>🍴 Outlet Mall ASHIBINAA</h3>
+                <div class="card-content">
+                    <p>就在租車處附近，先吃午餐順便看看有沒有 Labubu 的朋友 (誤)。</p>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Okinawa+Outlet+Mall+Ashibinaa" target="_blank" class="btn-map">地圖導航</a>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">下午</span>
+            <div class="card">
+                <h3>🥞 瀨長島 - 幸福鬆餅</h3>
+                <div class="card-content">
+                    <p>純白希臘風建築，看飛機起降的絕佳地點。</p>
+                    <div class="monster-tips">
+                        <p>⚠️ <b>絕對要搶：</b> 15天前的晚上11點(台灣時間)官網預約，不然會排到天荒地老！</p>
+                    </div>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Senagajima+Umikaji+Terrace" target="_blank" class="btn-map">地圖導航</a>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">晚上</span>
+            <div class="card">
+                <h3>🎡 美國村 (American Village)</h3>
+                <div class="card-content">
+                    <p>超多打卡點！商店約 20:00 關門，建議先逛再吃飯。</p>
+                    <p>晚餐推薦：塔可飯或牛排。</p>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=American+Village+Okinawa" target="_blank" class="btn-map">地圖導航</a>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">住宿</span>
+            <div class="card hotel-card">
+                <h3>🏨 La'gent Hotel Okinawa Chatan</h3>
+                <div class="card-content">
+                    <p><b>Mapcode：</b> 33 555 055*26</p>
+                    <p><b>停車：</b> ¥550 (對面有更便宜的)</p>
+                    <p>風格很年輕的飯店，離美國村很近。</p>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=La'gent+Hotel+Okinawa+Chatan" target="_blank" class="btn-map">飯店導航</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Day 2 -->
+    <section id="d2" class="section">
+        <div class="day-header">
+            <h2>Day 2: 鯨鯊與燈光秀</h2>
+            <small>4/10 or 4/17 (五) | 9:00 出發</small>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">07:00</span>
+            <div class="card">
+                <h3>🍙 豬排蛋飯糰 (北谷店)</h3>
+                <div class="card-content">
+                    <p>走路10分鐘去買，沖繩靈魂早餐！</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">上午</span>
+            <div class="card">
+                <h3>🌉 古宇利大橋 & 蝦蝦飯</h3>
+                <div class="card-content">
+                    <p>開車在海上！古宇利藍超美。</p>
+                    <p>午餐吃 Kouri Shrimp 蝦蝦飯 (11:00-16:00)。</p>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Kouri+Shrimp" target="_blank" class="btn-map">找蝦蝦飯</a>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">13:00</span>
+            <div class="card">
+                <h3>🐋 海洋博公園 (水族館)</h3>
+                <div class="card-content">
+                    <div class="monster-tips">
+                        <p>🚗 <b>停車秘技：</b> 請導航去 <strong>P7 立體停車場</strong>，不用走很遠！</p>
+                    </div>
+                    <p><b>海豚秀：</b> 13:00 / 15:00 / 17:00 (免費)</p>
+                    <p><b>鯨鯊餵食：</b> 15:00 / 17:00</p>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Okinawa+Churaumi+Aquarium+P7+Parking" target="_blank" class="btn-map">P7 停車場</a>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">17:00</span>
+            <div class="card">
+                <h3>✨ 東南植物樂園 (燈光秀)</h3>
+                <div class="card-content">
+                    <p>晚餐前先去 A&W 名護店吃漢堡。</p>
+                    <p>植物園晚上超夢幻，是日本夜景遺產喔！</p>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Southeast+Botanical+Gardens" target="_blank" class="btn-map">導航去</a>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">住宿</span>
+            <div class="card hotel-card">
+                <h3>🏨 REF Okinawa Arena</h3>
+                <div class="card-content">
+                    <p>位於沖繩市，有免費大浴場桑拿！</p>
+                    <p>免費停車超佛心。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Day 3 -->
+    <section id="d3" class="section">
+        <div class="day-header">
+            <h2>Day 3: 鐘乳石 & 海炎祭</h2>
+            <small>4/11 or 4/18 (六) | 重頭戲煙火！</small>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">09:00</span>
+            <div class="card">
+                <h3>🦇 玉泉洞 (王國村)</h3>
+                <div class="card-content">
+                    <p>地底下的神祕世界，很適合怪獸冒險。</p>
+                    <p>午餐：附近的「蕎」蕎麥麵。</p>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Okinawa+World" target="_blank" class="btn-map">地圖導航</a>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">下午</span>
+            <div class="card">
+                <h3>🐱 奧武島 & 天婦羅</h3>
+                <div class="card-content">
+                    <p>貓貓之島！必吃大城天婦羅。</p>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Oujima+Tempura" target="_blank" class="btn-map">去吃天婦羅</a>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge" style="background: #FF6B6B;">15:00 入場</span>
+            <div class="card" style="border: 2px solid #FF6B6B;">
+                <h3>🎆 琉球海炎祭 (宜野灣)</h3>
+                <div class="card-content">
+                    <p>全日本最早的夏季煙火！19:00 開始施放。</p>
+                    <div class="monster-tips">
+                        <p>😈 <b>交通大魔王：</b> 停車券非常難買(¥4400)。建議買接駁車票(¥3900)，先把車停在飯店，搭電車去歌町站轉接駁車。</p>
+                    </div>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Ginowan+Seaside+Park" target="_blank" class="btn-map">會場地圖</a>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">宵夜</span>
+            <div class="card">
+                <h3>🍢 鳥貴族</h3>
+                <div class="card-content">
+                    <p>看完煙火餓了吧？吃串燒慶祝！</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">住宿</span>
+            <div class="card hotel-card">
+                <h3>🏨 La'gent Hotel Okinawa Naha</h3>
+                <div class="card-content">
+                    <p>這間在那霸市區喔！</p>
+                    <p>機械停車 ¥1500 (晚上11點後不能取車)。</p>
+                    <p>建議停附近的 24H 停車場比較自由。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Day 4 -->
+    <section id="d4" class="section">
+        <div class="day-header">
+            <h2>Day 4: 那霸市區 & 購物</h2>
+            <small>4/12 or 4/19 (日) | 9:00 出發</small>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">上午</span>
+            <div class="card">
+                <h3>⛩️ 波上宮</h3>
+                <div class="card-content">
+                    <p>懸崖上的神社，買個可愛御守。</p>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Naminoue+Shrine" target="_blank" class="btn-map">波上宮</a>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">午餐</span>
+            <div class="card">
+                <h3>🐟 泊港漁市場</h3>
+                <div class="card-content">
+                    <p>推薦：大國海產。生魚片便宜又新鮮！</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">下午</span>
+            <div class="card">
+                <h3>🛍️ PARCO CITY & 國際通</h3>
+                <div class="card-content">
+                    <p>PARCO CITY：最新最大，面海商場。</p>
+                    <p>國際通/DFS：最後補貨伴手禮。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">住宿</span>
+            <div class="card hotel-card">
+                <h3>🏨 Hewitt Resort Naha</h3>
+                <div class="card-content">
+                    <p><b>停車費：</b> ¥1800</p>
+                    <p>這家的早餐是傳說級的豐盛，明天記得早起吃！</p>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Hewitt+Resort+Naha" target="_blank" class="btn-map">飯店導航</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Day 5 -->
+    <section id="d5" class="section">
+        <div class="day-header">
+            <h2>Day 5: 歷史巡禮 & 回家</h2>
+            <small>4/13 or 4/20 (一) | 10:00 出發</small>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">09:00</span>
+            <div class="card">
+                <h3>⛽ 加油還車 (OTS DFS)</h3>
+                <div class="card-content">
+                    <p>記得加滿油 (Red/Regular) 並保留收據。</p>
+                    <p>還車點在 DFS 免稅店裡面。</p>
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=OTS+DFS+Naha" target="_blank" class="btn-map">還車導航</a>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">白天</span>
+            <div class="card">
+                <h3>🏯 首里城 & 最後逛逛</h3>
+                <div class="card-content">
+                    <p>搭單軌去首里城看修復工程。</p>
+                    <p>回到國際通/牧志市場吃午餐。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <span class="time-badge">18:00</span>
+            <div class="card">
+                <h3>🛫 前往那霸機場</h3>
+                <div class="card-content">
+                    <p>單軌「安里站」出發約 30 分鐘。</p>
+                    <p>虎航 IT231 (21:30 起飛)。</p>
+                    <p>Bye Bye Okinawa! 😈</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Checklist -->
+    <section id="check" class="section">
+        <div class="day-header">
+            <h2>🎒 探險背包檢查</h2>
+            <small>2026 出發前必看！</small>
+        </div>
+
+        <div class="checklist-container">
+            <div class="check-item">
+                <input type="checkbox" id="c1">
+                <label for="c1">
+                    <h4>🛂 護照 (效期>6個月)</h4>
+                    <small>別讓 Labubu 在機場哭。</small>
+                </label>
+            </div>
+            <div class="check-item">
+                <input type="checkbox" id="c2">
+                <label for="c2">
+                    <h4>📱 Visit Japan Web QR Code</h4>
+                    <small>入境審查 + 海關申報，先截圖存好。</small>
+                </label>
+            </div>
+            <div class="check-item">
+                <input type="checkbox" id="c3">
+                <label for="c3">
+                    <h4>🚗 台灣駕照 + 日文譯本</h4>
+                    <small>不是國際駕照喔！去監理站申請譯本。</small>
+                </label>
+            </div>
+            <div class="check-item">
+                <input type="checkbox" id="c4">
+                <label for="c4">
+                    <h4>🛜 網卡 / e-SIM</h4>
+                    <small>自駕導航吃流量，要買吃到飽。</small>
+                </label>
+            </div>
+            <div class="check-item">
+                <input type="checkbox" id="c5">
+                <label for="c5">
+                    <h4>💴 日幣現金 (約 3-5 萬)</h4>
+                    <small>付停車費、買餐券、扭蛋都要用！</small>
+                </label>
+            </div>
+            <div class="check-item">
+                <input type="checkbox" id="c6">
+                <label for="c6">
+                    <h4>🎟️ FunPASS / 海炎祭門票</h4>
+                    <small>電子票券先存手機。</small>
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <!-- Budget -->
+    <section id="money" class="section">
+        <div class="day-header">
+            <h2>💰 預算 (每人預估)</h2>
+            <small>台幣計算，雙人平分後價格</small>
+        </div>
+
+        <div class="budget-card">
+            <div class="budget-row">
+                <span>✈️ 機票 (虎航)</span>
+                <span>,834</span>
+            </div>
+            <div class="budget-row">
+                <span>🏨 住宿 (4晚)</span>
+                <span>,448</span>
+            </div>
+            <div class="budget-row">
+                <span>🚗 租車+保險</span>
+                <span>,689</span>
+            </div>
+            <div class="budget-row">
+                <span>🎟️ 門票 (PASS+首里)</span>
+                <span>,160</span>
+            </div>
+            <div class="budget-row">
+                <span>🅿️ 停車費 (預估)</span>
+                <span></span>
+            </div>
+            <div class="budget-row">
+                <span>總計 (不含吃/買)</span>
+                <span>,371</span>
+            </div>
+        </div>
+        <p style="margin-top:10px; text-align:center; font-size:0.8rem; color:#888;">*海炎祭門票(約¥3850)另計</p>
+    </section>
+
+</main>
+
+<footer>
+    <p>Enjoy your trip with The Monsters! 👹<br>2026 Okinawa Guide</p>
+</footer>
+
+<script>
+    function showTab(tabId) {
+        // Hide all sections
+        document.querySelectorAll('.section').forEach(sec => {
+            sec.classList.remove('active');
+        });
+        
+        // Deactivate buttons
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // Activate target
+        document.getElementById(tabId).classList.add('active');
+        
+        // Button styling
+        event.target.classList.add('active');
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
