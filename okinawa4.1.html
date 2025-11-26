@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labubu 的 2026 沖繩大冒險</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;700&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #6B8E23; /* Forest Green */
+            --secondary-color: #8D6E63; /* Fur Brown */
+            --accent-color: #FF8A80; /* Labubu Blush */
+            --bg-color: #FDFBF7;
+            --card-bg: #FFFFFF;
+            --text-main: #4A4A4A;
+            --text-light: #757575;
+            --shadow: 0 4px 15px rgba(107, 142, 35, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Zen Maru Gothic', 'Nunito', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 80px; /* Space for bottom nav */
+        }
+
+        /* --- Hero Section --- */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #8EB648);
+            color: white;
+            padding: 40px 20px 60px;
+            text-align: center;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+        }
+
+        h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            background: rgba(255,255,255,0.2);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: 10px;
+        }
+
+        .labubu-avatar {
+            width: 80px;
+            height: 80px;
+            background-color: var(--secondary-color);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 4px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            position: relative;
+        }
+        
+        .labubu-ears {
+            position: absolute;
+            top: -15px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 5px;
+            z-index: -1;
+        }
+        
+        .ear {
+            width: 25px;
+            height: 40px;
+            background-color: var(--secondary-color);
+            border-radius: 20px 20px 0 0;
+        }
+
+        /* --- Navigation Tabs --- */
+        .nav-scroller {
+            display: flex;
+            overflow-x: auto;
+            padding: 20px;
+            margin-top: -40px;
+            gap: 15px;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .nav-scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-item {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            white-space: nowrap;
+            font-weight: bold;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-item.active {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* --- Content Layout --- */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Timeline Cards --- */
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 30px;
+            border-left: 3px dashed var(--primary-color);
+        }
+
+        .timeline-item:last-child {
+            border-left: none;
+        }
+
+        .time-badge {
+            position: absolute;
+            left: -45px;
+            top: 0;
+            background: var(--accent-color);
+            color: white;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            width: 65px;
+            text-align: center;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            z-index: 2;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .card h3 {
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 5px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .tag.food { background: #FFF3E0; color: #E65100; }
+        .tag.spot { background: #E8F5E9; color: #2E7D32; }
+        .tag.shop { background: #F3E5F5; color: #7B1FA2; }
+        .tag.hotel { background: #E3F2FD; color: #1565C0; }
+
+        .details {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 10px;
+        }
+
+        .highlight-box {
+            background: #F1F8E9;
+            border: 1px solid #C5E1A5;
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .mapcode-box {
+            display: inline-flex;
+            align-items: center;
+            background: #eee;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            cursor: pointer;
+            margin-top: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .mapcode-box:active {
+            background: #ddd;
+        }
+
+        .mapcode-box i {
+            margin-left: 8px;
+            font-size: 0.8rem;
+            color: #777;
+        }
+
+        /* --- Cost Section --- */
+        .cost-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .cost-card {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--accent-color);
+        }
+
+        .cost-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        /* --- Checklist --- */
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .checklist-item input {
+            margin-right: 15px;
+            transform: scale(1.5);
+            accent-color: var(--primary-color);
+        }
+
+        .checklist-item.checked {
+            opacity: 0.6;
+            text-decoration: line-through;
+            background: #f0f0f0;
+        }
+
+        /* --- Flight Info --- */
+        .flight-card {
+            background: linear-gradient(to right, #ffffff, #f9f9f9);
+            border: 1px solid #eee;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .flight-time {
+            text-align: center;
+        }
+        
+        .flight-time h4 { font-size: 1.2rem; color: #333; }
+        .flight-time span { font-size: 0.8rem; color: #999; }
+        
+        .flight-arrow {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+        }
+
+        /* --- Bottom Nav --- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            gap: 30px;
+            z-index: 100;
+        }
+
+        .bottom-nav-item {
+            text-align: center;
+            color: #999;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .bottom-nav-item i {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+        
+        .bottom-nav-item.active {
+            color: var(--primary-color);
+        }
+
+        /* --- Utility --- */
+        .notice { color: #E53935; font-weight: bold; }
+        .btn-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 1px dotted var(--primary-color);
+        }
+
+        /* Labubu Floating */
+        .labubu-float {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            font-size: 3rem;
+            z-index: 99;
+            animation: bounce 2s infinite;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="labubu-avatar">
+            <div class="labubu-ears">
+                <div class="ear"></div>
+                <div class="ear"></div>
+            </div>
+            👾
+        </div>
+        <h1>Labubu 沖繩大冒險</h1>
+        <div class="subtitle">2026.04.09 - 04.13 (or 16-20)</div>
+    </header>
+
+    <!-- Navigation Scroller for Days -->
+    <div class="nav-scroller" id="dayNav">
+        <div class="nav-item active" onclick="switchTab('day1')">Day 1<br><small>抵達/美國村</small></div>
+        <div class="nav-item" onclick="switchTab('day2')">Day 2<br><small>北部水族館</small></div>
+        <div class="nav-item" onclick="switchTab('day3')">Day 3<br><small>琉球海炎祭</small></div>
+        <div class="nav-item" onclick="switchTab('day4')">Day 4<br><small>那霸市區</small></div>
+        <div class="nav-item" onclick="switchTab('day5')">Day 5<br><small>首里城/回程</small></div>
+    </div>
+
+    <div class="container">
+        <!-- Day 1 -->
+        <div id="day1" class="tab-content active">
+            <div class="flight-card">
+                <div class="flight-time">
+                    <h4>06:35</h4>
+                    <span>TPE 台北</span>
+                </div>
+                <div class="flight-arrow"><i class="fas fa-plane"></i></div>
+                <div class="flight-time">
+                    <h4>08:55</h4>
+                    <span>OKA 那霸</span>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="time-badge">11:00</div>
+                <div class="card">
+                    <h3><i class="fas fa-car"></i> OTS 臨空豐崎 取車</h3>
+                    <p class="details">記得出示：台灣駕照、日文譯本、護照。</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">午餐</div>
+                <div class="card">
+                    <span class="tag shop">購物</span>
+                    <h3>ASHIBINAA Outlet 或 iias 沖繩豐崎</h3>
+                    <p class="details">在這裡享用午餐並開始購物行程。</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">下午</div>
+                <div class="card">
+                    <span class="tag food">美食</span>
+                    <h3>瀨長島 - 幸福鬆餅</h3>
+                    <p class="details notice">★ 15天前晚上11點搶先訂位！</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">晚上</div>
+                <div class="card">
+                    <span class="tag spot">景點</span>
+                    <h3>美國村 American Village</h3>
+                    <p class="details">商店約 20:00 開始關門，把握時間逛街。</p>
+                </div>
+            </div>
+
+            <div class="card highlight-box">
+                <span class="tag hotel">住宿</span>
+                <h3>La'gent Hotel Okinawa Chatan</h3>
+                <p><strong>沖繩北谷柔婕閣酒店</strong></p>
+                <p class="details">
+                    <i class="fas fa-map-marker-alt"></i> 沖繩縣中頭郡北谷町美濱 25-3<br>
+                    <div class="mapcode-box" onclick="copyText('33555055*26')">MC: 33555055*26 <i class="far fa-copy"></i></div><br>
+                    <i class="fas fa-phone"></i> +81 98-926-0210<br>
+                    <i class="fas fa-parking"></i> ￥550 (對面停車場24H最多￥400)<br>
+                    <i class="fas fa-yen-sign"></i> 約 NT2160/晚 (14:00入住)
+                </p>
+            </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div id="day2" class="tab-content">
+            <div class="timeline-item">
+                <div class="time-badge">07:00</div>
+                <div class="card">
+                    <span class="tag food">早餐</span>
+                    <h3>豬排蛋飯糰 北谷店</h3>
+                    <p class="details">從飯店走路 10 分鐘。外帶回車上或海邊吃。</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="time-badge">09:00</div>
+                <div class="card">
+                    <h3>出發前往北部</h3>
+                    <p class="details">車程約 1 小時。</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">上午</div>
+                <div class="card">
+                    <span class="tag spot">景點</span>
+                    <h3>古宇利大橋 & 海灘</h3>
+                    <p class="details">絕美海景，適合拍照。</p>
+                    <div class="highlight-box">
+                        <strong>午餐：蝦蝦飯 (11:00-16:00)</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">12:30</div>
+                <div class="card">
+                    <span class="tag spot">必去</span>
+                    <h3>海洋博公園 / 美麗海水族館</h3>
+                    <p class="details">最近停車場：<strong>P7 立體停車場</strong></p>
+                    <ul class="details">
+                        <li>🐋 鯨鯊餵食：15:00 / 17:00</li>
+                        <li>🐬 海豚劇場：13:00 / 17:00 (約20分)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">傍晚</div>
+                <div class="card">
+                    <span class="tag food">點心</span>
+                    <h3>A&W 漢堡 名護店</h3>
+                    <p class="details">體驗美式復古風情。</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">17:00</div>
+                <div class="card">
+                    <span class="tag spot">活動</span>
+                    <h3>東南植物樂園 夜間燈光秀</h3>
+                    <p class="details">營業至 22:00。距離A&W約50分鐘車程。</p>
+                </div>
+            </div>
+
+            <div class="card highlight-box">
+                <span class="tag hotel">住宿</span>
+                <h3>REF Okinawa Arena by VESSEL</h3>
+                <p><strong>REF 沖繩競技場-VESSEL</strong></p>
+                <p class="details">
+                    <i class="fas fa-map-marker-alt"></i> 沖縄県沖縄市字諸見里 1766<br>
+                    <i class="fas fa-phone"></i> 098-933-6111<br>
+                    <i class="fas fa-star"></i> 免費停車、大浴場、桑拿<br>
+                    <i class="fas fa-yen-sign"></i> 約 NT1970/晚 (14:00入住)
+                </p>
+            </div>
+        </div>
+
+        <!-- Day 3 -->
+        <div id="day3" class="tab-content">
+            <div class="timeline-item">
+                <div class="time-badge">08:30</div>
+                <div class="card">
+                    <h3>飯店出發</h3>
+                    <p class="details">車程約 30 分鐘。</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">09:00</div>
+                <div class="card">
+                    <span class="tag spot">景點</span>
+                    <h3>玉泉洞 王國村</h3>
+                    <p class="details">營業時間：9:00–17:30。體驗沖繩文化與鐘乳石洞。</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">午餐</div>
+                <div class="card">
+                    <span class="tag food">美食</span>
+                    <h3>蕎蕎蕎 (日本蕎麥麵)</h3>
+                    <p class="details">走路可達，營業時間 11:30-16:00。</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">下午</div>
+                <div class="card">
+                    <span class="tag spot">景點</span>
+                    <h3>奧武島</h3>
+                    <p class="details">推薦：<strong>大城天婦羅</strong> (便宜好吃，注意貓咪！)</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">15:00</div>
+                <div class="card" style="border: 2px solid var(--accent-color);">
+                    <span class="tag spot" style="background:var(--accent-color); color:white;">重點行程</span>
+                    <h3>沖繩琉球海炎祭 (煙火大會)</h3>
+                    <p class="details">
+                        <strong>地點：宜野灣海濱公園</strong><br>
+                        15:00 入場 / 19:00-20:00 施放<br>
+                        門票：￥3850
+                    </p>
+                    <div class="highlight-box" style="background:#FFF3E0; border-color:#FFB74D;">
+                        <i class="fas fa-exclamation-circle"></i> <strong>交通注意：</strong><br>
+                        停車券 ￥4400 (需預購) 或 接駁車 ￥3900。<br>
+                        若無停車券，停車場步行約30-40分。<br>
+                        結束後搭單軌：美榮橋 → 歌町 (6min)。
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="time-badge">宵夜</div>
+                <div class="card">
+                    <h3>鳥貴族</h3>
+                    <p class="details">日式串燒連鎖店。</p>
+                </div>
+            </div>
+
+            <div class="card highlight-box">
+                <span class="tag hotel">住宿</span>
+                <h3>La'gent Hotel Okinawa Naha</h3>
+                <p><strong>那霸拉格特飯店 (與Day1不同間)</strong></p>
+                <p class="details">
+                    <i class="fas fa-map-marker-alt"></i> 沖縄縣那覇市松山 2-2-9<br>
+                    <i class="fas fa-phone"></i> +81-98-894-5600<br>
+                    <i class="fas fa-parking"></i> ￥1500 (機械式，晚11-早7無法取車)<br>
+                    <span class="notice">*建議使用周邊 24H 外部停車場</span><br>
+                    <i class="fas fa-yen-sign"></i> 約 NT2135/晚 (大廳在17樓)
+                </p>
+            </div>
+        </div>
+
+        <!-- Day 4 -->
+        <div id="day4" class="tab-content">
+            <div class="timeline-item">
+                <div class="time-badge">09:00</div>
+                <div class="card">
+                    <h3>飯店出發</h3>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">上午</div>
+                <div class="card">
+                    <span class="tag spot">景點</span>
+                    <h3>波上宮 & 波之上海灘</h3>
+                    <p class="details">懸崖上的神社，沖繩八社之首。有專用停車場。</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">午餐</div>
+                <div class="card">
+                    <span class="tag food">海鮮</span>
+                    <h3>泊港漁市場</h3>
+                    <p class="details">推薦：大國海產。新鮮生魚片、烤海鮮。</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">下午</div>
+                <div class="card">
+                    <span class="tag shop">購物</span>
+                    <h3>沖繩 PARCO CITY</h3>
+                    <p class="details">大型購物中心，營業至 22:00。</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="time-badge">晚上</div>
+                <div class="card">
+                    <span class="tag shop">逛街</span>
+                    <h3>國際通 & DFS 免稅店</h3>
+                    <p class="details">最後採買伴手禮。</p>
+                </div>
+            </div>
+
+            <div class="card highlight-box">
+                <span class="tag hotel">住宿</span>
+                <h3>Hewitt Resort Naha</h3>
+                <p><strong>休伊特渡假飯店</strong></p>
+                <p class="details">
+                    <i class="fas fa-map-marker-alt"></i> 沖繩縣那霸市安里 2-5-16<br>
+                    <i class="fas fa-phone"></i> +81 98-943-8325<br>
+                    <i class="fas fa-coffee"></i> 含早餐<br>
+                    <i class="fas fa-parking"></i> ￥1800<br>
+                    <i class="fas fa-yen-sign"></i> 約 NT2630/晚 (15:00入住, 11:00退房)
+                </p>
+            </div>
+        </div>
+
+        <!-- Day 5 -->
+        <div id="day5" class="tab-content">
+            <div class="timeline-item">
+                <div class="time-badge">06:30</div>
+                <div class="card">
+                    <span class="tag food">早餐</span>
+                    <h3>飯店早餐</h3>
+                    <p class="details">供應時間 6:30-10:00。</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">10:00</div>
+                <div class="card">
+                    <h3>退房 & 出發</h3>
+                    <p class="details">前往 OTS DFS 營業所。</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">11:00</div>
+                <div class="card">
+                    <span class="tag spot">還車</span>
+                    <h3>OTS DFS 營業所還車</h3>
+                    <p class="details notice">記得先加油！(加油還車時間 9:00-17:00)</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">中午</div>
+                <div class="card">
+                    <span class="tag spot">觀光</span>
+                    <h3>首里城 & 西來院達摩寺</h3>
+                    <p class="details">交通：單軌電車至首里站。</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">下午</div>
+                <div class="card">
+                    <h3>國際通 最後巡禮</h3>
+                    <p class="details">午餐於此解決。</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="time-badge">18:00</div>
+                <div class="card">
+                    <h3>前往機場</h3>
+                    <p class="details">單軌安里站(30分) → 18:30 抵達那霸機場 (起飛前3小時)。</p>
+                </div>
+            </div>
+
+            <div class="flight-card">
+                <div class="flight-time">
+                    <h4>21:30</h4>
+                    <span>OKA 那霸</span>
+                </div>
+                <div class="flight-arrow"><i class="fas fa-plane"></i></div>
+                <div class="flight-time">
+                    <h4>22:05</h4>
+                    <span>TPE 台北</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Budget & Info Section -->
+        <div id="budget-section" class="tab-content">
+            <h2 style="margin-bottom:20px; color:var(--primary-color);">💰 預估花費</h2>
+            <div class="cost-grid">
+                <div class="cost-card">
+                    <h4>機票</h4>
+                    <div class="cost-price">NT,834</div>
+                    <small>含稅預估</small>
+                </div>
+                <div class="cost-card">
+                    <h4>住宿 (4晚/人)</h4>
+                    <div class="cost-price">NT,448</div>
+                    <small>總價 ÷ 2</small>
+                </div>
+                <div class="cost-card">
+                    <h4>租車+保險 (人)</h4>
+                    <div class="cost-price">NT,689</div>
+                    <small>4天 (￥53790 ÷ 4)</small>
+                </div>
+                <div class="cost-card">
+                    <h4>門票套票</h4>
+                    <div class="cost-price">NT,080</div>
+                    <small>FunPASS 三合一</small>
+                </div>
+                <div class="cost-card">
+                    <h4>首里城門票</h4>
+                    <div class="cost-price">NT</div>
+                </div>
+                <div class="cost-card">
+                    <h4>停車費 (人)</h4>
+                    <div class="cost-price">￥962</div>
+                    <small>約 NT</small>
+                </div>
+            </div>
+            
+            <h3 style="margin: 30px 0 15px; color:var(--secondary-color);">🎟️ 門票與保險</h3>
+            <ul style="list-style: none; padding-left: 0;">
+                <li style="margin-bottom: 10px;"><i class="fas fa-ticket-alt" style="color:var(--accent-color)"></i> <strong>沖繩 FunPASS 三合一：</strong> 海洋博公園 + 東南植物樂園 + 文化王國</li>
+                <li style="margin-bottom: 10px;"><i class="fas fa-shield-alt" style="color:var(--accent-color)"></i> <strong>待辦事項：</strong> e-sim 網卡、旅遊保險</li>
+            </ul>
+        </div>
+
+        <!-- Checklist Section -->
+        <div id="checklist-section" class="tab-content">
+            <h2 style="margin-bottom:20px; color:var(--primary-color);">🎒 Labubu 的行李清單</h2>
+            <div class="checklist-container">
+                <!-- Items will be populated by JS -->
+            </div>
+            <button onclick="resetChecklist()" style="margin-top:20px; padding:10px 20px; border:none; background:#eee; color:#666; border-radius:20px;">重置清單</button>
+        </div>
+
+    </div>
+
+    <div class="labubu-float" onclick="alert('Labubu 提醒你：\n記得帶駕照日文譯本喔！🚗💨')">
+        👾
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="bottom-nav-item active" onclick="switchMainTab('itinerary', this)">
+            <i class="fas fa-map-marked-alt"></i> 行程
+        </div>
+        <div class="bottom-nav-item" onclick="switchMainTab('budget', this)">
+            <i class="fas fa-calculator"></i> 預算
+        </div>
+        <div class="bottom-nav-item" onclick="switchMainTab('checklist', this)">
+            <i class="fas fa-tasks"></i> 必帶
+        </div>
+    </div>
+
+    <script>
+        // --- Tab Switching Logic ---
+        function switchTab(dayId) {
+            // Hide budget and checklist sections
+            document.getElementById('budget-section').classList.remove('active');
+            document.getElementById('checklist-section').classList.remove('active');
+            
+            // Show Nav Scroller
+            document.getElementById('dayNav').style.display = 'flex';
+
+            // Handle Tab Styling
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Handle Content Visibility
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Show specific day
+            const selectedContent = document.getElementById(dayId);
+            if(selectedContent) {
+                selectedContent.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function switchMainTab(type, element) {
+            // Handle Bottom Nav Styling
+            const botItems = document.querySelectorAll('.bottom-nav-item');
+            botItems.forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+
+            const allContents = document.querySelectorAll('.tab-content');
+            allContents.forEach(c => c.classList.remove('active'));
+
+            if (type === 'itinerary') {
+                document.getElementById('dayNav').style.display = 'flex';
+                // Default to Day 1
+                switchTab('day1'); 
+                // Fix active state for Day 1 pill
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                document.querySelector('.nav-item').classList.add('active');
+            } else if (type === 'budget') {
+                document.getElementById('dayNav').style.display = 'none';
+                document.getElementById('budget-section').classList.add('active');
+            } else if (type === 'checklist') {
+                document.getElementById('dayNav').style.display = 'none';
+                document.getElementById('checklist-section').classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- Copy Mapcode ---
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`Mapcode:  已複製！`);
+            }).catch(err => {
+                console.error('複製失敗', err);
+            });
+        }
+
+        // --- Checklist Logic (LocalStorage) ---
+        const checklistItems = [
+            "護照 (有效期6個月以上)",
+            "台灣駕照 (正本)",
+            "駕照日文譯本 (監理所申請)",
+            "Visit Japan Web 登錄",
+            "機票證明 / 電子檔",
+            "住宿預訂確認單",
+            "日幣現金",
+            "信用卡 (海外回饋高)",
+            "e-SIM / 漫遊開通",
+            "行動電源 & 充電線",
+            "牙刷牙膏 (日本部分環保旅館不提供)",
+            "個人藥品 (暈車藥、腸胃藥)",
+            "衣物 (薄外套、好走的鞋)",
+            "雨具 (折疊傘)"
+        ];
+
+        function initChecklist() {
+            const container = document.querySelector('.checklist-container');
+            container.innerHTML = '';
+            
+            // Load saved state
+            const savedState = JSON.parse(localStorage.getItem('okinawa_checklist')) || {};
+
+            checklistItems.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = `checklist-item  ''`;
+                div.onclick = (e) => toggleCheck(index, div, e);
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = savedState[index] || false;
+                // Prevent double triggering
+                checkbox.onclick = (e) => e.stopPropagation(); 
+                checkbox.onchange = () => toggleCheck(index, div);
+
+                const label = document.createElement('span');
+                label.textContent = item;
+
+                div.appendChild(checkbox);
+                div.appendChild(label);
+                container.appendChild(div);
+            });
+        }
+
+        function toggleCheck(index, divElement, event) {
+            // If click came from div, toggle checkbox
+            const checkbox = divElement.querySelector('input');
+            if (event) {
+                checkbox.checked = !checkbox.checked;
+            }
+
+            if (checkbox.checked) {
+                divElement.classList.add('checked');
+            } else {
+                divElement.classList.remove('checked');
+            }
+
+            // Save to local storage
+            const savedState = JSON.parse(localStorage.getItem('okinawa_checklist')) || {};
+            savedState[index] = checkbox.checked;
+            localStorage.setItem('okinawa_checklist', JSON.stringify(savedState));
+        }
+
+        function resetChecklist() {
+            if(confirm("確定要重置所有勾選項目嗎？")) {
+                localStorage.removeItem('okinawa_checklist');
+                initChecklist();
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initChecklist();
+        });
+
+    </script>
+</body>
+</html>
