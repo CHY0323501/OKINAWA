@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026 沖繩 5 天 4 夜自由行</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS Reset & Variables --- */
+        :root {
+            --color-ocean: #2C5F78;
+            --color-ocean-light: #E0F2F9;
+            --color-coral: #E07A5F;
+            --color-sand: #F4F1EA;
+            --color-text-dark: #333333;
+            --color-text-gray: #666666;
+            --color-white: #FFFFFF;
+            --color-transport: #5D737E;
+            --color-food: #E07A5F;
+            --color-spot: #81B29A;
+            --color-shop: #F2CC8F;
+
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Noto Sans TC', sans-serif;
+            
+            --shadow-card: 0 8px 24px rgba(44, 95, 120, 0.08);
+            --shadow-nav: 0 -4px 20px rgba(0, 0, 0, 0.05);
+            --radius-lg: 16px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #EFEFEF; /* Desktop background */
+            font-family: var(--font-sans);
+            color: var(--color-text-dark);
+            line-height: 1.6;
+            height: 100vh;
+            overflow: hidden; /* Prevent body scroll, handle inside app */
+        }
+
+        /* --- Layout Structure (Mobile Simulation on Desktop) --- */
+        #app-container {
+            max-width: 480px; /* Mobile width */
+            margin: 0 auto;
+            background-color: var(--color-sand);
+            height: 100%;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Header --- */
+        header {
+            padding: 20px 24px;
+            background-color: var(--color-sand);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-pre {
+            font-family: var(--font-serif);
+            font-size: 0.9rem;
+            color: var(--color-coral);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .header-title {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-ocean);
+        }
+
+        /* --- Scrollable Content Area --- */
+        #content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 100px; /* Space for bottom nav */
+            scroll-behavior: smooth;
+        }
+
+        /* Hiding scrollbar for cleaner look */
+        #content-area::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* --- Day Hero Section --- */
+        .day-hero {
+            padding: 0 24px 20px 24px;
+        }
+
+        .day-card {
+            background-color: var(--color-white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 24px;
+        }
+
+        .day-image-container {
+            height: 180px;
+            background-color: #ddd;
+            position: relative;
+        }
+
+        .day-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .day-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+            padding: 40px 20px 16px;
+            color: white;
+        }
+
+        .day-date {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .day-title {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* --- Timeline Styles --- */
+        .timeline-container {
+            padding: 0 24px;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        /* Vertical line */
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 24px; /* Align with time center */
+            top: 40px;
+            bottom: -30px;
+            width: 1px;
+            border-left: 2px dashed #DDD;
+            z-index: 0;
+        }
+
+        .time-col {
+            min-width: 60px;
+            padding-right: 12px;
+            text-align: right;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--color-ocean);
+            padding-top: 4px;
+            z-index: 1;
+        }
+
+        .event-card {
+            flex: 1;
+            background: var(--color-white);
+            padding: 16px;
+            border-radius: 0 var(--radius-lg) var(--radius-lg) var(--radius-lg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            border-left: 4px solid transparent;
+            position: relative;
+        }
+
+        /* Event Type Colors */
+        .type-transport { border-left-color: var(--color-transport); }
+        .type-food { border-left-color: var(--color-food); }
+        .type-spot { border-left-color: var(--color-spot); }
+        .type-shop { border-left-color: var(--color-shop); }
+        .type-hotel { border-left-color: var(--color-ocean); background-color: #F8FDFF; }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            color: white;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag-transport { background-color: var(--color-transport); }
+        .tag-food { background-color: var(--color-food); }
+        .tag-spot { background-color: var(--color-spot); }
+        .tag-shop { background-color: var(--color-shop); }
+        .tag-hotel { background-color: var(--color-ocean); }
+
+        .event-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--color-text-dark);
+        }
+
+        .event-desc {
+            font-size: 0.9rem;
+            color: var(--color-text-gray);
+            margin-bottom: 8px;
+        }
+        
+        .event-meta {
+            font-size: 0.8rem;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Hotel Special Card */
+        .hotel-section {
+            margin: 32px 24px;
+        }
+        
+        .hotel-label {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            color: var(--color-ocean);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hotel-detail-card {
+            background-color: var(--color-ocean);
+            color: white;
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hotel-detail-card::before {
+            content: '\f594'; /* FontAwesome Bed */
+            font-family: "Font Awesome 6 Free";
+            position: absolute;
+            right: -20px;
+            top: -20px;
+            font-size: 8rem;
+            opacity: 0.1;
+        }
+
+        .hotel-name {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .hotel-info-row {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .hotel-info-row i {
+            width: 24px;
+            margin-top: 4px;
+        }
+
+        /* --- Cost View --- */
+        .cost-container {
+            padding: 24px;
+        }
+        
+        .cost-summary {
+            background: linear-gradient(135deg, var(--color-ocean), #1A3A4A);
+            color: white;
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .total-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .total-amount {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .total-note {
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #DDD;
+        }
+
+        .cost-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--color-ocean-light);
+            color: var(--color-ocean);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 16px;
+        }
+
+        .cost-details {
+            flex: 1;
+        }
+
+        .cost-cat {
+            font-weight: 700;
+            color: var(--color-text-dark);
+        }
+
+        .cost-sub {
+            font-size: 0.8rem;
+            color: var(--color-text-gray);
+        }
+
+        .cost-val {
+            font-weight: 700;
+            font-family: var(--font-sans);
+            color: var(--color-ocean);
+        }
+
+        /* --- Bottom Navigation --- */
+        #bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 20px 0; /* Extra padding for iPhone home bar */
+            box-shadow: var(--shadow-nav);
+            z-index: 200;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #CCC;
+            font-size: 0.7rem;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 16%;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            color: var(--color-ocean);
+        }
+        
+        .nav-item.active i {
+            transform: translateY(-2px);
+        }
+
+        /* --- Animations --- */
+        .fade-in {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="app-container">
+    <header>
+        <div class="header-pre">Okinawa Trip 2026</div>
+        <div id="header-title" class="header-title">Day 1</div>
+    </header>
+
+    <main id="content-area">
+        <!-- Dynamic Content injected via JS -->
+    </main>
+
+    <nav id="bottom-nav">
+        <!-- Generated via JS -->
+    </nav>
+</div>
+
+<script>
+    /**
+     * Data Model
+     * 依照使用者需求解析的 JSON 資料結構
+     */
+    const tripData = {
+        days: [
+            {
+                id: 'd1',
+                date: '4/9 (四)',
+                title: '抵達與美國村',
+                image: 'https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=1000&auto=format&fit=crop', // Okinawa Street/American Village vibe
+                events: [
+                    { time: '06:50', title: '起飛: 虎航 IT230', type: 'transport', desc: 'TPE 桃園機場出發', icon: 'fa-plane-departure' },
+                    { time: '09:20', title: '抵達那霸機場', type: 'transport', desc: 'OKA 那霸機場', icon: 'fa-plane-arrival' },
+                    { time: '11:00', title: 'OTS 租車', type: 'transport', desc: '臨空豐崎營業所取車', icon: 'fa-car' },
+                    { time: '11:40', title: 'PARCO CITY', type: 'food', desc: '午餐與逛街', icon: 'fa-utensils' },
+                    { time: '14:00', title: '飯店 Check-in', type: 'hotel', desc: '先放置行李', icon: 'fa-suitcase' },
+                    { time: '16:00', title: '美國村 (American Village)', type: 'spot', desc: '異國風情街拍，商店約 20:00 關門', icon: 'fa-camera' }
+                ],
+                hotel: {
+                    name: "La'gent Hotel Okinawa Chatan",
+                    address: "沖繩縣中頭郡北谷町美濱 25-3",
+                    mapcode: "33555055*26",
+                    phone: "+81-98-926-0210",
+                    price: "NT,180",
+                    parking: "¥550 (對面 24H 停車場最多 ¥400)"
+                }
+            },
+            {
+                id: 'd2',
+                date: '4/10 (五)',
+                title: '北部海岸與植物園',
+                image: 'https://images.unsplash.com/photo-1627915935392-5eb712dc86c5?q=80&w=1000&auto=format&fit=crop', // Aquarium/Ocean
+                events: [
+                    { time: '07:30', title: '豬排蛋飯糰 北谷店', type: 'food', desc: '走路 10 分鐘，07:00 開', icon: 'fa-mug-hot' },
+                    { time: '09:00', title: '出發前往北部', type: 'transport', desc: '往古宇利島移動', icon: 'fa-car' },
+                    { time: '10:30', title: '古宇利大橋 / 海灘', type: 'spot', desc: '絕美海景', icon: 'fa-water' },
+                    { time: '12:00', title: '蝦蝦飯', type: 'food', desc: '經典必吃', icon: 'fa-shrimp' },
+                    { time: '13:30', title: '海洋博公園 / 美麗海水族館', type: 'spot', desc: '海豚劇場 13:00/17:00、鯨鯊餵食 15:00', icon: 'fa-fish' },
+                    { time: '17:30', title: 'A&W 漢堡 名護店', type: 'food', desc: '美式晚餐', icon: 'fa-burger' },
+                    { time: '19:00', title: '東南植物樂園', type: 'spot', desc: '夜間燈光秀 (17:00-22:00)', icon: 'fa-lightbulb' }
+                ],
+                hotel: {
+                    name: "REF Okinawa Arena by VESSEL",
+                    address: "沖縄県沖縄市字諸見里 1766 番地",
+                    mapcode: "",
+                    phone: "098-933-6111",
+                    price: "NT,985 (含大浴場)",
+                    parking: "免費停車"
+                }
+            },
+            {
+                id: 'd3',
+                date: '4/11 (六)',
+                title: '琉球海炎祭',
+                image: 'https://images.unsplash.com/photo-1498931299472-f7a63a5a1cfa?q=80&w=1000&auto=format&fit=crop', // Fireworks
+                events: [
+                    { time: '08:30', title: '出發', type: 'transport', desc: '前往南部', icon: 'fa-car' },
+                    { time: '09:00', title: '玉泉洞 / 文化王國', type: 'spot', desc: '鐘乳石洞與琉球文化', icon: 'fa-dungeon' },
+                    { time: '12:00', title: '蕎蕎蕎', type: 'food', desc: '日本蕎麥麵午餐', icon: 'fa-bowl-food' },
+                    { time: '14:00', title: '奧武島', type: 'food', desc: '大城天婦羅', icon: 'fa-cookie-bite' },
+                    { time: '15:00', title: '宜野灣海濱公園入場', type: 'spot', desc: '琉球海炎祭會場', icon: 'fa-ticket' },
+                    { time: '19:00', title: '煙火施放', type: 'spot', desc: '海炎祭重頭戲 (至 20:00)', icon: 'fa-fire' },
+                    { time: '21:30', title: '鳥貴族', type: 'food', desc: '宵夜', icon: 'fa-beer-mug-empty' }
+                ],
+                hotel: {
+                    name: "La'gent Hotel Okinawa Naha",
+                    address: "沖繩縣那覇市松山 2 丁目 2-9",
+                    mapcode: "",
+                    phone: "+81-98-894-5600",
+                    price: "NT,100 (高樓層)",
+                    parking: "¥1500 (機械式，建議停周邊)"
+                }
+            },
+            {
+                id: 'd4',
+                date: '4/12 (日)',
+                title: '那霸市區巡禮',
+                image: 'https://images.unsplash.com/photo-1596120236172-231999844c20?q=80&w=1000&auto=format&fit=crop', // Shopping/City
+                events: [
+                    { time: '09:00', title: '出發', type: 'transport', desc: '', icon: 'fa-car' },
+                    { time: '09:30', title: '波上宮 / 波之上海灘', type: 'spot', desc: '崖上神社', icon: 'fa-torii-gate' },
+                    { time: '11:00', title: '泊港漁市場', type: 'food', desc: '大國海產吃海鮮', icon: 'fa-fish-fins' },
+                    { time: '13:00', title: '瀨長島 Umikaji Terrace', type: 'spot', desc: '看飛機起降、下午茶', icon: 'fa-plane-up' },
+                    { time: '15:00', title: 'Outlet Mall / iias', type: 'shop', desc: '最後購物衝刺', icon: 'fa-bag-shopping' },
+                    { time: '18:30', title: 'OTS 還車', type: 'transport', desc: '加油並還車，搭接駁回飯店', icon: 'fa-gas-pump' },
+                    { time: '20:00', title: '國際通 / DFS', type: 'shop', desc: '市區逛街', icon: 'fa-store' }
+                ],
+                hotel: {
+                    name: "La'gent Hotel Okinawa Naha (續住)",
+                    address: "沖繩縣那覇市松山 2 丁目 2-9",
+                    mapcode: "",
+                    phone: "+81-98-894-5600",
+                    price: "NT,100",
+                    parking: "自行處理"
+                }
+            },
+            {
+                id: 'd5',
+                date: '4/13 (一)',
+                title: '首里城與返程',
+                image: 'https://images.unsplash.com/photo-1549419632-4e78a6358c54?q=80&w=1000&auto=format&fit=crop', // Shuri Castle/Red
+                events: [
+                    { time: '10:00', title: '退房', type: 'hotel', desc: '前往單軌電車站', icon: 'fa-door-open' },
+                    { time: '10:30', title: '首里城 / 達摩寺', type: 'spot', desc: '搭乘單軌至首里站', icon: 'fa-archway' },
+                    { time: '13:00', title: '國際通午餐', type: 'food', desc: '最後採買', icon: 'fa-utensils' },
+                    { time: '17:00', title: '前往機場', type: 'transport', desc: '單軌美榮橋 -> 那霸機場', icon: 'fa-train' },
+                    { time: '20:10', title: '起飛: 星宇 JX871', type: 'transport', desc: '返回 TPE', icon: 'fa-plane-departure' }
+                ],
+                hotel: null
+            }
+        ],
+        costs: {
+            total: "NT,824",
+            note: "預估總花費 (含機票/住宿/租車)",
+            items: [
+                { category: "機票", sub: "虎航 + 星宇 (含稅)", price: "NT,299", icon: "fa-plane" },
+                { category: "住宿", sub: "4 晚 (每人分攤)", price: "NT,183", icon: "fa-bed" },
+                { category: "租車", sub: "OTS 4 天 (每人分攤)", price: "NT,497", icon: "fa-car" },
+                { category: "門票", sub: "FunPASS + 海炎祭 + 首里城", price: "NT,010", icon: "fa-ticket" },
+                { category: "其他", sub: "餐食、停車預估", price: "NT,835", icon: "fa-coins" }
+            ]
+        }
+    };
+
+    // --- DOM Elements ---
+    const contentArea = document.getElementById('content-area');
+    const bottomNav = document.getElementById('bottom-nav');
+    const headerTitle = document.getElementById('header-title');
+
+    // --- Helper Functions ---
+    const getTypeLabel = (type) => {
+        const map = {
+            'transport': '交通',
+            'food': '美食',
+            'spot': '景點',
+            'shop': '購物',
+            'hotel': '住宿'
+        };
+        return map[type] || '活動';
+    };
+
+    // --- Render Functions ---
+
+    // 1. Render Timeline Day
+    const renderDay = (dayId) => {
+        const day = tripData.days.find(d => d.id === dayId);
+        if (!day) return;
+
+        headerTitle.innerText = `Day `;
+
+        let html = `
+            <div class="day-hero fade-in">
+                <div class="day-card">
+                    <div class="day-image-container">
+                        <img src="" class="day-image" alt="" onerror="this.src='https://placehold.co/600x400/2C5F78/FFF?text=Okinawa'">
+                        <div class="day-overlay">
+                            <div class="day-date"></div>
+                            <div class="day-title"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timeline-container fade-in">
+        `;
+
+        // Events
+        day.events.forEach(event => {
+            html += `
+                <div class="timeline-item">
+                    <div class="time-col"></div>
+                    <div class="event-card type-">
+                        <span class="tag tag-"></span>
+                        <div class="event-title"></div>
+                        </div>` : ''}
+                        <div class="event-meta">
+                            <i class="fa-solid "></i>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        html += `</div>`; // Close timeline-container
+
+        // Hotel Section (If exists)
+        if (day.hotel) {
+            html += `
+                <div class="hotel-section fade-in">
+                    <div class="hotel-label"><i class="fa-solid fa-moon"></i> 今晚住宿</div>
+                    <div class="hotel-detail-card">
+                        <div class="hotel-name"></div>
+                        <div class="hotel-info-row"><i class="fa-solid fa-location-dot"></i> <span></span></div>
+                         </span></div>` : ''
+                        <div class="hotel-info-row"><i class="fa-solid fa-phone"></i> <span></span></div>
+                        <div class="hotel-info-row"><i class="fa-solid fa-yen-sign"></i> <span>費用: </span></div>
+                        <div class="hotel-info-row"><i class="fa-solid fa-square-parking"></i> <span></span></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        contentArea.innerHTML = html;
+        window.scrollTo(0, 0);
+    };
+
+    // 2. Render Costs
+    const renderCosts = () => {
+        headerTitle.innerText = "預算概覽";
+        const c = tripData.costs;
+
+        let html = `
+            <div class="cost-container fade-in">
+                <div class="cost-summary">
+                    <div class="total-label">Estimated Total</div>
+                    <div class="total-amount"></div>
+                    <div class="total-note"></div>
+                </div>
+                
+                <div class="cost-list">
+        `;
+
+        c.items.forEach(item => {
+            html += `
+                <div class="cost-item">
+                    <div class="cost-icon"><i class="fa-solid "></i></div>
+                    <div class="cost-details">
+                        <div class="cost-cat"></div>
+                        <div class="cost-sub"></div>
+                    </div>
+                    <div class="cost-val"></div>
+                </div>
+            `;
+        });
+
+        html += `
+                </div>
+                <div style="text-align:center; margin-top:30px; color:#888; font-size:0.8rem;">
+                    * 費用依實際匯率與消費狀況變動
+                </div>
+            </div>
+        `;
+
+        contentArea.innerHTML = html;
+        window.scrollTo(0, 0);
+    };
+
+    // 3. Render Navigation
+    const renderNav = () => {
+        const days = tripData.days.map(d => ({ id: d.id, label: d.id.toUpperCase(), icon: 'fa-calendar-day' }));
+        const navItems = [...days, { id: 'cost', label: '預算', icon: 'fa-wallet' }];
+
+        bottomNav.innerHTML = navItems.map(item => `
+            <div class="nav-item" data-target="">
+                <i class="fa-solid "></i>
+                <span></span>
+            </div>
+        `).join('');
+
+        // Add Click Listeners
+        document.querySelectorAll('.nav-item').forEach(el => {
+            el.addEventListener('click', (e) => {
+                // Update Active State
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+
+                // Render Content
+                const target = e.currentTarget.dataset.target;
+                if (target === 'cost') {
+                    renderCosts();
+                } else {
+                    renderDay(target);
+                }
+            });
+        });
+    };
+
+    // --- Initialization ---
+    const init = () => {
+        renderNav();
+        // Set Default Tab (D1)
+        document.querySelector('[data-target="d1"]').classList.add('active');
+        renderDay('d1');
+    };
+
+    // Start App
+    init();
+
+</script>
+
+</body>
+</html>
+
