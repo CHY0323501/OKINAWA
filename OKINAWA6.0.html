@@ -1,728 +1,654 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2026 沖繩 5 天 4 夜自由行</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        /* --- CSS Reset & Variables --- */
-        :root {
-            --color-ocean: #2C5F78;
-            --color-ocean-light: #E0F2F9;
-            --color-coral: #E07A5F;
-            --color-sand: #F4F1EA;
-            --color-text-dark: #333333;
-            --color-text-gray: #666666;
-            --color-white: #FFFFFF;
-            --color-transport: #5D737E;
-            --color-food: #E07A5F;
-            --color-spot: #81B29A;
-            --color-shop: #F2CC8F;
-
-            --font-serif: 'Playfair Display', serif;
-            --font-sans: 'Noto Sans TC', sans-serif;
-            
-            --shadow-card: 0 8px 24px rgba(44, 95, 120, 0.08);
-            --shadow-nav: 0 -4px 20px rgba(0, 0, 0, 0.05);
-            --radius-lg: 16px;
-            --radius-sm: 8px;
+    <title>OKINAWA VOYAGE | 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Import Playfair Display for that Vogue look and Noto Serif TC -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,900;1,400&family=Noto+Serif+TC:wght@300;500;700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'fashion-black': '#111111',
+                        'fashion-gray': '#F5F5F5',
+                        'fashion-text': '#333333',
+                        'fashion-gold': '#C5A059', /* Muted Champagne Gold */
+                        'fashion-line': '#E5E5E5',
+                    },
+                    fontFamily: {
+                        serif: ['"Noto Serif TC"', '"Playfair Display"', 'serif'], /* Prioritize Noto Serif TC for Chinese */
+                        sans: ['"Lato"', '"Noto Serif TC"', 'sans-serif'],
+                        eng: ['"Playfair Display"', 'serif'], /* Explicit English Serif */
+                    },
+                    letterSpacing: {
+                        'widest-xl': '0.2em',
+                        'fashion': '0.15em',
+                    }
+                }
+            }
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+    </script>
+    <style>
+        body {
+            font-family: 'Lato', 'Noto Serif TC', sans-serif;
+            background-color: #FFFFFF;
+            color: #111;
+            padding-bottom: 90px;
             -webkit-tap-highlight-color: transparent;
         }
 
-        body {
-            background-color: #EFEFEF; /* Desktop background */
-            font-family: var(--font-sans);
-            color: var(--color-text-dark);
-            line-height: 1.6;
-            height: 100vh;
-            overflow: hidden; /* Prevent body scroll, handle inside app */
+        /* High-End Typography Classes */
+        .editorial-title {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.02em;
         }
-
-        /* --- Layout Structure (Mobile Simulation on Desktop) --- */
-        #app-container {
-            max-width: 480px; /* Mobile width */
-            margin: 0 auto;
-            background-color: var(--color-sand);
-            height: 100%;
-            position: relative;
-            box-shadow: 0 0 50px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* --- Header --- */
-        header {
-            padding: 20px 24px;
-            background-color: var(--color-sand);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-pre {
-            font-family: var(--font-serif);
-            font-size: 0.9rem;
-            color: var(--color-coral);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-
-        .header-title {
-            font-family: var(--font-serif);
-            font-size: 1.8rem;
+        
+        .chinese-title {
+            font-family: 'Noto Serif TC', serif;
             font-weight: 700;
-            color: var(--color-ocean);
         }
 
-        /* --- Scrollable Content Area --- */
-        #content-area {
-            flex: 1;
-            overflow-y: auto;
-            padding-bottom: 100px; /* Space for bottom nav */
-            scroll-behavior: smooth;
+        .fashion-tag {
+            font-family: 'Lato', sans-serif;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-size: 0.65rem;
         }
 
-        /* Hiding scrollbar for cleaner look */
-        #content-area::-webkit-scrollbar {
+        /* Transitions */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in;
+        }
+        
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Custom Scrollbar hide */
+        ::-webkit-scrollbar {
             width: 0px;
             background: transparent;
         }
 
-        /* --- Day Hero Section --- */
-        .day-hero {
-            padding: 0 24px 20px 24px;
+        /* Image Filters for that moody look */
+        .fashion-img {
+            filter: grayscale(20%) contrast(95%);
+            transition: filter 0.5s ease;
+        }
+        .fashion-img:hover {
+            filter: grayscale(0%) contrast(100%);
         }
 
-        .day-card {
-            background-color: var(--color-white);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--shadow-card);
-            margin-bottom: 24px;
-        }
-
-        .day-image-container {
-            height: 180px;
-            background-color: #ddd;
-            position: relative;
-        }
-
-        .day-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .day-overlay {
+        /* Minimalist Timeline */
+        .timeline-line {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
-            padding: 40px 20px 16px;
-            color: white;
-        }
-
-        .day-date {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .day-title {
-            font-family: var(--font-serif);
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        /* --- Timeline Styles --- */
-        .timeline-container {
-            padding: 0 24px;
-        }
-
-        .timeline-item {
-            display: flex;
-            margin-bottom: 24px;
-            position: relative;
-        }
-
-        /* Vertical line */
-        .timeline-item:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            left: 24px; /* Align with time center */
-            top: 40px;
-            bottom: -30px;
+            left: 7px;
+            top: 15px;
+            bottom: -15px;
             width: 1px;
-            border-left: 2px dashed #DDD;
+            background-color: #E5E5E5;
             z-index: 0;
         }
-
-        .time-col {
-            min-width: 60px;
-            padding-right: 12px;
-            text-align: right;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--color-ocean);
-            padding-top: 4px;
-            z-index: 1;
-        }
-
-        .event-card {
-            flex: 1;
-            background: var(--color-white);
-            padding: 16px;
-            border-radius: 0 var(--radius-lg) var(--radius-lg) var(--radius-lg);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            border-left: 4px solid transparent;
-            position: relative;
-        }
-
-        /* Event Type Colors */
-        .type-transport { border-left-color: var(--color-transport); }
-        .type-food { border-left-color: var(--color-food); }
-        .type-spot { border-left-color: var(--color-spot); }
-        .type-shop { border-left-color: var(--color-shop); }
-        .type-hotel { border-left-color: var(--color-ocean); background-color: #F8FDFF; }
-
-        .tag {
-            display: inline-block;
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            border-radius: 12px;
-            color: white;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .tag-transport { background-color: var(--color-transport); }
-        .tag-food { background-color: var(--color-food); }
-        .tag-spot { background-color: var(--color-spot); }
-        .tag-shop { background-color: var(--color-shop); }
-        .tag-hotel { background-color: var(--color-ocean); }
-
-        .event-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: var(--color-text-dark);
-        }
-
-        .event-desc {
-            font-size: 0.9rem;
-            color: var(--color-text-gray);
-            margin-bottom: 8px;
-        }
         
-        .event-meta {
-            font-size: 0.8rem;
-            color: #888;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        .timeline-last .timeline-line {
+            display: none;
         }
 
-        /* Hotel Special Card */
-        .hotel-section {
-            margin: 32px 24px;
-        }
-        
-        .hotel-label {
-            font-family: var(--font-serif);
-            font-size: 1.2rem;
-            color: var(--color-ocean);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .hotel-detail-card {
-            background-color: var(--color-ocean);
-            color: white;
-            padding: 24px;
-            border-radius: var(--radius-lg);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hotel-detail-card::before {
-            content: '\f594'; /* FontAwesome Bed */
-            font-family: "Font Awesome 6 Free";
+        /* Sharp Bottom Nav */
+        .nav-active::after {
+            content: '';
             position: absolute;
-            right: -20px;
-            top: -20px;
-            font-size: 8rem;
-            opacity: 0.1;
-        }
-
-        .hotel-name {
-            font-family: var(--font-serif);
-            font-size: 1.3rem;
-            margin-bottom: 12px;
-            line-height: 1.3;
-        }
-
-        .hotel-info-row {
-            display: flex;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        
-        .hotel-info-row i {
-            width: 24px;
-            margin-top: 4px;
-        }
-
-        /* --- Cost View --- */
-        .cost-container {
-            padding: 24px;
-        }
-        
-        .cost-summary {
-            background: linear-gradient(135deg, var(--color-ocean), #1A3A4A);
-            color: white;
-            padding: 30px;
-            border-radius: var(--radius-lg);
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .total-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        
-        .total-amount {
-            font-family: var(--font-serif);
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin: 10px 0;
-        }
-
-        .total-note {
-            font-size: 0.8rem;
-            opacity: 0.6;
-        }
-
-        .cost-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid #DDD;
-        }
-
-        .cost-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--color-ocean-light);
-            color: var(--color-ocean);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 16px;
-        }
-
-        .cost-details {
-            flex: 1;
-        }
-
-        .cost-cat {
-            font-weight: 700;
-            color: var(--color-text-dark);
-        }
-
-        .cost-sub {
-            font-size: 0.8rem;
-            color: var(--color-text-gray);
-        }
-
-        .cost-val {
-            font-weight: 700;
-            font-family: var(--font-sans);
-            color: var(--color-ocean);
-        }
-
-        /* --- Bottom Navigation --- */
-        #bottom-nav {
-            position: absolute;
-            bottom: 0;
-            left: 0;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 100%;
-            background-color: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0 20px 0; /* Extra padding for iPhone home bar */
-            box-shadow: var(--shadow-nav);
-            z-index: 200;
+            height: 2px;
+            background-color: #111;
         }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #CCC;
-            font-size: 0.7rem;
-            padding: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 16%;
-        }
-
-        .nav-item i {
-            font-size: 1.2rem;
-            margin-bottom: 4px;
-        }
-
-        .nav-item.active {
-            color: var(--color-ocean);
-        }
-        
-        .nav-item.active i {
-            transform: translateY(-2px);
-        }
-
-        /* --- Animations --- */
-        .fade-in {
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-<div id="app-container">
-    <header>
-        <div class="header-pre">Okinawa Trip 2026</div>
-        <div id="header-title" class="header-title">Day 1</div>
+    <!-- Header / Editorial Cover -->
+    <header class="relative w-full h-[85vh] md:h-[70vh] flex flex-col justify-center items-center overflow-hidden bg-fashion-gray">
+        <!-- Background Text Decoration -->
+        <div class="absolute top-10 left-0 w-full text-center select-none opacity-[0.03] overflow-hidden">
+            <h1 class="text-[20vw] font-serif font-black leading-none">OKINAWA</h1>
+        </div>
+
+        <div class="relative z-10 text-center p-8 border-y border-black/10 py-12 bg-white/50 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none w-full max-w-xl">
+            <p class="fashion-tag mb-4 tracking-[0.3em]">The Travel Issue • 2025</p>
+            <h2 class="text-6xl md:text-8xl chinese-title mb-2 tracking-wide">沖繩</h2>
+            <p class="font-eng italic text-2xl text-gray-500 mb-6">A journey through the blue.</p>
+            
+            <div class="flex justify-center gap-8 text-xs font-bold tracking-widest uppercase">
+                <div>April 9</div>
+                <div class="w-px h-4 bg-black"></div>
+                <div>April 13</div>
+            </div>
+        </div>
+
+        <!-- Decorative Image Strip -->
+        <div class="absolute bottom-0 left-0 w-full h-32 md:h-48 flex">
+            <img src="https://placehold.co/400x300/e0e0e0/333/png?text=Ocean" class="w-1/3 object-cover fashion-img border-r border-white">
+            <img src="https://placehold.co/400x300/dcdcdc/333/png?text=City" class="w-1/3 object-cover fashion-img border-r border-white">
+            <img src="https://placehold.co/400x300/e5e5e5/333/png?text=Sand" class="w-1/3 object-cover fashion-img">
+        </div>
     </header>
 
-    <main id="content-area">
-        <!-- Dynamic Content injected via JS -->
-    </main>
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto bg-white min-h-screen relative z-20 -mt-6 pt-12 px-6 md:px-12">
+        
+        <!-- Tab 1: Home / Editorial Overview -->
+        <div id="tab-home" class="tab-content active">
+            <div class="flex flex-col md:flex-row gap-12 mb-20">
+                <div class="w-full md:w-1/2">
+                    <span class="block w-8 h-1 bg-black mb-6"></span>
+                    <h3 class="text-3xl chinese-title mb-6">旅程摘要</h3>
+                    <p class="text-gray-500 font-light leading-relaxed text-justify mb-8">
+                        五天的慢活旅程，從北谷的異國海岸線延伸至北部的古宇利藍。這不僅僅是一次旅行，更是一場關於海風、光影與琉球文化的沈浸式體驗。
+                    </p>
+                    
+                    <!-- Flight Info Minimalist -->
+                    <div class="border-t border-b border-gray-200 py-6">
+                        <div class="flex justify-between items-baseline mb-2">
+                            <span class="fashion-tag">DEPARTURE • 去程</span>
+                            <span class="font-serif text-lg">06:50 TPE <span class="text-gray-300 mx-2">&mdash;</span> 09:20 OKA</span>
+                        </div>
+                        <div class="text-right text-xs text-gray-400 uppercase tracking-widest">Tigerair IT230</div>
+                    </div>
+                    <div class="border-b border-gray-200 py-6">
+                        <div class="flex justify-between items-baseline mb-2">
+                            <span class="fashion-tag">RETURN • 回程</span>
+                            <span class="font-serif text-lg">20:10 OKA <span class="text-gray-300 mx-2">&mdash;</span> 20:50 TPE</span>
+                        </div>
+                        <div class="text-right text-xs text-gray-400 uppercase tracking-widest">Starlux JX873</div>
+                    </div>
+                </div>
 
-    <nav id="bottom-nav">
-        <!-- Generated via JS -->
-    </nav>
-</div>
-
-<script>
-    /**
-     * Data Model
-     * 依照使用者需求解析的 JSON 資料結構
-     */
-    const tripData = {
-        days: [
-            {
-                id: 'd1',
-                date: '4/9 (四)',
-                title: '抵達與美國村',
-                image: 'https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=1000&auto=format&fit=crop', // Okinawa Street/American Village vibe
-                events: [
-                    { time: '06:50', title: '起飛: 虎航 IT230', type: 'transport', desc: 'TPE 桃園機場出發', icon: 'fa-plane-departure' },
-                    { time: '09:20', title: '抵達那霸機場', type: 'transport', desc: 'OKA 那霸機場', icon: 'fa-plane-arrival' },
-                    { time: '11:00', title: 'OTS 租車', type: 'transport', desc: '臨空豐崎營業所取車', icon: 'fa-car' },
-                    { time: '11:40', title: 'PARCO CITY', type: 'food', desc: '午餐與逛街', icon: 'fa-utensils' },
-                    { time: '14:00', title: '飯店 Check-in', type: 'hotel', desc: '先放置行李', icon: 'fa-suitcase' },
-                    { time: '16:00', title: '美國村 (American Village)', type: 'spot', desc: '異國風情街拍，商店約 20:00 關門', icon: 'fa-camera' }
-                ],
-                hotel: {
-                    name: "La'gent Hotel Okinawa Chatan",
-                    address: "沖繩縣中頭郡北谷町美濱 25-3",
-                    mapcode: "33555055*26",
-                    phone: "+81-98-926-0210",
-                    price: "NT,180",
-                    parking: "¥550 (對面 24H 停車場最多 ¥400)"
-                }
-            },
-            {
-                id: 'd2',
-                date: '4/10 (五)',
-                title: '北部海岸與植物園',
-                image: 'https://images.unsplash.com/photo-1627915935392-5eb712dc86c5?q=80&w=1000&auto=format&fit=crop', // Aquarium/Ocean
-                events: [
-                    { time: '07:30', title: '豬排蛋飯糰 北谷店', type: 'food', desc: '走路 10 分鐘，07:00 開', icon: 'fa-mug-hot' },
-                    { time: '09:00', title: '出發前往北部', type: 'transport', desc: '往古宇利島移動', icon: 'fa-car' },
-                    { time: '10:30', title: '古宇利大橋 / 海灘', type: 'spot', desc: '絕美海景', icon: 'fa-water' },
-                    { time: '12:00', title: '蝦蝦飯', type: 'food', desc: '經典必吃', icon: 'fa-shrimp' },
-                    { time: '13:30', title: '海洋博公園 / 美麗海水族館', type: 'spot', desc: '海豚劇場 13:00/17:00、鯨鯊餵食 15:00', icon: 'fa-fish' },
-                    { time: '17:30', title: 'A&W 漢堡 名護店', type: 'food', desc: '美式晚餐', icon: 'fa-burger' },
-                    { time: '19:00', title: '東南植物樂園', type: 'spot', desc: '夜間燈光秀 (17:00-22:00)', icon: 'fa-lightbulb' }
-                ],
-                hotel: {
-                    name: "REF Okinawa Arena by VESSEL",
-                    address: "沖縄県沖縄市字諸見里 1766 番地",
-                    mapcode: "",
-                    phone: "098-933-6111",
-                    price: "NT,985 (含大浴場)",
-                    parking: "免費停車"
-                }
-            },
-            {
-                id: 'd3',
-                date: '4/11 (六)',
-                title: '琉球海炎祭',
-                image: 'https://images.unsplash.com/photo-1498931299472-f7a63a5a1cfa?q=80&w=1000&auto=format&fit=crop', // Fireworks
-                events: [
-                    { time: '08:30', title: '出發', type: 'transport', desc: '前往南部', icon: 'fa-car' },
-                    { time: '09:00', title: '玉泉洞 / 文化王國', type: 'spot', desc: '鐘乳石洞與琉球文化', icon: 'fa-dungeon' },
-                    { time: '12:00', title: '蕎蕎蕎', type: 'food', desc: '日本蕎麥麵午餐', icon: 'fa-bowl-food' },
-                    { time: '14:00', title: '奧武島', type: 'food', desc: '大城天婦羅', icon: 'fa-cookie-bite' },
-                    { time: '15:00', title: '宜野灣海濱公園入場', type: 'spot', desc: '琉球海炎祭會場', icon: 'fa-ticket' },
-                    { time: '19:00', title: '煙火施放', type: 'spot', desc: '海炎祭重頭戲 (至 20:00)', icon: 'fa-fire' },
-                    { time: '21:30', title: '鳥貴族', type: 'food', desc: '宵夜', icon: 'fa-beer-mug-empty' }
-                ],
-                hotel: {
-                    name: "La'gent Hotel Okinawa Naha",
-                    address: "沖繩縣那覇市松山 2 丁目 2-9",
-                    mapcode: "",
-                    phone: "+81-98-894-5600",
-                    price: "NT,100 (高樓層)",
-                    parking: "¥1500 (機械式，建議停周邊)"
-                }
-            },
-            {
-                id: 'd4',
-                date: '4/12 (日)',
-                title: '那霸市區巡禮',
-                image: 'https://images.unsplash.com/photo-1596120236172-231999844c20?q=80&w=1000&auto=format&fit=crop', // Shopping/City
-                events: [
-                    { time: '09:00', title: '出發', type: 'transport', desc: '', icon: 'fa-car' },
-                    { time: '09:30', title: '波上宮 / 波之上海灘', type: 'spot', desc: '崖上神社', icon: 'fa-torii-gate' },
-                    { time: '11:00', title: '泊港漁市場', type: 'food', desc: '大國海產吃海鮮', icon: 'fa-fish-fins' },
-                    { time: '13:00', title: '瀨長島 Umikaji Terrace', type: 'spot', desc: '看飛機起降、下午茶', icon: 'fa-plane-up' },
-                    { time: '15:00', title: 'Outlet Mall / iias', type: 'shop', desc: '最後購物衝刺', icon: 'fa-bag-shopping' },
-                    { time: '18:30', title: 'OTS 還車', type: 'transport', desc: '加油並還車，搭接駁回飯店', icon: 'fa-gas-pump' },
-                    { time: '20:00', title: '國際通 / DFS', type: 'shop', desc: '市區逛街', icon: 'fa-store' }
-                ],
-                hotel: {
-                    name: "La'gent Hotel Okinawa Naha (續住)",
-                    address: "沖繩縣那覇市松山 2 丁目 2-9",
-                    mapcode: "",
-                    phone: "+81-98-894-5600",
-                    price: "NT,100",
-                    parking: "自行處理"
-                }
-            },
-            {
-                id: 'd5',
-                date: '4/13 (一)',
-                title: '首里城與返程',
-                image: 'https://images.unsplash.com/photo-1549419632-4e78a6358c54?q=80&w=1000&auto=format&fit=crop', // Shuri Castle/Red
-                events: [
-                    { time: '10:00', title: '退房', type: 'hotel', desc: '前往單軌電車站', icon: 'fa-door-open' },
-                    { time: '10:30', title: '首里城 / 達摩寺', type: 'spot', desc: '搭乘單軌至首里站', icon: 'fa-archway' },
-                    { time: '13:00', title: '國際通午餐', type: 'food', desc: '最後採買', icon: 'fa-utensils' },
-                    { time: '17:00', title: '前往機場', type: 'transport', desc: '單軌美榮橋 -> 那霸機場', icon: 'fa-train' },
-                    { time: '20:10', title: '起飛: 星宇 JX871', type: 'transport', desc: '返回 TPE', icon: 'fa-plane-departure' }
-                ],
-                hotel: null
-            }
-        ],
-        costs: {
-            total: "NT,824",
-            note: "預估總花費 (含機票/住宿/租車)",
-            items: [
-                { category: "機票", sub: "虎航 + 星宇 (含稅)", price: "NT,299", icon: "fa-plane" },
-                { category: "住宿", sub: "4 晚 (每人分攤)", price: "NT,183", icon: "fa-bed" },
-                { category: "租車", sub: "OTS 4 天 (每人分攤)", price: "NT,497", icon: "fa-car" },
-                { category: "門票", sub: "FunPASS + 海炎祭 + 首里城", price: "NT,010", icon: "fa-ticket" },
-                { category: "其他", sub: "餐食、停車預估", price: "NT,835", icon: "fa-coins" }
-            ]
-        }
-    };
-
-    // --- DOM Elements ---
-    const contentArea = document.getElementById('content-area');
-    const bottomNav = document.getElementById('bottom-nav');
-    const headerTitle = document.getElementById('header-title');
-
-    // --- Helper Functions ---
-    const getTypeLabel = (type) => {
-        const map = {
-            'transport': '交通',
-            'food': '美食',
-            'spot': '景點',
-            'shop': '購物',
-            'hotel': '住宿'
-        };
-        return map[type] || '活動';
-    };
-
-    // --- Render Functions ---
-
-    // 1. Render Timeline Day
-    const renderDay = (dayId) => {
-        const day = tripData.days.find(d => d.id === dayId);
-        if (!day) return;
-
-        headerTitle.innerText = `Day `;
-
-        let html = `
-            <div class="day-hero fade-in">
-                <div class="day-card">
-                    <div class="day-image-container">
-                        <img src="" class="day-image" alt="" onerror="this.src='https://placehold.co/600x400/2C5F78/FFF?text=Okinawa'">
-                        <div class="day-overlay">
-                            <div class="day-date"></div>
-                            <div class="day-title"></div>
+                <div class="w-full md:w-1/2 relative">
+                    <div class="aspect-[3/4] bg-gray-100 relative">
+                        <img src="https://placehold.co/600x800/f3f3f3/333/png?text=Car+Rental" class="w-full h-full object-cover fashion-img">
+                        <div class="absolute bottom-6 left-6 bg-white p-4 max-w-[80%] border border-gray-100">
+                            <p class="fashion-tag mb-1 text-fashion-gold">LOGISTICS</p>
+                            <p class="chinese-title text-xl">OTS 租車</p>
+                            <p class="text-xs text-gray-500 mt-1 uppercase tracking-wider">Rinku Toyosaki Branch</p>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <div class="timeline-container fade-in">
-        `;
 
-        // Events
-        day.events.forEach(event => {
-            html += `
-                <div class="timeline-item">
-                    <div class="time-col"></div>
-                    <div class="event-card type-">
-                        <span class="tag tag-"></span>
-                        <div class="event-title"></div>
-                        </div>` : ''}
-                        <div class="event-meta">
-                            <i class="fa-solid "></i>
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
-
-        html += `</div>`; // Close timeline-container
-
-        // Hotel Section (If exists)
-        if (day.hotel) {
-            html += `
-                <div class="hotel-section fade-in">
-                    <div class="hotel-label"><i class="fa-solid fa-moon"></i> 今晚住宿</div>
-                    <div class="hotel-detail-card">
-                        <div class="hotel-name"></div>
-                        <div class="hotel-info-row"><i class="fa-solid fa-location-dot"></i> <span></span></div>
-                         </span></div>` : ''
-                        <div class="hotel-info-row"><i class="fa-solid fa-phone"></i> <span></span></div>
-                        <div class="hotel-info-row"><i class="fa-solid fa-yen-sign"></i> <span>費用: </span></div>
-                        <div class="hotel-info-row"><i class="fa-solid fa-square-parking"></i> <span></span></div>
-                    </div>
-                </div>
-            `;
-        }
-
-        contentArea.innerHTML = html;
-        window.scrollTo(0, 0);
-    };
-
-    // 2. Render Costs
-    const renderCosts = () => {
-        headerTitle.innerText = "預算概覽";
-        const c = tripData.costs;
-
-        let html = `
-            <div class="cost-container fade-in">
-                <div class="cost-summary">
-                    <div class="total-label">Estimated Total</div>
-                    <div class="total-amount"></div>
-                    <div class="total-note"></div>
+            <!-- Curated Spots -->
+            <div class="mb-20">
+                <div class="text-center mb-12">
+                    <h3 class="text-2xl font-eng italic">Curated Spots</h3>
+                    <p class="text-sm text-gray-400 uppercase tracking-widest mt-2">精選景點</p>
                 </div>
                 
-                <div class="cost-list">
-        `;
-
-        c.items.forEach(item => {
-            html += `
-                <div class="cost-item">
-                    <div class="cost-icon"><i class="fa-solid "></i></div>
-                    <div class="cost-details">
-                        <div class="cost-cat"></div>
-                        <div class="cost-sub"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-0 border border-gray-100">
+                    <!-- Spot 1 -->
+                    <div class="group relative aspect-square md:aspect-auto md:h-96 border-b md:border-b-0 md:border-r border-gray-100 overflow-hidden">
+                        <img src="https://placehold.co/600x600/EEF2F5/999/png?text=Kouri" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-white/95 opacity-0 group-hover:opacity-100 transition duration-500 flex flex-col justify-center items-center text-center p-6">
+                            <p class="fashion-tag text-gray-400 mb-2">Day 02 • North</p>
+                            <h4 class="chinese-title text-3xl mb-1">古宇利大橋</h4>
+                            <p class="text-xs font-eng italic text-gray-400 tracking-wider">KOURI BRIDGE</p>
+                            <div class="w-8 h-px bg-black mt-4"></div>
+                        </div>
+                        <div class="absolute bottom-4 left-4 md:hidden bg-white/80 px-3 py-2 backdrop-blur-sm">
+                            <span class="block chinese-title text-sm">古宇利大橋</span>
+                        </div>
                     </div>
-                    <div class="cost-val"></div>
-                </div>
-            `;
-        });
-
-        html += `
-                </div>
-                <div style="text-align:center; margin-top:30px; color:#888; font-size:0.8rem;">
-                    * 費用依實際匯率與消費狀況變動
+                    <!-- Spot 2 -->
+                    <div class="group relative aspect-square md:aspect-auto md:h-96 border-b border-gray-100 overflow-hidden">
+                        <img src="https://placehold.co/600x600/F5F0EE/999/png?text=Aquarium" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-white/95 opacity-0 group-hover:opacity-100 transition duration-500 flex flex-col justify-center items-center text-center p-6">
+                            <p class="fashion-tag text-gray-400 mb-2">Day 02 • Aquarium</p>
+                            <h4 class="chinese-title text-3xl mb-1">美麗海水族館</h4>
+                            <p class="text-xs font-eng italic text-gray-400 tracking-wider">CHURAUMI AQUARIUM</p>
+                            <div class="w-8 h-px bg-black mt-4"></div>
+                        </div>
+                        <div class="absolute bottom-4 left-4 md:hidden bg-white/80 px-3 py-2 backdrop-blur-sm">
+                            <span class="block chinese-title text-sm">美麗海水族館</span>
+                        </div>
+                    </div>
+                    <!-- Spot 3 -->
+                    <div class="group relative aspect-square md:aspect-auto md:h-96 border-r md:border-r-0 border-gray-100 overflow-hidden">
+                        <img src="https://placehold.co/600x600/E8E8E8/999/png?text=American+Village" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-white/95 opacity-0 group-hover:opacity-100 transition duration-500 flex flex-col justify-center items-center text-center p-6">
+                            <p class="fashion-tag text-gray-400 mb-2">Day 01 • Chatan</p>
+                            <h4 class="chinese-title text-3xl mb-1">美國村</h4>
+                            <p class="text-xs font-eng italic text-gray-400 tracking-wider">AMERICAN VILLAGE</p>
+                            <div class="w-8 h-px bg-black mt-4"></div>
+                        </div>
+                        <div class="absolute bottom-4 left-4 md:hidden bg-white/80 px-3 py-2 backdrop-blur-sm">
+                            <span class="block chinese-title text-sm">美國村</span>
+                        </div>
+                    </div>
+                    <!-- Spot 4 -->
+                    <div class="group relative aspect-square md:aspect-auto md:h-96 overflow-hidden">
+                        <img src="https://placehold.co/600x600/333/FFF/png?text=Shuri" class="w-full h-full object-cover transition duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-white/95 opacity-0 group-hover:opacity-100 transition duration-500 flex flex-col justify-center items-center text-center p-6">
+                            <p class="fashion-tag text-gray-400 mb-2">Day 05 • Naha</p>
+                            <h4 class="chinese-title text-3xl mb-1">首里城</h4>
+                            <p class="text-xs font-eng italic text-gray-400 tracking-wider">SHURI CASTLE</p>
+                            <div class="w-8 h-px bg-black mt-4"></div>
+                        </div>
+                        <div class="absolute bottom-4 left-4 md:hidden bg-white/80 px-3 py-2 backdrop-blur-sm">
+                            <span class="block chinese-title text-sm">首里城</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        `;
+        </div>
 
-        contentArea.innerHTML = html;
-        window.scrollTo(0, 0);
-    };
-
-    // 3. Render Navigation
-    const renderNav = () => {
-        const days = tripData.days.map(d => ({ id: d.id, label: d.id.toUpperCase(), icon: 'fa-calendar-day' }));
-        const navItems = [...days, { id: 'cost', label: '預算', icon: 'fa-wallet' }];
-
-        bottomNav.innerHTML = navItems.map(item => `
-            <div class="nav-item" data-target="">
-                <i class="fa-solid "></i>
-                <span></span>
+        <!-- Tab 2: Itinerary / Editorial Timeline -->
+        <div id="tab-itinerary" class="tab-content">
+            <div class="text-center mb-16 pt-8">
+                <span class="fashion-tag block mb-2">The Schedule</span>
+                <h2 class="text-4xl editorial-title">Itinerary</h2>
             </div>
-        `).join('');
 
-        // Add Click Listeners
-        document.querySelectorAll('.nav-item').forEach(el => {
-            el.addEventListener('click', (e) => {
-                // Update Active State
-                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-                e.currentTarget.classList.add('active');
+            <!-- Day 1 -->
+            <div class="mb-16">
+                <div class="flex items-center gap-4 mb-8 sticky top-0 bg-white/95 backdrop-blur py-4 z-10 border-b border-gray-100">
+                    <span class="text-5xl font-eng text-fashion-gold opacity-50">01</span>
+                    <div>
+                        <h3 class="text-xl chinese-title font-bold">抵達 & 北谷</h3>
+                        <p class="text-xs text-gray-400 font-eng italic uppercase tracking-wider">April 9 • Thursday</p>
+                    </div>
+                </div>
 
-                // Render Content
-                const target = e.currentTarget.dataset.target;
-                if (target === 'cost') {
-                    renderCosts();
-                } else {
-                    renderDay(target);
-                }
+                <div class="space-y-0 pl-2">
+                    <!-- Item -->
+                    <div class="relative pl-8 pb-12 timeline-last:pb-0">
+                        <div class="timeline-line"></div>
+                        <div class="absolute left-0 top-1 w-[15px] h-[15px] bg-white border border-gray-300 rounded-full z-10"></div>
+                        
+                        <div class="grid grid-cols-[60px_1fr] gap-4">
+                            <div class="text-right pt-1">
+                                <span class="font-serif font-bold text-lg">09:20</span>
+                            </div>
+                            <div>
+                                <h4 class="chinese-title text-lg mb-0">抵達沖繩</h4>
+                                <p class="text-[0.6rem] text-gray-400 uppercase tracking-widest font-bold mb-2">LAND IN OKINAWA</p>
+                                <p class="text-gray-500 font-light text-sm mb-2">前往 OTS 臨空豐崎營業所取車。</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Item -->
+                    <div class="relative pl-8 pb-12">
+                        <div class="timeline-line"></div>
+                        <div class="absolute left-0 top-1 w-[15px] h-[15px] bg-black z-10"></div>
+                        
+                        <div class="grid grid-cols-[60px_1fr] gap-4">
+                            <div class="text-right pt-1">
+                                <span class="font-serif font-bold text-lg">12:00</span>
+                            </div>
+                            <div>
+                                <h4 class="chinese-title text-lg mb-0">浦添 PARCO CITY</h4>
+                                <p class="text-[0.6rem] text-gray-400 uppercase tracking-widest font-bold mb-2">LUNCH WITH OCEAN VIEW</p>
+                                <p class="text-gray-500 font-light text-sm italic mb-3">無敵海景美食街午餐。</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Okinawa+PARCO+CITY" target="_blank" class="inline-block border border-black px-4 py-2 text-[10px] tracking-widest hover:bg-black hover:text-white transition uppercase">View Map</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item -->
+                    <div class="relative pl-8 pb-4 timeline-last">
+                        <div class="timeline-line"></div>
+                        <div class="absolute left-0 top-1 w-[15px] h-[15px] bg-gray-300 z-10"></div>
+                        
+                        <div class="grid grid-cols-[60px_1fr] gap-4">
+                            <div class="text-right pt-1">
+                                <span class="font-serif font-bold text-lg">PM</span>
+                            </div>
+                            <div>
+                                <h4 class="chinese-title text-lg mb-0">美國村</h4>
+                                <p class="text-[0.6rem] text-gray-400 uppercase tracking-widest font-bold mb-2">AMERICAN VILLAGE</p>
+                                <p class="text-gray-500 font-light text-sm">晚餐與異國風情散步。商店約 20:00 關門。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 2 -->
+             <div class="mb-16">
+                <div class="flex items-center gap-4 mb-8 sticky top-0 bg-white/95 backdrop-blur py-4 z-10 border-b border-gray-100">
+                    <span class="text-5xl font-eng text-fashion-gold opacity-50">02</span>
+                    <div>
+                        <h3 class="text-xl chinese-title font-bold">北部藍海</h3>
+                        <p class="text-xs text-gray-400 font-eng italic uppercase tracking-wider">April 10 • Friday</p>
+                    </div>
+                </div>
+
+                <div class="space-y-0 pl-2">
+                    <div class="relative pl-8 pb-12">
+                        <div class="timeline-line"></div>
+                        <div class="absolute left-0 top-1 w-[15px] h-[15px] bg-white border border-gray-300 rounded-full z-10"></div>
+                        <div class="grid grid-cols-[60px_1fr] gap-4">
+                            <div class="text-right pt-1"><span class="font-serif font-bold text-lg">07:00</span></div>
+                            <div>
+                                <h4 class="chinese-title text-lg mb-0">豬排蛋飯糰</h4>
+                                <p class="text-[0.6rem] text-gray-400 uppercase tracking-widest font-bold mb-2">PORK TAMAGO ONIGIRI</p>
+                                <p class="text-gray-500 font-light text-sm">北谷店，走路 10 分鐘。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative pl-8 pb-12">
+                        <div class="timeline-line"></div>
+                        <div class="absolute left-0 top-1 w-[15px] h-[15px] bg-black z-10"></div>
+                        <div class="grid grid-cols-[60px_1fr] gap-4">
+                            <div class="text-right pt-1"><span class="font-serif font-bold text-lg">11:00</span></div>
+                            <div>
+                                <h4 class="chinese-title text-lg mb-0">古宇利島</h4>
+                                <p class="text-[0.6rem] text-gray-400 uppercase tracking-widest font-bold mb-2">KOURI ISLAND</p>
+                                <p class="text-gray-500 font-light text-sm mb-3">古宇利大橋與蝦蝦飯午餐。</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Kouri+Shrimp" target="_blank" class="inline-block border border-black px-4 py-2 text-[10px] tracking-widest hover:bg-black hover:text-white transition uppercase">View Map</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative pl-8 pb-12">
+                        <div class="timeline-line"></div>
+                        <div class="absolute left-0 top-1 w-[15px] h-[15px] bg-black z-10"></div>
+                        <div class="grid grid-cols-[60px_1fr] gap-4">
+                            <div class="text-right pt-1"><span class="font-serif font-bold text-lg">13:00</span></div>
+                            <div>
+                                <h4 class="chinese-title text-lg mb-0">美麗海水族館</h4>
+                                <p class="text-[0.6rem] text-gray-400 uppercase tracking-widest font-bold mb-2">CHURAUMI AQUARIUM</p>
+                                <p class="text-gray-500 font-light text-sm">鯨鯊餵食秀 15:00 / 17:00。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative pl-8 pb-4 timeline-last">
+                        <div class="timeline-line"></div>
+                        <div class="absolute left-0 top-1 w-[15px] h-[15px] bg-gray-300 z-10"></div>
+                        <div class="grid grid-cols-[60px_1fr] gap-4">
+                            <div class="text-right pt-1"><span class="font-serif font-bold text-lg">17:00</span></div>
+                            <div>
+                                <h4 class="chinese-title text-lg mb-0">東南植物樂園</h4>
+                                <p class="text-[0.6rem] text-gray-400 uppercase tracking-widest font-bold mb-2">BOTANICAL GARDENS</p>
+                                <p class="text-gray-500 font-light text-sm">夜間燈光秀。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 3 -->
+            <div class="mb-16">
+                 <div class="flex items-center gap-4 mb-8 sticky top-0 bg-white/95 backdrop-blur py-4 z-10 border-b border-gray-100">
+                    <span class="text-5xl font-eng text-fashion-gold opacity-50">03</span>
+                    <div>
+                        <h3 class="text-xl chinese-title font-bold">文化與花火</h3>
+                        <p class="text-xs text-gray-400 font-eng italic uppercase tracking-wider">April 11 • Saturday</p>
+                    </div>
+                </div>
+                 <div class="p-4 border border-fashion-gold/30 bg-fashion-gold/5 mb-8 text-center">
+                    <p class="text-xs font-bold text-fashion-gold tracking-widest uppercase">Event Highlight</p>
+                    <p class="chinese-title text-lg mt-1 font-bold">琉球海炎祭</p>
+                    <p class="text-xs text-gray-500 mt-1 italic">Ryukyu Kaiensai Fireworks</p>
+                </div>
+
+                <div class="space-y-0 pl-2">
+                     <div class="relative pl-8 pb-12">
+                        <div class="timeline-line"></div>
+                        <div class="absolute left-0 top-1 w-[15px] h-[15px] bg-white border border-gray-300 rounded-full z-10"></div>
+                        <div class="grid grid-cols-[60px_1fr] gap-4">
+                            <div class="text-right pt-1"><span class="font-serif font-bold text-lg">09:00</span></div>
+                            <div>
+                                <h4 class="chinese-title text-lg mb-0">王國村 & 玉泉洞</h4>
+                                <p class="text-[0.6rem] text-gray-400 uppercase tracking-widest font-bold mb-2">OKINAWA WORLD</p>
+                                <p class="text-gray-500 font-light text-sm">鐘乳石洞探險。</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="relative pl-8 pb-12">
+                        <div class="timeline-line"></div>
+                        <div class="absolute left-0 top-1 w-[15px] h-[15px] bg-black z-10"></div>
+                        <div class="grid grid-cols-[60px_1fr] gap-4">
+                            <div class="text-right pt-1"><span class="font-serif font-bold text-lg">11:30</span></div>
+                            <div>
+                                <h4 class="chinese-title text-lg mb-0">楚辺沖繩麵</h4>
+                                <p class="text-[0.6rem] text-gray-400 uppercase tracking-widest font-bold mb-2">SOBE SOBA</p>
+                                <p class="text-gray-500 font-light text-sm">古民家風格沖繩麵。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative pl-8 pb-4 timeline-last">
+                        <div class="timeline-line"></div>
+                        <div class="absolute left-0 top-1 w-[15px] h-[15px] bg-fashion-gold z-10"></div>
+                        <div class="grid grid-cols-[60px_1fr] gap-4">
+                            <div class="text-right pt-1"><span class="font-serif font-bold text-lg">19:00</span></div>
+                            <div>
+                                <h4 class="chinese-title text-lg mb-0">海炎祭煙火</h4>
+                                <p class="text-[0.6rem] text-gray-400 uppercase tracking-widest font-bold mb-2">FIREWORKS FESTIVAL</p>
+                                <p class="text-gray-500 font-light text-sm mb-3">宜野灣海濱公園。</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Ginowan+Seaside+Park" target="_blank" class="inline-block border border-black px-4 py-2 text-[10px] tracking-widest hover:bg-black hover:text-white transition uppercase">Locate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 4 -->
+            <div class="mb-16">
+                 <div class="flex items-center gap-4 mb-8 sticky top-0 bg-white/95 backdrop-blur py-4 z-10 border-b border-gray-100">
+                    <span class="text-5xl font-eng text-fashion-gold opacity-50">04</span>
+                    <div>
+                        <h3 class="text-xl chinese-title font-bold">那霸市區</h3>
+                        <p class="text-xs text-gray-400 font-eng italic uppercase tracking-wider">April 12 • Sunday</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-px bg-gray-200 border border-gray-200">
+                    <div class="bg-white p-6 aspect-square flex flex-col justify-center items-center text-center">
+                        <span class="chinese-title text-2xl mb-1 font-bold">波上宮</span>
+                        <span class="text-[0.6rem] uppercase tracking-widest text-gray-400">NAMINOUE SHRINE</span>
+                    </div>
+                    <div class="bg-white p-6 aspect-square flex flex-col justify-center items-center text-center">
+                        <span class="chinese-title text-2xl mb-1 font-bold">泊港漁市場</span>
+                        <span class="text-[0.6rem] uppercase tracking-widest text-gray-400">TOMARI MARKET</span>
+                    </div>
+                    <div class="bg-white p-6 aspect-square flex flex-col justify-center items-center text-center">
+                        <span class="chinese-title text-2xl mb-1 font-bold">瀨長島</span>
+                        <span class="text-[0.6rem] uppercase tracking-widest text-gray-400">UMIKAJI TERRACE</span>
+                    </div>
+                    <div class="bg-white p-6 aspect-square flex flex-col justify-center items-center text-center bg-gray-50">
+                        <span class="chinese-title text-2xl mb-1 font-bold text-gray-500">還車</span>
+                        <span class="text-[0.6rem] uppercase tracking-widest text-gray-400">RETURN CAR (19:00)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day 5 -->
+            <div class="mb-12">
+                 <div class="flex items-center gap-4 mb-8 sticky top-0 bg-white/95 backdrop-blur py-4 z-10 border-b border-gray-100">
+                    <span class="text-5xl font-eng text-fashion-gold opacity-50">05</span>
+                    <div>
+                        <h3 class="text-xl chinese-title font-bold">返程</h3>
+                        <p class="text-xs text-gray-400 font-eng italic uppercase tracking-wider">April 13 • Monday</p>
+                    </div>
+                </div>
+                <div class="pl-2">
+                    <h4 class="chinese-title text-2xl mb-0 font-bold">首里城</h4>
+                    <p class="text-[0.6rem] text-gray-400 uppercase tracking-widest font-bold mb-2">SHURI CASTLE</p>
+                    <p class="text-gray-500 font-light mb-6">見證重建過程與周邊巡禮。</p>
+                    
+                    <div class="border-t border-black pt-6 mt-6">
+                        <h4 class="chinese-title text-2xl mb-0 font-bold">前往機場</h4>
+                        <p class="text-[0.6rem] text-gray-400 uppercase tracking-widest font-bold mb-2">DEPARTURE</p>
+                        <p class="text-gray-500 font-light">建議 17:00 前抵達。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Hotels / Editorial Stays -->
+        <div id="tab-hotels" class="tab-content">
+            <div class="text-center mb-16 pt-8">
+                <span class="fashion-tag block mb-2">Accommodation</span>
+                <h2 class="text-4xl editorial-title">The Stays</h2>
+            </div>
+            
+            <div class="space-y-12">
+                <!-- Hotel 1 -->
+                <article class="group cursor-pointer">
+                    <div class="relative overflow-hidden mb-4">
+                        <img src="https://placehold.co/800x500/f0f0f0/333/png?text=La'gent+Chatan" class="w-full aspect-video object-cover fashion-img transition duration-700 group-hover:scale-105">
+                        <div class="absolute top-0 right-0 bg-white px-4 py-2">
+                            <span class="font-serif font-bold">NT$2,180</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <span class="fashion-tag text-gray-400 block mb-1">Night 1 • American Village</span>
+                            <h3 class="text-2xl chinese-title mb-1">沖繩北谷柔婕閣酒店</h3>
+                            <p class="text-xs text-gray-400 uppercase tracking-wider mb-2">La'gent Hotel Okinawa Chatan</p>
+                            <p class="text-sm text-gray-500 font-light max-w-md">時尚風格飯店，鄰近美國村。</p>
+                        </div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=La'gent+Hotel+Okinawa+Chatan" target="_blank" class="w-10 h-10 border border-black flex items-center justify-center hover:bg-black hover:text-white transition rounded-none">
+                            <i class="fas fa-location-arrow"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Hotel 2 -->
+                <article class="group cursor-pointer">
+                    <div class="relative overflow-hidden mb-4">
+                        <img src="https://placehold.co/800x500/e5e5e5/333/png?text=REF+Vessel" class="w-full aspect-video object-cover fashion-img transition duration-700 group-hover:scale-105">
+                         <div class="absolute top-0 right-0 bg-white px-4 py-2">
+                            <span class="font-serif font-bold">NT$1,985</span>
+                        </div>
+                    </div>
+                     <div class="flex justify-between items-start">
+                        <div>
+                            <span class="fashion-tag text-gray-400 block mb-1">Night 2 • Okinawa City</span>
+                            <h3 class="text-2xl chinese-title mb-1">REF 沖繩競技場 VESSEL</h3>
+                            <p class="text-xs text-gray-400 uppercase tracking-wider mb-2">REF Okinawa Arena by VESSEL</p>
+                            <p class="text-sm text-gray-500 font-light max-w-md">附設大浴場與桑拿。</p>
+                        </div>
+                         <a href="https://www.google.com/maps/search/?api=1&query=REF+Okinawa+Arena+by+VESSEL" target="_blank" class="w-10 h-10 border border-black flex items-center justify-center hover:bg-black hover:text-white transition rounded-none">
+                            <i class="fas fa-location-arrow"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Hotel 3 -->
+                <article class="group cursor-pointer">
+                    <div class="relative overflow-hidden mb-4">
+                        <img src="https://placehold.co/800x500/dcdcdc/333/png?text=La'gent+Naha" class="w-full aspect-video object-cover fashion-img transition duration-700 group-hover:scale-105">
+                         <div class="absolute top-0 right-0 bg-white px-4 py-2">
+                            <span class="font-serif font-bold">NT$2,100</span>
+                        </div>
+                    </div>
+                     <div class="flex justify-between items-start">
+                        <div>
+                            <span class="fashion-tag text-gray-400 block mb-1">Night 3-4 • Naha</span>
+                            <h3 class="text-2xl chinese-title mb-1">那霸拉真特飯店</h3>
+                            <p class="text-xs text-gray-400 uppercase tracking-wider mb-2">La'gent Hotel Okinawa Naha</p>
+                            <p class="text-sm text-gray-500 font-light max-w-md">機械式停車場，近國際通。</p>
+                        </div>
+                         <a href="https://www.google.com/maps/search/?api=1&query=La'gent+Hotel+Okinawa+Naha" target="_blank" class="w-10 h-10 border border-black flex items-center justify-center hover:bg-black hover:text-white transition rounded-none">
+                            <i class="fas fa-location-arrow"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <!-- Tab 4: Budget / Minimalist Table -->
+        <div id="tab-budget" class="tab-content">
+             <div class="text-center mb-16 pt-8">
+                <span class="fashion-tag block mb-2">Finance</span>
+                <h2 class="text-4xl editorial-title">Budget</h2>
+            </div>
+
+            <div class="border-t-2 border-black">
+                <div class="grid grid-cols-2 py-6 border-b border-gray-100">
+                    <span class="fashion-tag text-gray-500">機票 Flights (2p)</span>
+                    <span class="text-right font-serif text-lg">NT$13,299</span>
+                </div>
+                <div class="grid grid-cols-2 py-6 border-b border-gray-100">
+                    <span class="fashion-tag text-gray-500">住宿 Hotels (Per Person)</span>
+                    <span class="text-right font-serif text-lg">NT$4,183</span>
+                </div>
+                <div class="grid grid-cols-2 py-6 border-b border-gray-100">
+                    <span class="fashion-tag text-gray-500">租車 Car Rental</span>
+                    <span class="text-right font-serif text-lg">NT$2,497</span>
+                </div>
+                <div class="grid grid-cols-2 py-6 border-b border-gray-100">
+                    <span class="fashion-tag text-gray-500">門票 Tickets</span>
+                    <span class="text-right font-serif text-lg">~NT$2,000</span>
+                </div>
+                
+                <div class="py-12 text-center">
+                    <p class="fashion-tag text-gray-400 mb-2">ESTIMATED TOTAL (PP)</p>
+                    <p class="text-5xl font-serif font-bold">NT$21,979</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation (Sleek) -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-gray-100 h-20 z-50">
+        <div class="container mx-auto max-w-4xl h-full">
+            <div class="grid grid-cols-4 h-full">
+                <button onclick="switchTab('home')" class="nav-btn relative h-full flex flex-col items-center justify-center hover:bg-gray-50 transition-colors group nav-active" id="btn-home">
+                    <span class="text-[10px] tracking-[0.2em] font-bold group-hover:text-black uppercase">Home</span>
+                </button>
+                <button onclick="switchTab('itinerary')" class="nav-btn relative h-full flex flex-col items-center justify-center hover:bg-gray-50 transition-colors group" id="btn-itinerary">
+                    <span class="text-[10px] tracking-[0.2em] font-bold text-gray-400 group-hover:text-black uppercase">Plan</span>
+                </button>
+                <button onclick="switchTab('hotels')" class="nav-btn relative h-full flex flex-col items-center justify-center hover:bg-gray-50 transition-colors group" id="btn-hotels">
+                    <span class="text-[10px] tracking-[0.2em] font-bold text-gray-400 group-hover:text-black uppercase">Stays</span>
+                </button>
+                <button onclick="switchTab('budget')" class="nav-btn relative h-full flex flex-col items-center justify-center hover:bg-gray-50 transition-colors group" id="btn-budget">
+                    <span class="text-[10px] tracking-[0.2em] font-bold text-gray-400 group-hover:text-black uppercase">Cost</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        function switchTab(tabId) {
+            // Content Transition
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('active');
             });
-        });
-    };
-
-    // --- Initialization ---
-    const init = () => {
-        renderNav();
-        // Set Default Tab (D1)
-        document.querySelector('[data-target="d1"]').classList.add('active');
-        renderDay('d1');
-    };
-
-    // Start App
-    init();
-
-</script>
-
+            
+            setTimeout(() => {
+                document.getElementById('tab-' + tabId).classList.add('active');
+            }, 50); // Small delay for fade effect
+            
+            // Nav State
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('nav-active');
+                const span = btn.querySelector('span');
+                span.classList.remove('text-black');
+                span.classList.add('text-gray-400');
+            });
+            
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.add('nav-active');
+            activeBtn.querySelector('span').classList.remove('text-gray-400');
+            activeBtn.querySelector('span').classList.add('text-black');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
-
