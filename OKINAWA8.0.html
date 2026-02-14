@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OKINAWA VOYAGE 2026 | Exclusive Itinerary</title>
+    <meta name="description" content="Exclusive Itinerary for Okinawa Trip, April 2026.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif+TC:wght@400;600;900&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: '#C5A059',      /* 較沉穩的香檳金 */
+                        navy: '#1A233A',      /* 深海軍藍 */
+                        paper: '#F9F8F4',     /* 米白紙張色 */
+                        sand: '#E6E2DD',      /* 沙色 */
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', '"Noto Serif TC"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F9F8F4;
+            color: #333;
+        }
+
+        /* Offset for fixed navbar handled by JS now, but keeping this as backup */
+        section {
+            scroll-margin-top: 100px;
+        }
+
+        /* 高級感圖片濾鏡 */
+        .img-editorial {
+            transition: transform 0.7s ease, filter 0.7s ease;
+            filter: brightness(0.95);
+        }
+        .img-container:hover .img-editorial {
+            transform: scale(1.03);
+            filter: brightness(1.05);
+        }
+
+        /* 資訊卡片樣式 */
+        .info-card {
+            background: white;
+            border: 1px solid #E5E7EB;
+            transition: all 0.3s ease;
+        }
+        .info-card:hover {
+            border-color: #C5A059;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+        }
+
+        /* Google Maps Link */
+        .btn-map {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #666;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+        .btn-map:hover {
+            color: #C5A059;
+            text-decoration: underline;
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 transition-all duration-300 shadow-sm" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 cursor-pointer" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+                    <span class="font-serif font-black text-xl tracking-widest text-navy">OKINAWA '26</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-1">
+                    <a href="#day1" class="text-xs uppercase tracking-widest font-medium text-gray-500 hover:text-navy hover:bg-gray-50 px-4 py-2 rounded transition-colors">D1 Arrival</a>
+                    <a href="#day2" class="text-xs uppercase tracking-widest font-medium text-gray-500 hover:text-navy hover:bg-gray-50 px-4 py-2 rounded transition-colors">D2 North</a>
+                    <a href="#day3" class="text-xs uppercase tracking-widest font-medium text-gray-500 hover:text-navy hover:bg-gray-50 px-4 py-2 rounded transition-colors">D3 Culture</a>
+                    <a href="#day4" class="text-xs uppercase tracking-widest font-medium text-gray-500 hover:text-navy hover:bg-gray-50 px-4 py-2 rounded transition-colors">D4 South</a>
+                    <a href="#day5" class="text-xs uppercase tracking-widest font-medium text-gray-500 hover:text-navy hover:bg-gray-50 px-4 py-2 rounded transition-colors">D5 Return</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 text-navy">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-100 absolute w-full">
+            <div class="flex flex-col p-4 space-y-2 text-center">
+                <a href="#day1" class="py-3 text-sm font-medium tracking-widest text-gray-600 border-b border-gray-50">DAY 1</a>
+                <a href="#day2" class="py-3 text-sm font-medium tracking-widest text-gray-600 border-b border-gray-50">DAY 2</a>
+                <a href="#day3" class="py-3 text-sm font-medium tracking-widest text-gray-600 border-b border-gray-50">DAY 3</a>
+                <a href="#day4" class="py-3 text-sm font-medium tracking-widest text-gray-600 border-b border-gray-50">DAY 4</a>
+                <a href="#day5" class="py-3 text-sm font-medium tracking-widest text-gray-600">DAY 5</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Header -->
+    <header class="relative h-[90vh] flex items-center justify-center overflow-hidden bg-navy">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=2070&auto=format&fit=crop" alt="Okinawa Sea" class="w-full h-full object-cover opacity-60">
+        </div>
+        <div class="relative z-10 text-center text-white px-6 animate-fade-in-up">
+            <span class="inline-block border border-white/30 px-4 py-1 mb-6 text-xs tracking-[0.3em] uppercase backdrop-blur-sm">Private Driving Tour</span>
+            <h1 class="font-serif text-5xl md:text-8xl mb-6 leading-tight">
+                OKINAWA<br><i class="font-serif text-gold">2026</i>
+            </h1>
+            <p class="text-lg font-light tracking-wide text-white/80 mb-10 max-w-xl mx-auto">
+                April 9 — April 13<br>
+                <span class="text-sm mt-2 block opacity-70">A curated journey through the Ryukyu Islands</span>
+            </p>
+            <a href="#day1" class="group inline-flex items-center gap-3 bg-white text-navy px-8 py-4 text-sm font-bold tracking-widest hover:bg-gold hover:text-white transition-all duration-300">
+                START JOURNEY <i class="fas fa-arrow-down group-hover:translate-y-1 transition-transform"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-24">
+
+        <!-- DAY 1 -->
+        <section id="day1" class="mb-40 reveal">
+            <!-- Day Header -->
+            <div class="text-center mb-16">
+                <div class="flex items-center justify-center gap-3 mb-2">
+                    <span class="bg-navy text-white px-2 py-1 text-xs font-bold tracking-widest uppercase">DAY 1</span>
+                    <span class="text-gold font-bold tracking-[0.2em] text-xs uppercase">Thursday, April 9</span>
+                </div>
+                <h2 class="font-serif text-4xl md:text-5xl text-navy">Arrival & Check-in</h2>
+                <div class="w-12 h-1 bg-gold mx-auto mt-6"></div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+                
+                <!-- Flight Card -->
+                <div class="info-card p-8 md:col-span-2 flex flex-col md:flex-row items-center justify-between bg-navy text-white border-none shadow-xl">
+                    <div class="mb-6 md:mb-0">
+                        <h3 class="font-serif text-2xl mb-1 text-gold"><i class="fas fa-plane-departure mr-3"></i>Flight Info</h3>
+                        <p class="text-white/60 text-sm">台中 (RMQ) ➔ 沖繩 (OKA)</p>
+                    </div>
+                    <div class="text-center md:text-right">
+                        <div class="text-3xl font-bold font-serif tracking-wider">IT230</div>
+                        <div class="text-sm opacity-70 mt-1">Tigerair 虎航</div>
+                    </div>
+                    <div class="mt-6 md:mt-0 md:pl-10 md:border-l border-white/20 text-sm">
+                        <div class="flex items-center gap-4 mb-2">
+                            <span class="opacity-50 w-12">02:00</span>
+                            <span>台中出發 → 桃園機場</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="opacity-50 w-12">06:50</span>
+                            <span>起飛 (09:20 抵達)</span>
+                        </div>
+                        <div class="mt-3 inline-block bg-white/10 px-3 py-1 text-xs rounded">行李: 20KG</div>
+                    </div>
+                </div>
+
+                <!-- Spot 1: Car Rental -->
+                <div class="info-card p-6 rounded-lg">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="font-mono text-gold font-bold text-lg">11:00</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=OTS+Rinku+Toyosaki" target="_blank" class="btn-map"><i class="fas fa-location-arrow mr-1"></i> Map</a>
+                    </div>
+                    <h3 class="font-serif text-2xl text-navy mb-2">OTS 臨空豐崎營業所</h3>
+                    <p class="text-gray-500 text-sm mb-4 leading-relaxed">取車手續 (Pick up)。預計耗時 1-1.5 小時。</p>
+                    <div class="bg-paper p-3 text-xs text-gray-500 rounded border border-gray-100">
+                        <i class="fas fa-info-circle mr-1 text-navy"></i> 請準備：護照、台灣駕照、日文譯本。
+                    </div>
+                </div>
+
+                <!-- Spot 2: PARCO CITY -->
+                <div class="info-card p-0 overflow-hidden rounded-lg group img-container">
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1555529733-0e670560f7e1?q=80&w=1000&auto=format&fit=crop" alt="Shopping" class="img-editorial w-full h-full object-cover">
+                        <div class="absolute top-4 left-4 bg-white/90 px-3 py-1 text-xs font-bold tracking-widest uppercase">Lunch</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-serif text-2xl text-navy mb-2">浦添 PARCO CITY</h3>
+                        <p class="text-gray-500 text-sm mb-3">全沖繩最大海景商城。午餐與首波購物。</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center text-xs text-gold font-bold">
+                                <i class="fas fa-car mr-2"></i> 車程約 40 分鐘
+                            </div>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Parco+City+Okinawa" target="_blank" class="btn-map">Map</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spot 3: Hotel -->
+                <div class="info-card p-8 md:col-span-2 border-l-4 border-gold bg-gradient-to-r from-white to-paper">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <div class="flex-1">
+                            <span class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block">Accommodation (D1)</span>
+                            <h3 class="font-serif text-3xl text-navy mb-2">La'gent Hotel Okinawa Chatan</h3>
+                            <p class="text-gray-500 mb-4 text-sm">北谷町美濱 (美國村旁)。入住時間 14:00 後。</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                                <div class="bg-white p-3 border border-gray-100 rounded">
+                                    <span class="block text-xs text-gray-400 mb-1">停車費</span>
+                                    <span class="font-bold text-navy">¥550 / 晚</span>
+                                    <span class="block text-xs text-gray-400 mt-1">對面有 ¥400 停車場</span>
+                                </div>
+                                <div class="bg-white p-3 border border-gray-100 rounded">
+                                    <span class="block text-xs text-gray-400 mb-1">聯絡電話</span>
+                                    <a href="tel:+81989260210" class="font-bold text-navy hover:text-gold">+81-98-926-0210</a>
+                                </div>
+                            </div>
+                             <div class="mt-4">
+                                <a href="https://www.google.com/maps/search/?api=1&query=La'gent+Hotel+Okinawa+Chatan" target="_blank" class="btn-map"><i class="fas fa-location-arrow mr-1"></i> Google Maps</a>
+                            </div>
+                        </div>
+                        <div class="md:w-1/3">
+                            <div class="bg-navy text-white p-5 rounded h-full flex flex-col justify-center">
+                                <h4 class="font-serif text-lg mb-2 text-gold">Evening Plan</h4>
+                                <ul class="text-sm space-y-2 opacity-80">
+                                    <li><i class="fas fa-moon mr-2 text-gold"></i>美國村 (American Village)</li>
+                                    <li><i class="fas fa-utensils mr-2 text-gold"></i>晚餐自理</li>
+                                    <li><i class="fas fa-clock mr-2 text-gold"></i>商店約 20:00 關門</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- DAY 2 -->
+        <section id="day2" class="mb-40 reveal">
+            <div class="text-center mb-16">
+                <div class="flex items-center justify-center gap-3 mb-2">
+                    <span class="bg-navy text-white px-2 py-1 text-xs font-bold tracking-widest uppercase">DAY 2</span>
+                    <span class="text-gold font-bold tracking-[0.2em] text-xs uppercase">Friday, April 10</span>
+                </div>
+                <h2 class="font-serif text-4xl md:text-5xl text-navy">Northern Blue</h2>
+                <div class="w-12 h-1 bg-gold mx-auto mt-6"></div>
+            </div>
+
+            <div class="relative border-l border-gray-200 ml-4 md:ml-0 md:border-none space-y-12">
+                
+                <!-- Timeline Item -->
+                <div class="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
+                    <div class="pl-8 md:pl-0 md:w-1/4 md:text-right mt-1">
+                        <span class="font-mono text-2xl text-navy block">09:00</span>
+                        <span class="text-xs text-gray-400 uppercase tracking-widest">Morning Call</span>
+                    </div>
+                    <div class="pl-8 md:pl-0 flex-1 border-l-2 border-transparent md:border-l-2 md:border-gold md:pl-10 relative">
+                        <!-- Content -->
+                        <div class="bg-white p-6 shadow-sm border border-gray-100 rounded-lg">
+                            <h3 class="font-bold text-lg mb-2">早餐：豬排蛋飯糰</h3>
+                            <p class="text-sm text-gray-600 mb-2">北谷店 (走路 10 分鐘，07:00 開)。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Pork+Tamago+Onigiri+Chatan" target="_blank" class="btn-map mt-2"><i class="fas fa-location-arrow mr-1"></i> Map</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item (Kouri) -->
+                <div class="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
+                    <div class="pl-8 md:pl-0 md:w-1/4 md:text-right mt-1">
+                        <span class="font-mono text-2xl text-navy block">10:30</span>
+                        <span class="text-xs text-gray-400 uppercase tracking-widest">~1hr Drive</span>
+                    </div>
+                    <div class="pl-8 md:pl-0 flex-1 border-l-2 border-transparent md:border-l-2 md:border-gold md:pl-10">
+                        <div class="group img-container overflow-hidden rounded-lg mb-4 h-64 relative shadow-lg">
+                            <!-- FIXED IMAGE: Kouri Bridge (Using high-res stable Wikimedia link, NO referrer policy) -->
+                            <img 
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Kouri_Ohashi_Bridge.jpg/1280px-Kouri_Ohashi_Bridge.jpg" 
+                                alt="Kouri Bridge" 
+                                class="img-editorial w-full h-full object-cover"
+                                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1540206351-d6465b3ac5c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80';"
+                            >
+                            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-navy/80 to-transparent p-6">
+                                <h3 class="text-white font-serif text-2xl">古宇利大橋 & 海灘</h3>
+                            </div>
+                        </div>
+                        
+                        <!-- Lunch Options -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white border border-gray-100 p-4 rounded hover:border-gold transition-colors">
+                                <span class="text-xs font-bold text-gold uppercase block mb-1">Lunch Option A</span>
+                                <h4 class="font-bold text-navy">Kouri Shrimp (蝦蝦飯)</h4>
+                                <span class="text-xs text-gray-400 block mb-2">Open 11:00</span>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Kouri+Shrimp" target="_blank" class="btn-map">Map</a>
+                            </div>
+                            <div class="bg-white border border-gray-100 p-4 rounded hover:border-gold transition-colors">
+                                <span class="text-xs font-bold text-gold uppercase block mb-1">Lunch Option B</span>
+                                <h4 class="font-bold text-navy">TAMAYA (Kurumaebi)</h4>
+                                <span class="text-xs text-gray-400 block mb-2">Open 11:30</span>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Kurumaebi+Kitchen+TAMAYA" target="_blank" class="btn-map">Map</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item (Aquarium) -->
+                <div class="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
+                    <div class="pl-8 md:pl-0 md:w-1/4 md:text-right mt-1">
+                        <span class="font-mono text-2xl text-navy block">Afternoon</span>
+                        <span class="text-xs text-gray-400 uppercase tracking-widest">Churaumi</span>
+                    </div>
+                    <div class="pl-8 md:pl-0 flex-1 border-l-2 border-transparent md:border-l-2 md:border-gold md:pl-10">
+                        <div class="bg-white p-6 shadow-md border-t-4 border-navy rounded-b-lg">
+                            <h3 class="font-serif text-2xl text-navy mb-4">海洋博公園 & 美麗海水族館</h3>
+                            
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div class="bg-gray-50 p-3 rounded text-center">
+                                    <i class="fas fa-fish text-navy text-xl mb-1 block"></i>
+                                    <span class="text-xs font-bold block">鯨鯊餵食</span>
+                                    <span class="text-xs text-gray-500">15:00 / 17:00</span>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded text-center">
+                                    <i class="fas fa-water text-navy text-xl mb-1 block"></i>
+                                    <span class="text-xs font-bold block">海豚劇場</span>
+                                    <span class="text-xs text-gray-500">13:00 / 17:00</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start text-sm text-gray-600 bg-paper p-3 rounded">
+                                <i class="fas fa-parking mt-1 mr-2 text-gold"></i>
+                                <div>
+                                    <span class="font-bold">停車建議：P7 立體停車場</span>
+                                    <p class="text-xs mt-1">離水族館最近的位置。</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
+                                <div class="flex items-center text-sm">
+                                    <span class="w-2 h-2 rounded-full bg-gold mr-3"></span>
+                                    <span>返程點心：<strong>A&W 名護店</strong></span>
+                                </div>
+                                <a href="https://www.google.com/maps/search/?api=1&query=A&W+Nago" target="_blank" class="btn-map">Map</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item (Night) -->
+                <div class="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
+                    <div class="pl-8 md:pl-0 md:w-1/4 md:text-right mt-1">
+                        <span class="font-mono text-2xl text-navy block">17:00</span>
+                        <span class="text-xs text-gray-400 uppercase tracking-widest">Illumination</span>
+                    </div>
+                    <div class="pl-8 md:pl-0 flex-1 border-l-2 border-transparent md:border-l-2 md:border-gold md:pl-10">
+                        <h3 class="font-bold text-xl mb-2">東南植物樂園</h3>
+                        <p class="text-sm text-gray-600 mb-4">夜間燈光秀 (17:00 - 22:00)。</p>
+                        
+                        <!-- Hotel D2 Info -->
+                        <div class="mt-8 bg-navy text-white p-6 rounded-xl relative overflow-hidden">
+                            <div class="relative z-10">
+                                <span class="text-xs text-gold uppercase tracking-widest mb-1 block">Accommodation (D2)</span>
+                                <h4 class="font-serif text-2xl mb-3">REF Okinawa Arena by VESSEL</h4>
+                                <div class="grid grid-cols-2 gap-y-2 text-sm opacity-80">
+                                    <span><i class="fas fa-check text-gold mr-2"></i>免費停車</span>
+                                    <span><i class="fas fa-check text-gold mr-2"></i>大浴場 & 桑拿</span>
+                                    <span class="col-span-2"><i class="fas fa-map-marker-alt text-gold mr-2"></i>沖縄市字諸見里1766 (098-933-6111)</span>
+                                </div>
+                                <div class="mt-4">
+                                     <a href="https://www.google.com/maps/search/?api=1&query=REF+Okinawa+Arena+by+VESSEL" target="_blank" class="btn-map text-white border-white hover:text-gold"><i class="fas fa-location-arrow mr-1"></i> Map</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- DAY 3 -->
+        <section id="day3" class="mb-40 reveal">
+            <div class="text-center mb-16">
+                 <div class="flex items-center justify-center gap-3 mb-2">
+                    <span class="bg-navy text-white px-2 py-1 text-xs font-bold tracking-widest uppercase">DAY 3</span>
+                    <span class="text-gold font-bold tracking-[0.2em] text-xs uppercase">Saturday, April 11</span>
+                </div>
+                <h2 class="font-serif text-4xl md:text-5xl text-navy">Culture & Fireworks</h2>
+                <div class="w-12 h-1 bg-gold mx-auto mt-6"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Morning -->
+                <div class="md:col-span-1 space-y-6">
+                    <div class="info-card p-6 rounded-lg h-full">
+                        <span class="text-xs font-bold text-gray-400 block mb-2">09:00 - 11:30</span>
+                        <h3 class="font-serif text-xl text-navy mb-3">沖繩世界文化王國</h3>
+                        <p class="text-sm text-gray-600 mb-4">玉泉洞與傳統工藝。</p>
+                        <div class="bg-paper px-3 py-2 rounded text-xs inline-block mb-3">
+                            <i class="fas fa-drum text-gold mr-1"></i> 太鼓秀 10:30
+                        </div>
+                        <div>
+                             <a href="https://www.google.com/maps/search/?api=1&query=Okinawa+World" target="_blank" class="btn-map">Map</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lunch -->
+                <div class="md:col-span-1 space-y-6">
+                    <div class="info-card p-6 rounded-lg h-full">
+                        <span class="text-xs font-bold text-gray-400 block mb-2">Lunch</span>
+                        <h3 class="font-serif text-xl text-navy mb-3">南部美食巡禮</h3>
+                        <ul class="space-y-3 text-sm text-gray-600">
+                            <li class="flex items-center justify-between">
+                                <div>
+                                    <span class="w-1 h-1 bg-gold rounded-full mr-2 inline-block"></span>
+                                    <span>日本蕎麥麵 (蕎蕎蕎)</span>
+                                </div>
+                                <span class="text-xs opacity-50">11:30開</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-1 h-1 bg-gold rounded-full mr-2"></span>
+                                <span>奧武島 (大城天婦羅)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Main Event -->
+                <div class="md:col-span-3 mt-8">
+                    <div class="relative rounded-xl overflow-hidden shadow-2xl group">
+                        <div class="absolute inset-0 bg-navy/60 z-10 transition-colors group-hover:bg-navy/50"></div>
+                        <img src="https://images.unsplash.com/photo-1498931299472-f7a63a5a1cfa?q=80&w=2073&auto=format&fit=crop" alt="Fireworks" class="w-full h-80 md:h-96 object-cover transform group-hover:scale-105 transition-transform duration-700">
+                        
+                        <div class="absolute inset-0 z-20 flex flex-col justify-center items-center text-center text-white p-6">
+                            <span class="bg-gold text-navy px-3 py-1 text-xs font-bold uppercase tracking-widest mb-4">Highlight Event</span>
+                            <h2 class="font-serif text-4xl md:text-6xl mb-4">琉球海炎祭 2026</h2>
+                            <p class="text-lg font-light mb-8 max-w-lg">宜野灣海濱公園 (Tropical Beach)</p>
+                            
+                            <div class="flex flex-wrap justify-center gap-4 text-sm">
+                                <div class="bg-white/10 backdrop-blur-md px-6 py-3 rounded border border-white/20">
+                                    <span class="block text-xs opacity-60 uppercase">入場時間</span>
+                                    <span class="font-bold">15:00</span>
+                                </div>
+                                <div class="bg-white/10 backdrop-blur-md px-6 py-3 rounded border border-white/20">
+                                    <span class="block text-xs opacity-60 uppercase">煙火施放</span>
+                                    <span class="font-bold">19:00 - 20:00</span>
+                                </div>
+                            </div>
+                            <p class="text-xs mt-6 opacity-70"><i class="fas fa-exclamation-triangle text-gold mr-1"></i> 停車場步行至會場需 30 分鐘，請提早抵達。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Ginowan+Seaside+Park" target="_blank" class="mt-4 inline-block text-gold hover:text-white underline text-sm">查看地圖</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-3 text-center mt-4">
+                    <p class="text-sm text-gray-500">宵夜：鳥貴族 (Torikizoku) / 23:00</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- DAY 4 -->
+        <section id="day4" class="mb-40 reveal">
+            <div class="text-center mb-16">
+                 <div class="flex items-center justify-center gap-3 mb-2">
+                    <span class="bg-navy text-white px-2 py-1 text-xs font-bold tracking-widest uppercase">DAY 4</span>
+                    <span class="text-gold font-bold tracking-[0.2em] text-xs uppercase">Sunday, April 12</span>
+                </div>
+                <h2 class="font-serif text-4xl md:text-5xl text-navy">Shopping & Return</h2>
+                <div class="w-12 h-1 bg-gold mx-auto mt-6"></div>
+            </div>
+
+            <!-- List Layout for Day 4 -->
+            <div class="bg-white border border-gray-100 shadow-lg rounded-xl overflow-hidden">
+                
+                <!-- Item -->
+                <div class="p-6 md:p-8 border-b border-gray-100 flex flex-col md:flex-row items-center gap-6 hover:bg-paper/50 transition-colors">
+                    <div class="w-full md:w-32 text-center md:text-left">
+                        <span class="text-xl font-mono text-navy font-bold">09:30</span>
+                    </div>
+                    <div class="w-full md:w-48 h-32 rounded overflow-hidden flex-shrink-0">
+                        <!-- FIXED IMAGE: Sushi Plate (Stable Unsplash ID from v6/v9) -->
+                        <img src="https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=80&w=2000&auto=format&fit=crop" alt="Seafood Bowl" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-serif text-navy mb-2">泊港漁市場</h3>
+                        <p class="text-sm text-gray-500 mb-2">大國海產。新鮮海鮮早餐。</p>
+                         <a href="https://www.google.com/maps/search/?api=1&query=Tomari+Fish+Market" target="_blank" class="btn-map">Map</a>
+                    </div>
+                </div>
+
+                <!-- Item -->
+                <div class="p-6 md:p-8 border-b border-gray-100 flex flex-col md:flex-row items-center gap-6 hover:bg-paper/50 transition-colors">
+                    <div class="w-full md:w-32 text-center md:text-left">
+                        <span class="text-sm font-bold text-gray-400 uppercase">Sightseeing</span>
+                    </div>
+                    <div class="flex-1 space-y-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-torii-gate text-gold mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="font-bold text-navy">波上宮 & 海灘</h4>
+                                <p class="text-xs text-gray-500 mb-1">沖繩八大神社之首。10分鐘車程。</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Naminoue+Shrine" target="_blank" class="btn-map">Map</a>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-plane text-gold mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="font-bold text-navy">瀨長島 Umikaji Terrace</h4>
+                                <p class="text-xs text-gray-500 mb-1">地中海風情，看飛機起降。</p>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Senagajima+Umikaji+Terrace" target="_blank" class="btn-map">Map</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item (Car Return) -->
+                <div class="p-6 md:p-8 bg-red-50/50 flex flex-col md:flex-row items-center gap-6">
+                    <div class="w-full md:w-32 text-center md:text-left">
+                        <span class="text-xl font-mono text-red-800 font-bold">17:00</span>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-serif text-red-900 mb-2"><i class="fas fa-exclamation-circle mr-2"></i>還車期限 (Return Car)</h3>
+                        <p class="text-sm text-red-800">OTS 臨空豐崎營業所。<strong>務必加滿油</strong>。</p>
+                        <p class="text-xs text-red-600 mt-1">18:30 前搭乘接駁車前往機場/市區。</p>
+                    </div>
+                    <div class="w-full md:w-auto">
+                         <a href="https://www.google.com/maps/search/?api=1&query=Outlet+Mall+ASHIBINAA" class="btn-map text-red-800 border-b border-red-800 pb-1">ASHIBINAA Outlet (Before Return)</a>
+                    </div>
+                </div>
+
+                <!-- Item (Hotel) -->
+                <div class="p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 bg-navy text-white">
+                    <div class="w-full md:w-32 text-center md:text-left">
+                        <span class="text-sm font-bold text-white/50 uppercase">Stay</span>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-serif text-white mb-2">La'gent Hotel Okinawa Naha</h3>
+                        <p class="text-sm text-white/70">那霸松山。國際通晚餐。</p>
+                        <div class="mt-3 text-xs text-white/50">
+                            <i class="fas fa-info-circle mr-1"></i> 停車：¥1500 (機械式, 23-07無法取車)。建議停周邊 24H 停車場。
+                        </div>
+                    </div>
+                    <div>
+                         <a href="https://www.google.com/maps/search/?api=1&query=La'gent+Hotel+Okinawa+Naha" target="_blank" class="btn-map text-white hover:text-gold">Map</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- DAY 5 -->
+        <section id="day5" class="mb-40 reveal">
+            <div class="text-center mb-16">
+                 <div class="flex items-center justify-center gap-3 mb-2">
+                    <span class="bg-navy text-white px-2 py-1 text-xs font-bold tracking-widest uppercase">DAY 5</span>
+                    <span class="text-gold font-bold tracking-[0.2em] text-xs uppercase">Monday, April 13</span>
+                </div>
+                <h2 class="font-serif text-4xl md:text-5xl text-navy">History & Departure</h2>
+                <div class="w-12 h-1 bg-gold mx-auto mt-6"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="space-y-8">
+                    <!-- Event -->
+                    <div class="flex gap-6">
+                        <div class="flex flex-col items-center">
+                            <span class="w-3 h-3 bg-gold rounded-full"></span>
+                            <div class="w-0.5 h-full bg-gray-200 my-2"></div>
+                        </div>
+                        <div class="pb-8">
+                            <span class="text-xs font-bold text-gray-400">09:00</span>
+                            <h3 class="font-bold text-navy text-lg">單軌電車之旅</h3>
+                            <p class="text-sm text-gray-600 mt-1">美榮橋 → 首里站。首里城、西來院達摩寺。</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Shurijo+Castle" target="_blank" class="btn-map mt-1">Map</a>
+                        </div>
+                    </div>
+                    <!-- Event -->
+                    <div class="flex gap-6">
+                        <div class="flex flex-col items-center">
+                            <span class="w-3 h-3 bg-gold rounded-full"></span>
+                            <div class="w-0.5 h-full bg-gray-200 my-2"></div>
+                        </div>
+                        <div class="pb-8">
+                            <span class="text-xs font-bold text-gray-400">11:00</span>
+                            <h3 class="font-bold text-navy text-lg">Lunch: 炸豬排 小やじ</h3>
+                            <p class="text-sm text-gray-600 mt-1">牧志站附近。</p>
+                             <a href="https://www.google.com/maps/search/?api=1&query=Okinawa+Tonkatsu+Koyaji+Naha" target="_blank" class="btn-map mt-1">Map</a>
+                        </div>
+                    </div>
+                    <!-- Event -->
+                    <div class="flex gap-6">
+                        <div class="flex flex-col items-center">
+                            <span class="w-3 h-3 bg-gold rounded-full"></span>
+                            <div class="w-0.5 h-full bg-gray-200 my-2"></div>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-gray-400">Afternoon</span>
+                            <h3 class="font-bold text-navy text-lg">DFS T Galleria</h3>
+                            <p class="text-sm text-gray-600 mt-1">歌町站 (Omoromachi)。<br><span class="text-red-500">16:00 前離開</span>，回飯店取行李。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Final Flight Info -->
+                <div class="bg-navy text-white p-8 rounded-xl flex flex-col justify-between shadow-2xl h-full">
+                    <div>
+                        <span class="text-gold font-bold tracking-widest text-xs uppercase mb-4 block">Departure</span>
+                        <h3 class="font-serif text-3xl mb-6">Home Sweet Home</h3>
+                        <div class="space-y-4 text-sm opacity-80">
+                            <p><i class="fas fa-clock w-6"></i>17:10 抵達那霸機場 (起飛前 3 小時)</p>
+                            <p><i class="fas fa-plane w-6"></i>Starlux JX313</p>
+                            <p><i class="fas fa-weight-hanging w-6"></i>行李 23KG</p>
+                        </div>
+                    </div>
+                    <div class="mt-8 pt-8 border-t border-white/10 flex justify-between items-end">
+                        <div>
+                            <span class="block text-xs opacity-50">OKA</span>
+                            <span class="text-2xl font-bold">20:10</span>
+                        </div>
+                        <i class="fas fa-plane text-gold transform rotate-45"></i>
+                        <div class="text-right">
+                            <span class="block text-xs opacity-50">TPE</span>
+                            <span class="text-2xl font-bold">20:50</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Budget Section -->
+        <section class="mb-20 reveal">
+            <div class="bg-white border-t-4 border-navy p-10 shadow-lg">
+                <h3 class="font-serif text-2xl text-navy mb-6">Estimated Budget</h3>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-6 text-sm">
+                    <div>
+                        <span class="block text-gray-400 text-xs mb-1">Flight</span>
+                        <span class="font-bold">NT$ 13,299</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-400 text-xs mb-1">Hotel (4N)</span>
+                        <span class="font-bold">NT$ 4,200</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-400 text-xs mb-1">Car / Fuel</span>
+                        <span class="font-bold">~NT$ 1,830</span>
+                    </div>
+                    <div>
+                        <span class="block text-gray-400 text-xs mb-1">Tickets</span>
+                        <span class="font-bold">~NT$ 1,980</span>
+                    </div>
+                    <div class="col-span-2 md:col-span-1 border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-6">
+                        <span class="block text-gold text-xs font-bold mb-1 uppercase">Total / Person</span>
+                        <span class="font-serif text-xl text-navy">~NT$ 21,809</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contract -->
+        <section class="text-center py-20 bg-paper border-y border-gray-200 reveal">
+            <h2 class="font-serif text-3xl text-navy mb-8">The Gentlemen's Agreement</h2>
+            <div class="max-w-2xl mx-auto grid md:grid-cols-2 gap-6 text-left px-4">
+                <div class="flex items-start">
+                    <i class="fas fa-check text-gold mt-1 mr-3"></i>
+                    <p class="text-sm text-gray-600">肚子餓了就要吃飯，嚴禁挨餓。</p>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-check text-gold mt-1 mr-3"></i>
+                    <p class="text-sm text-gray-600">迷路也是一種體驗，保持優雅。</p>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-check text-gold mt-1 mr-3"></i>
+                    <p class="text-sm text-gray-600">準時集合，不可賴床。</p>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-check text-gold mt-1 mr-3"></i>
+                    <p class="text-sm text-gray-600">理性購物，日本是免稅不是免費。</p>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-check text-gold mt-1 mr-3"></i>
+                    <p class="text-sm text-gray-600">累了就休息，不一定要跑完行程。</p>
+                </div>
+                <div class="flex items-start">
+                    <i class="fas fa-check text-gold mt-1 mr-3"></i>
+                    <p class="text-sm text-gray-600">有話直說，嚴禁擺臭臉冷戰。</p>
+                </div>
+            </div>
+            <div class="mt-12 font-serif italic text-gold">"Bon Voyage."</div>
+        </section>
+
+    </main>
+
+    <footer class="bg-navy text-white py-8 text-center text-xs tracking-widest uppercase">
+        <p>&copy; 2026 Okinawa Trip. Designed for Excellence.</p>
+    </footer>
+
+    <script>
+        // Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Trigger once on load
+
+        // Mobile Menu
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // FIXED: Navigation Script (Restored from previous working version v4)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    // Close mobile menu if open
+                    if (!menu.classList.contains('hidden')) {
+                        menu.classList.add('hidden');
+                    }
+                    
+                    // Smooth scroll to element
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
